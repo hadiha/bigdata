@@ -28,40 +28,6 @@ $PESAN = $this->session->userdata('PESAN');
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <select name="ap" id="ap" class="form-control" disabled="disabled">
-                                            <option value="">--- Pilih AP ---</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <select name="up" id="up" class="form-control" disabled="disabled">
-                                            <option value="">--- Pilih UP ---</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-1">
-                                <div class="form-group">
-                                    <label class="col-sm-12 control-label"> </label>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <select name="bulan" id="bulan" class="form-control">
-                                            <option value="">--- Pilih Bulan ---</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
                                         <select name="tahun" id="tahun" class="form-control">
                                             <option value="">--- Pilih Tahun ---</option>
                                             <?php foreach ($rs_tahun as $index => $tahun) { ?>
@@ -74,6 +40,18 @@ $PESAN = $this->session->userdata('PESAN');
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <select name="jenislap" id="jenislap" class="form-control">
+                                            <option value="">--- Pilih Jenis Laporan ---</option>
+                                            <option value="">LPB</option>
+                                            <option value="">Pasca</option>
+                                            <option value="">Gabungan</option>   
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <div class="col-sm-12">
@@ -82,18 +60,22 @@ $PESAN = $this->session->userdata('PESAN');
                                     </div>
                                 </div>
                             </div>
+                          </div>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-        <div class="col-md-12">
             <div class="box box-primary">
-                <div class="box-body">
-                    <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
+                <div class="box-body" style="height: 350px;">
+                    <div id="chartContainer" style="height: 320px; max-width: 920px; margin: 0px auto;"></div>
                 </div>
             </div>
-        </div>
+            <div class="box box-primary">
+                <div class="box-body" style="height: 350px;">
+                    <div id="chartContainer2" style="height: 320px; max-width: 920px; margin: 0px auto;"></div>
+                </div>
+            </div>
     </div>
 
 
@@ -162,8 +144,11 @@ window.onload = function () {
 var chart = new CanvasJS.Chart("chartContainer", {
     animationEnabled: true,
     title:{
-        text: "Perbulan Delta (Dibanding Tahun Kemarin)"
+        text: "309 (Rupiah)"
     },  
+    axisX: {
+        valueFormatString: "MMM"
+    },
     axisY: {
         title: "Rupiah Tahun Ini",
         titleFontColor: "#4F81BC",
@@ -190,19 +175,21 @@ var chart = new CanvasJS.Chart("chartContainer", {
         name: "Tahun Ini",
         legendText: "Tahun Ini",
         showInLegend: true, 
+        xValueFormatString: "MMMM YYYY",
+        yValueFormatString: "$#,##0",
         dataPoints:[
-            { label: "Jan", y: 266.21 },
-            { label: "Feb", y: 302.25 },
-            { label: "Mar", y: 157.20 },
-            { label: "Apr", y: 148.77 },
-            { label: "Mei", y: 101.50 },
-            { label: "Jun", y: 97.8 },
-            { label: "Jul", y: 120.23 },
-            { label: "Agu", y: 201.18 },
-            { label: "Sep", y: 303.8 },
-            { label: "Okt", y: 221.43 },
-            { label: "Nov", y: 123.8 },
-            { label: "Des", y: 97.8 }
+            { x: new Date(2016, 0), y: 266.21 },
+            { x: new Date(2016, 1), y: 302.25 },
+            { x: new Date(2016, 2), y: 157.20 },
+            { x: new Date(2016, 3), y: 148.77},
+            { x: new Date(2016, 4), y: 101.50 },
+            { x: new Date(2016, 5), y: 97.8 },
+            { x: new Date(2016, 6), y: 120.23 },
+            { x: new Date(2016, 7), y: 201.18 },
+            { x: new Date(2016, 8), y: 303.8 },
+            { x: new Date(2016, 9), y: 221.43},
+            { x: new Date(2016, 10), y: 123.8 },
+            { x: new Date(2016, 11), y: 97.8 }
         ]
     },
     {
@@ -210,22 +197,152 @@ var chart = new CanvasJS.Chart("chartContainer", {
         name: "Tahun Lalu",
         legendText: "Tahun Lalu",
         axisYType: "secondary",
+        xValueFormatString: "MMMM YYYY",
+        yValueFormatString: "$#,##0",
         showInLegend: true,
         dataPoints:[
-            { label: "Jan", y: 266.21 },
-            { label: "Feb", y: 302.25 },
-            { label: "Mar", y: 157.20 },
-            { label: "Apr", y: 148.77 },
-            { label: "Mei", y: 101.50 },
-            { label: "Jun", y: 97.8 },
-            { label: "Jul", y: 120.23 },
-            { label: "Agu", y: 201.18 },
-            { label: "Sep", y: 3.8 },
-            { label: "Okt", y: 97.8 },
-            { label: "Nov", y: 97.8 },
-            { label: "Des", y: 97.8 }
+            { x: new Date(2016, 0), y: 157.20 },
+            { x: new Date(2016, 1), y: 101.50 },
+            { x: new Date(2016, 2), y: 221.43 },
+            { x: new Date(2016, 3), y: 148.77},
+            { x: new Date(2016, 4), y: 266.21 },
+            { x: new Date(2016, 5), y: 97.8 },
+            { x: new Date(2016, 6), y: 120.23 },
+            { x: new Date(2016, 7), y: 201.18 },
+            { x: new Date(2016, 8), y: 157.20 },
+            { x: new Date(2016, 9), y: 123.8},
+            { x: new Date(2016, 10), y: 303.8 },
+            { x: new Date(2016, 11), y: 97.8 }
         ]
     }]
+});
+chart.render();
+
+function toggleDataSeries(e) {
+    if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+        e.dataSeries.visible = false;
+    }
+    else {
+        e.dataSeries.visible = true;
+    }
+    chart.render();
+}
+
+var chart = new CanvasJS.Chart("chartContainer2", {
+    animationEnabled: true,
+    title:{
+        text: "309 (Rupiah)"
+    },  
+    axisX: {
+        valueFormatString: "MMM"
+    },
+    axisY: {
+        title: "Rupiah Tahun Ini",
+        titleFontColor: "#4F81BC",
+        lineColor: "#4F81BC",
+        labelFontColor: "#4F81BC",
+        tickColor: "#4F81BC"
+    },
+    axisY2: {
+        title: "Rupiah Tahun Lalu",
+        titleFontColor: "#C0504E",
+        lineColor: "#C0504E",
+        labelFontColor: "#C0504E",
+        tickColor: "#C0504E"
+    },  
+    toolTip: {
+        shared: true
+    },
+    legend: {
+        cursor:"pointer",
+        itemclick: toggleDataSeries
+    },
+    data: [{
+        type: "column",
+        name: "Tahun Ini",
+        legendText: "Tahun Ini",
+        showInLegend: true, 
+        xValueFormatString: "MMMM YYYY",
+        yValueFormatString: "$#,##0",
+        dataPoints:[
+            { x: new Date(2016, 0), y: 266.21 },
+            { x: new Date(2016, 1), y: 302.25 },
+            { x: new Date(2016, 2), y: 157.20 },
+            { x: new Date(2016, 3), y: 148.77},
+            { x: new Date(2016, 4), y: 101.50 },
+            { x: new Date(2016, 5), y: 97.8 },
+            { x: new Date(2016, 6), y: 120.23 },
+            { x: new Date(2016, 7), y: 201.18 },
+            { x: new Date(2016, 8), y: 303.8 },
+            { x: new Date(2016, 9), y: 221.43},
+            { x: new Date(2016, 10), y: 123.8 },
+            { x: new Date(2016, 11), y: 97.8 }
+        ]
+    },
+    {
+        type: "column", 
+        name: "Tahun Lalu",
+        legendText: "Tahun Lalu",
+        axisYType: "secondary",
+        xValueFormatString: "MMMM YYYY",
+        yValueFormatString: "$#,##0",
+        showInLegend: true,
+        dataPoints:[
+            { x: new Date(2016, 0), y: 157.20 },
+            { x: new Date(2016, 1), y: 101.50 },
+            { x: new Date(2016, 2), y: 221.43 },
+            { x: new Date(2016, 3), y: 148.77},
+            { x: new Date(2016, 4), y: 266.21 },
+            { x: new Date(2016, 5), y: 97.8 },
+            { x: new Date(2016, 6), y: 120.23 },
+            { x: new Date(2016, 7), y: 201.18 },
+            { x: new Date(2016, 8), y: 157.20 },
+            { x: new Date(2016, 9), y: 123.8},
+            { x: new Date(2016, 10), y: 303.8 },
+            { x: new Date(2016, 11), y: 97.8 }
+        ]
+    },
+    {
+        type: "line",
+        name: "Tahun Ini",
+        showInLegend: true,
+        yValueFormatString: "$#,##0",
+        dataPoints: [
+            { x: new Date(2016, 0), y: 266.21 },
+            { x: new Date(2016, 1), y: 302.25 },
+            { x: new Date(2016, 2), y: 157.20 },
+            { x: new Date(2016, 3), y: 148.77},
+            { x: new Date(2016, 4), y: 101.50 },
+            { x: new Date(2016, 5), y: 97.8 },
+            { x: new Date(2016, 6), y: 120.23 },
+            { x: new Date(2016, 7), y: 201.18 },
+            { x: new Date(2016, 8), y: 303.8 },
+            { x: new Date(2016, 9), y: 221.43},
+            { x: new Date(2016, 10), y: 123.8 },
+            { x: new Date(2016, 11), y: 97.8 }
+        ]
+    },
+    {
+        type: "line",
+        name: "Tahun Lalu",
+        showInLegend: true,
+        axisYType: "secondary",
+        yValueFormatString: "$#,##0",
+        dataPoints: [
+            { x: new Date(2016, 0), y: 157.20 },
+            { x: new Date(2016, 1), y: 101.50 },
+            { x: new Date(2016, 2), y: 221.43 },
+            { x: new Date(2016, 3), y: 148.77},
+            { x: new Date(2016, 4), y: 266.21 },
+            { x: new Date(2016, 5), y: 97.8 },
+            { x: new Date(2016, 6), y: 120.23 },
+            { x: new Date(2016, 7), y: 201.18 },
+            { x: new Date(2016, 8), y: 157.20 },
+            { x: new Date(2016, 9), y: 123.8},
+            { x: new Date(2016, 10), y: 303.8 },
+            { x: new Date(2016, 11), y: 97.8 }
+        ]
+    },]
 });
 chart.render();
 
