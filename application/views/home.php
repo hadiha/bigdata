@@ -247,7 +247,7 @@
         <div class="wrapper">
             <header class="main-header">
                 <nav class="navbar navbar-static-top" role="navigation">
-                    <a href="" class="logo"> Monitoring Rekonsiliasi Laporan AP2T</a>
+                    <a href="" class="logo" style="width: 230px"> Dashboard Monitoring</a>
                     <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                         <span class="sr-only">Toggle navigation</span>
                     </a>
@@ -291,7 +291,7 @@
                         <li class="header">MAIN NAVIGATION</li>
                         <li class="treeview">
                           <a href="#">
-                            <i class="fa fa-dashboard"></i> <span>309 (Rupiah)</span>
+                            <i class="fa fa-dashboard"></i> <span>309</span>
                             <span class="pull-right-container">
                               <i class="fa fa-angle-left pull-right"></i>
                             </span>
@@ -300,19 +300,6 @@
                             <li><a href="<?php echo base_url('Rupiah_309/all');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
                             <li><a href="<?php echo base_url('Rupiah_309/kumulatif');?>"><i class="fa fa-circle-o"></i> Perbulan Akumulasi/ Kumulatif</a></li>
                             <li><a href="<?php echo base_url('Rupiah_309/delta');?>"><i class="fa fa-circle-o"></i> Perbulan Delta (Dibinding Tahun Kemarin)</a></li>
-                          </ul>
-                        </li>
-                        <li class="treeview">
-                          <a href="#">
-                            <i class="fa fa-dashboard"></i> <span>309 (Kwh)</span>
-                            <span class="pull-right-container">
-                              <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                          </a>
-                          <ul class="treeview-menu">
-                            <li><a href="<?php echo base_url('Rupiah_309/all');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
-                            <li><a href="#"><i class="fa fa-circle-o"></i> Perbulan Akumulasi/ Kumulatif</a></li>
-                            <li><a href="#"><i class="fa fa-circle-o"></i> Perbulan Delta (Dibinding Tahun Kemarin)</a></li>
                           </ul>
                         </li>
                         <li class="treeview">
