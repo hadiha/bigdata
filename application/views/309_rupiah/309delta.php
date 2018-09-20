@@ -161,74 +161,82 @@ window.onload = function () {
 
 var chart = new CanvasJS.Chart("chartContainer", {
     animationEnabled: true,
-    theme: "dark 2", // "light1", "light2", "dark1", "dark2"
     title:{
-        text: "Perbulan All"
-    },
+        text: "Perbulan Delta (Dibanding Tahun Kemarin)"
+    },  
     axisY: {
-        title: "Rupiah"
+        title: "Rupiah Tahun Ini",
+        titleFontColor: "#4F81BC",
+        lineColor: "#4F81BC",
+        labelFontColor: "#4F81BC",
+        tickColor: "#4F81BC"
     },
-    data: [{        
-        type: "column",  
-        // showInLegend: true, 
-        legendMarkerColor: "grey",
-        legendText: "Bulan",
-        dataPoints: [      
-            { y: 300878, label: "Jan" },
-            { y: 266455,  label: "Feb" },
-            { y: 169709,  label: "Mar" },
-            { y: 158400,  label: "Apr" },
-            { y: 142503,  label: "Mei" },
-            { y: 101500, label: "Jun" },
-            { y: 97800,  label: "Jul" },
-            { y: 80000,  label: "Agu" },
-            { y: 102350,  label: "Sep" },
-            { y: 182800,  label: "Okt" },
-            { y: 90280,  label: "Nov" },
-            { y: 120340,  label: "Des" },
+    axisY2: {
+        title: "Rupiah Tahun Lalu",
+        titleFontColor: "#C0504E",
+        lineColor: "#C0504E",
+        labelFontColor: "#C0504E",
+        tickColor: "#C0504E"
+    },  
+    toolTip: {
+        shared: true
+    },
+    legend: {
+        cursor:"pointer",
+        itemclick: toggleDataSeries
+    },
+    data: [{
+        type: "column",
+        name: "Tahun Ini",
+        legendText: "Tahun Ini",
+        showInLegend: true, 
+        dataPoints:[
+            { label: "Jan", y: 266.21 },
+            { label: "Feb", y: 302.25 },
+            { label: "Mar", y: 157.20 },
+            { label: "Apr", y: 148.77 },
+            { label: "Mei", y: 101.50 },
+            { label: "Jun", y: 97.8 },
+            { label: "Jul", y: 120.23 },
+            { label: "Agu", y: 201.18 },
+            { label: "Sep", y: 303.8 },
+            { label: "Okt", y: 221.43 },
+            { label: "Nov", y: 123.8 },
+            { label: "Des", y: 97.8 }
+        ]
+    },
+    {
+        type: "column", 
+        name: "Tahun Lalu",
+        legendText: "Tahun Lalu",
+        axisYType: "secondary",
+        showInLegend: true,
+        dataPoints:[
+            { label: "Jan", y: 266.21 },
+            { label: "Feb", y: 302.25 },
+            { label: "Mar", y: 157.20 },
+            { label: "Apr", y: 148.77 },
+            { label: "Mei", y: 101.50 },
+            { label: "Jun", y: 97.8 },
+            { label: "Jul", y: 120.23 },
+            { label: "Agu", y: 201.18 },
+            { label: "Sep", y: 3.8 },
+            { label: "Okt", y: 97.8 },
+            { label: "Nov", y: 97.8 },
+            { label: "Des", y: 97.8 }
         ]
     }]
 });
 chart.render();
+
+function toggleDataSeries(e) {
+    if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+        e.dataSeries.visible = false;
+    }
+    else {
+        e.dataSeries.visible = true;
+    }
+    chart.render();
 }
-
-
-
-// var chart = null;
-// var dataPoints = [];
-
-// window.onload = function() {
-
-// chart = new CanvasJS.Chart("chartContainer", {
-//     animationEnabled: true,
-//     theme: "light2",
-//     title: {
-//         text: "Perbulan All"
-//     },
-//     axisY: {
-//         title: "Units",
-//         titleFontSize: 24
-//     },
-//     data: [{
-//         type: "column",
-//         yValueFormatString: "#,### Units",
-//         dataPoints: dataPoints
-//     }]
-// });
-
-
-// $.getJSON("https://canvasjs.com/data/gallery/javascript/daily-sales.json?callback=?", callback);    
-
-// }
-
-// function callback(data) {   
-//     for (var i = 0; i < data.dps.length; i++) {
-//         dataPoints.push({
-//             x: new Date(data.dps[i].date),
-//             y: data.dps[i].units
-//         });
-//     }
-//     chart.render(); 
-// }
-// end chart
+}
 </script>

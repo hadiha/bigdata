@@ -38,6 +38,9 @@
         <!-- AdminLTE App -->
         <script src="<?php echo base_url('assets/dist/js/app.js');?>" type="text/javascript"></script>
         <!-- DATA TABES SCRIPT -->
+
+        <!-- <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script> -->
+        <script src="<?php echo base_url('assets/plugins/canvasjs/canvasjs.min.js');?>"></script>
        
        
 
@@ -295,19 +298,50 @@
                           </a>
                           <ul class="treeview-menu">
                             <li><a href="<?php echo base_url('Rupiah_309/all');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
+                            <li><a href="<?php echo base_url('Rupiah_309/kumulatif');?>"><i class="fa fa-circle-o"></i> Perbulan Akumulasi/ Kumulatif</a></li>
+                            <li><a href="<?php echo base_url('Rupiah_309/delta');?>"><i class="fa fa-circle-o"></i> Perbulan Delta (Dibinding Tahun Kemarin)</a></li>
+                          </ul>
+                        </li>
+                        <li class="treeview">
+                          <a href="#">
+                            <i class="fa fa-dashboard"></i> <span>309 (Kwh)</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li><a href="<?php echo base_url('Rupiah_309/all');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
                             <li><a href="#"><i class="fa fa-circle-o"></i> Perbulan Akumulasi/ Kumulatif</a></li>
                             <li><a href="#"><i class="fa fa-circle-o"></i> Perbulan Delta (Dibinding Tahun Kemarin)</a></li>
                           </ul>
                         </li>
+                        <li class="treeview">
+                          <a href="#">
+                            <i class="fa fa-dashboard"></i> <span>404 (Saldo)</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li><a href="<?php echo base_url('Rupiah_309/all');?>"><i class="fa fa-circle-o"></i> Perbulan</a></li>
+                            <li><a href="#"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
+                          </ul>
+                        </li>
+                        <li class="treeview">
+                          <a href="#">
+                            <i class="fa fa-dashboard"></i> <span>404 (Pelunasan)</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li><a href="<?php echo base_url('Rupiah_309/all');?>"><i class="fa fa-circle-o"></i> Perbulan All (Post, Pre, N+L)</a></li>
+                            <li><a href="#"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
+                          </ul>
+                        </li>
 
-                        <li <?php if ($konten=='statistik/index') {echo "class=active";} ?>>
+                       <!--  <li <?php if ($konten=='statistik/index') {echo "class=active";} ?>>
                             <a href="<?php echo base_url('statistik');?>"><i class="fa fa-file-archive-o"></i><span> Dashboard</span></a>
-                        </li>
-                        <!-- <li <?php if ($konten=='vdokumen') {echo "class=active";} ?>>
-                            <a href="<?php echo base_url('home/dokumen');?>"><i class="fa fa-file-archive-o"></i><span> Managemen Dokumen</span></a>
-                        </li>
-                        <li <?php if ($konten=='vupdatepassword') {echo "class=active";} ?>>
-                            <a href="javascript:history.back()"><i class="fa fa-arrow-left"></i><span> Kembali</span></a>
                         </li> -->
                     </ul>
                 </section>

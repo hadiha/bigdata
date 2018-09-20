@@ -161,31 +161,27 @@ window.onload = function () {
 
 var chart = new CanvasJS.Chart("chartContainer", {
     animationEnabled: true,
-    theme: "dark 2", // "light1", "light2", "dark1", "dark2"
+    theme: "light2", // "light1", "light2", "dark1", "dark2"
     title:{
-        text: "Perbulan All"
+        text: "Perbulan AKumulasi/Kumulatif"
     },
     axisY: {
         title: "Rupiah"
     },
     data: [{        
         type: "column",  
-        // showInLegend: true, 
+        showInLegend: true, 
         legendMarkerColor: "grey",
-        legendText: "Bulan",
+        legendText: "Unit UP",
         dataPoints: [      
-            { y: 300878, label: "Jan" },
-            { y: 266455,  label: "Feb" },
-            { y: 169709,  label: "Mar" },
-            { y: 158400,  label: "Apr" },
-            { y: 142503,  label: "Mei" },
-            { y: 101500, label: "Jun" },
-            { y: 97800,  label: "Jul" },
-            { y: 80000,  label: "Agu" },
-            { y: 102350,  label: "Sep" },
-            { y: 182800,  label: "Okt" },
-            { y: 90280,  label: "Nov" },
-            { y: 120340,  label: "Des" },
+            { y: 300878, label: "Unit 1" },
+            { y: 266455,  label: "Unit 2" },
+            { y: 169709,  label: "Unit 3" },
+            { y: 158400,  label: "Unit 4" },
+            { y: 142503,  label: "Unit 5" },
+            { y: 101500, label: "Unit 6" },
+            { y: 97800,  label: "Unit 7" },
+            { y: 80000,  label: "Unit 8" }
         ]
     }]
 });

@@ -29,6 +29,32 @@ class Rupiah_309 extends CI_Controller {
         $this->load->view('home', $data);
     }
 
+    public function kumulatif() {
+        $data['title'] = "Data 309 Akumulasi";
+        $data['konten'] = "309_rupiah/309kumulatif";
+
+        // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
+        $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
+        $data['total_upi'] = $this->M_309_rupiah->get_upi();
+        // $data['total_up'] = $this->M_309_rupiah->get_up();
+
+        // print_r($data['total_upi']); exit();
+        $this->load->view('home', $data);
+    }
+
+    public function delta() {
+        $data['title'] = "Data 309 Delta";
+        $data['konten'] = "309_rupiah/309delta";
+
+        // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
+        $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
+        $data['total_upi'] = $this->M_309_rupiah->get_upi();
+        // $data['total_up'] = $this->M_309_rupiah->get_up();
+
+        // print_r($data['total_upi']); exit();
+        $this->load->view('home', $data);
+    }
+
     public function get_all_ap()
     {
         $param = $this->input->post($level);
