@@ -214,7 +214,48 @@ var chart = new CanvasJS.Chart("chartContainer", {
             { x: new Date(2016, 10), y: 303.8 },
             { x: new Date(2016, 11), y: 97.8 }
         ]
-    }]
+    },
+    {
+        type: "line",
+        name: "Tahun Ini",
+        showInLegend: true,
+        yValueFormatString: "$#,##0",
+        dataPoints: [
+            { x: new Date(2016, 0), y: 266.21 },
+            { x: new Date(2016, 1), y: 302.25 },
+            { x: new Date(2016, 2), y: 157.20 },
+            { x: new Date(2016, 3), y: 148.77},
+            { x: new Date(2016, 4), y: 101.50 },
+            { x: new Date(2016, 5), y: 97.8 },
+            { x: new Date(2016, 6), y: 120.23 },
+            { x: new Date(2016, 7), y: 201.18 },
+            { x: new Date(2016, 8), y: 303.8 },
+            { x: new Date(2016, 9), y: 221.43},
+            { x: new Date(2016, 10), y: 123.8 },
+            { x: new Date(2016, 11), y: 97.8 }
+        ]
+    },
+    {
+        type: "line",
+        name: "Tahun Lalu",
+        showInLegend: true,
+        axisYType: "secondary",
+        yValueFormatString: "$#,##0",
+        dataPoints: [
+            { x: new Date(2016, 0), y: 157.20 },
+            { x: new Date(2016, 1), y: 101.50 },
+            { x: new Date(2016, 2), y: 221.43 },
+            { x: new Date(2016, 3), y: 148.77},
+            { x: new Date(2016, 4), y: 266.21 },
+            { x: new Date(2016, 5), y: 97.8 },
+            { x: new Date(2016, 6), y: 120.23 },
+            { x: new Date(2016, 7), y: 201.18 },
+            { x: new Date(2016, 8), y: 157.20 },
+            { x: new Date(2016, 9), y: 123.8},
+            { x: new Date(2016, 10), y: 303.8 },
+            { x: new Date(2016, 11), y: 97.8 }
+        ]
+    },]
 });
 chart.render();
 
@@ -231,20 +272,20 @@ function toggleDataSeries(e) {
 var chart = new CanvasJS.Chart("chartContainer2", {
     animationEnabled: true,
     title:{
-        text: "309 (Rupiah)"
+        text: "309 (Kwh)"
     },  
     axisX: {
         valueFormatString: "MMM"
     },
     axisY: {
-        title: "Rupiah Tahun Ini",
+        title: "Kwh Tahun Ini",
         titleFontColor: "#4F81BC",
         lineColor: "#4F81BC",
         labelFontColor: "#4F81BC",
         tickColor: "#4F81BC"
     },
     axisY2: {
-        title: "Rupiah Tahun Lalu",
+        title: "Kwh Tahun Lalu",
         titleFontColor: "#C0504E",
         lineColor: "#C0504E",
         labelFontColor: "#C0504E",

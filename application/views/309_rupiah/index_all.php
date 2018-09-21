@@ -8,6 +8,11 @@ $PESAN = $this->session->userdata('PESAN');
                 <form id="form_upload" action="<?php echo site_url('#'); ?>" class="form-horizontal" method="POST" enctype="multipart/form-data" >
                     <div class="box-body">
                         <div class="row">
+                            <div class="col-md-12">
+                            <h3 style="margin-top: 0px; margin-bottom: 30px">309 Perbulan All</h3>
+                            </div>    
+                        </div>
+                        <div class="row">
                             <div class="col-md-1">
                                 <div class="form-group">
                                     <label class="col-sm-12 control-label" style="text-align:left"> FILTER : </label>
