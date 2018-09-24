@@ -71,16 +71,16 @@ $PESAN = $this->session->userdata('PESAN');
                 </form>
             </div>
         </div>
-            <div class="box box-primary">
+            <!-- <div class="box box-primary">
                 <div class="box-body"  style="height: 380px;">
                         <div id="309Rupiah" style="height: 350px; max-width: 920px; margin: 0px auto;"></div>
                 </div>
-            </div>
-            <!-- <div class="box box-primary">
-                <div class="box-body"  style="height: 350px;">
-                        <div id="309Kwh" style="height: 320px; max-width: 920px; margin: 0px auto;"></div>
-                </div>
             </div> -->
+            <div class="box box-primary">
+                <div class="box-body"  style="height: 380px;">
+                        <div id="309Kwh" style="height: 350px; max-width: 920px; margin: 0px auto;"></div>
+                </div>
+            </div>
     </div>
 
 
@@ -146,57 +146,17 @@ $PESAN = $this->session->userdata('PESAN');
 // chart start
 window.onload = function () {
 
-var chart = new CanvasJS.Chart("309Rupiah", {
-    animationEnabled: true,
-    theme: "dark 2", // "light1", "light2", "dark1", "dark2"
-    title:{
-        text: "309 (Rupiah)"
-    },
-    axisX: {
-        valueFormatString: "MMM"
-    },
-    axisY: {
-        title: "Rupiah"
-    },
-     toolTip: {
-        shared: true
-    },
-    data: [{        
-        type: "column",  
-        // showInLegend: true, 
-        legendMarkerColor: "grey",
-        legendText: "Bulan",
-        xValueFormatString: "MMMM YYYY",
-        yValueFormatString: "$#,##0",
-        dataPoints: [      
-            { x: new Date(2018, 0), y: 300878, indexLabel: "300878" },
-            { x: new Date(2018, 1), y: 266455, indexLabel: "266455"},
-            { x: new Date(2018, 2), y: 169709, indexLabel: "169709" },
-            { x: new Date(2018, 3), y: 158400, indexLabel: "158400" },
-            { x: new Date(2018, 4), y: 142503, indexLabel: "142503" },
-            { x: new Date(2018, 5), y: 101500,indexLabel: "101500" },
-            { x: new Date(2018, 6), y: 97800, indexLabel: "97800" },
-            { x: new Date(2018, 7), y: 80000, indexLabel: "80000" },
-            { x: new Date(2018, 8), y: 102350, indexLabel: "102350" },
-            { x: new Date(2018, 9), y: 182800, indexLabel: "182800" },
-            { x: new Date(2018, 10), y: 90280, indexLabel: "90280" },
-            { x: new Date(2018, 11), y: 120340, indexLabel: "120340" },
-        ]
-    }]
-});
-chart.render();
-
-// var chart = new CanvasJS.Chart("309Kwh", {
+// var chart = new CanvasJS.Chart("309Rupiah", {
 //     animationEnabled: true,
 //     theme: "dark 2", // "light1", "light2", "dark1", "dark2"
 //     title:{
-//         text: "309 (Kwh)"
+//         text: "309 (Rupiah)"
 //     },
 //     axisX: {
 //         valueFormatString: "MMM"
 //     },
 //     axisY: {
-//         title: "Kwh"
+//         title: "Rupiah"
 //     },
 //      toolTip: {
 //         shared: true
@@ -225,6 +185,46 @@ chart.render();
 //     }]
 // });
 // chart.render();
+
+var chart = new CanvasJS.Chart("309Kwh", {
+    animationEnabled: true,
+    theme: "dark 2", // "light1", "light2", "dark1", "dark2"
+    title:{
+        text: "309 (Kwh)"
+    },
+    axisX: {
+        valueFormatString: "MMM"
+    },
+    axisY: {
+        title: "Kwh"
+    },
+     toolTip: {
+        shared: true
+    },
+    data: [{        
+        type: "column",  
+        // showInLegend: true, 
+        legendMarkerColor: "grey",
+        legendText: "Bulan",
+        xValueFormatString: "MMMM YYYY",
+        yValueFormatString: "$#,##0",
+        dataPoints: [      
+            { x: new Date(2018, 0), y: 300878, indexLabel: "300878" },
+            { x: new Date(2018, 1), y: 266455, indexLabel: "266455"},
+            { x: new Date(2018, 2), y: 169709, indexLabel: "169709" },
+            { x: new Date(2018, 3), y: 158400, indexLabel: "158400" },
+            { x: new Date(2018, 4), y: 142503, indexLabel: "142503" },
+            { x: new Date(2018, 5), y: 101500,indexLabel: "101500" },
+            { x: new Date(2018, 6), y: 97800, indexLabel: "97800" },
+            { x: new Date(2018, 7), y: 80000, indexLabel: "80000" },
+            { x: new Date(2018, 8), y: 102350, indexLabel: "102350" },
+            { x: new Date(2018, 9), y: 182800, indexLabel: "182800" },
+            { x: new Date(2018, 10), y: 90280, indexLabel: "90280" },
+            { x: new Date(2018, 11), y: 120340, indexLabel: "120340" },
+        ]
+    }]
+});
+chart.render();
 
 }
 

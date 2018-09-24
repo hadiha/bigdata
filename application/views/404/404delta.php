@@ -9,7 +9,7 @@ $PESAN = $this->session->userdata('PESAN');
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-12">
-                            <h3 style="margin-top: 0px; margin-bottom: 30px">309 Perbulan Delta (Dibanding Tahun Lalu)</h3>
+                            <h3 style="margin-top: 0px; margin-bottom: 30px">404 Perbulan Delta (Dibanding Tahun Lalu)</h3>
                             </div>    
                         </div>
                         <div class="row">
@@ -71,16 +71,16 @@ $PESAN = $this->session->userdata('PESAN');
                 </form>
             </div>
         </div>
+            <!-- <div class="box box-primary">
+                <div class="box-body" style="height: 350px;">
+                    <div id="chartContainer" style="height: 320px; max-width: 920px; margin: 0px auto;"></div>
+                </div>
+            </div> -->
             <div class="box box-primary">
                 <div class="box-body" style="height: 380px;">
                     <div id="chartContainer" style="height: 350px; max-width: 920px; margin: 0px auto;"></div>
                 </div>
             </div>
-            <!-- <div class="box box-primary">
-                <div class="box-body" style="height: 350px;">
-                    <div id="chartContainer2" style="height: 320px; max-width: 920px; margin: 0px auto;"></div>
-                </div>
-            </div> -->
     </div>
 
 
@@ -149,20 +149,20 @@ window.onload = function () {
 var chart = new CanvasJS.Chart("chartContainer", {
     animationEnabled: true,
     title:{
-        text: "309 (Rupiah)"
+        text: "404 (Saldo)"
     },  
     axisX: {
         valueFormatString: "MMM"
     },
     axisY: {
-        title: "Rupiah Tahun Ini",
+        title: "Saldo Tahun Ini",
         titleFontColor: "#4F81BC",
         lineColor: "#4F81BC",
         labelFontColor: "#4F81BC",
         tickColor: "#4F81BC"
     },
     axisY2: {
-        title: "Rupiah Tahun Lalu",
+        title: "Saldo Tahun Lalu",
         titleFontColor: "#C0504E",
         lineColor: "#C0504E",
         labelFontColor: "#C0504E",
@@ -274,5 +274,132 @@ function toggleDataSeries(e) {
     chart.render();
 }
 
+// var chart = new CanvasJS.Chart("chartContainer2", {
+//     animationEnabled: true,
+//     title:{
+//         text: "404 (Pelunasan)"
+//     },  
+//     axisX: {
+//         valueFormatString: "MMM"
+//     },
+//     axisY: {
+//         title: "Pelulnasan Tahun Ini",
+//         titleFontColor: "#4F81BC",
+//         lineColor: "#4F81BC",
+//         labelFontColor: "#4F81BC",
+//         tickColor: "#4F81BC"
+//     },
+//     axisY2: {
+//         title: "Pelunasan Tahun Lalu",
+//         titleFontColor: "#C0504E",
+//         lineColor: "#C0504E",
+//         labelFontColor: "#C0504E",
+//         tickColor: "#C0504E"
+//     },  
+//     toolTip: {
+//         shared: true
+//     },
+//     legend: {
+//         cursor:"pointer",
+//         itemclick: toggleDataSeries
+//     },
+//     data: [{
+//         type: "column",
+//         name: "Tahun Ini",
+//         legendText: "Tahun Ini",
+//         showInLegend: true, 
+//         xValueFormatString: "MMMM YYYY",
+//         yValueFormatString: "$#,##0",
+//         dataPoints:[
+//             { x: new Date(2016, 0), y: 266.21 },
+//             { x: new Date(2016, 1), y: 302.25 },
+//             { x: new Date(2016, 2), y: 157.20 },
+//             { x: new Date(2016, 3), y: 148.77},
+//             { x: new Date(2016, 4), y: 101.50 },
+//             { x: new Date(2016, 5), y: 97.8 },
+//             { x: new Date(2016, 6), y: 120.23 },
+//             { x: new Date(2016, 7), y: 201.18 },
+//             { x: new Date(2016, 8), y: 303.8 },
+//             { x: new Date(2016, 9), y: 221.43},
+//             { x: new Date(2016, 10), y: 123.8 },
+//             { x: new Date(2016, 11), y: 97.8 }
+//         ]
+//     },
+//     {
+//         type: "column", 
+//         name: "Tahun Lalu",
+//         legendText: "Tahun Lalu",
+//         axisYType: "secondary",
+//         xValueFormatString: "MMMM YYYY",
+//         yValueFormatString: "$#,##0",
+//         showInLegend: true,
+//         dataPoints:[
+//             { x: new Date(2016, 0), y: 157.20 },
+//             { x: new Date(2016, 1), y: 101.50 },
+//             { x: new Date(2016, 2), y: 221.43 },
+//             { x: new Date(2016, 3), y: 148.77},
+//             { x: new Date(2016, 4), y: 266.21 },
+//             { x: new Date(2016, 5), y: 97.8 },
+//             { x: new Date(2016, 6), y: 120.23 },
+//             { x: new Date(2016, 7), y: 201.18 },
+//             { x: new Date(2016, 8), y: 157.20 },
+//             { x: new Date(2016, 9), y: 123.8},
+//             { x: new Date(2016, 10), y: 303.8 },
+//             { x: new Date(2016, 11), y: 97.8 }
+//         ]
+//     },
+//     {
+//         type: "line",
+//         name: "Tahun Ini",
+//         showInLegend: true,
+//         yValueFormatString: "$#,##0",
+//         dataPoints: [
+//             { x: new Date(2016, 0), y: 266.21 },
+//             { x: new Date(2016, 1), y: 302.25 },
+//             { x: new Date(2016, 2), y: 157.20 },
+//             { x: new Date(2016, 3), y: 148.77},
+//             { x: new Date(2016, 4), y: 101.50 },
+//             { x: new Date(2016, 5), y: 97.8 },
+//             { x: new Date(2016, 6), y: 120.23 },
+//             { x: new Date(2016, 7), y: 201.18 },
+//             { x: new Date(2016, 8), y: 303.8 },
+//             { x: new Date(2016, 9), y: 221.43},
+//             { x: new Date(2016, 10), y: 123.8 },
+//             { x: new Date(2016, 11), y: 97.8 }
+//         ]
+//     },
+//     {
+//         type: "line",
+//         name: "Tahun Lalu",
+//         showInLegend: true,
+//         axisYType: "secondary",
+//         yValueFormatString: "$#,##0",
+//         dataPoints: [
+//             { x: new Date(2016, 0), y: 157.20 },
+//             { x: new Date(2016, 1), y: 101.50 },
+//             { x: new Date(2016, 2), y: 221.43 },
+//             { x: new Date(2016, 3), y: 148.77},
+//             { x: new Date(2016, 4), y: 266.21 },
+//             { x: new Date(2016, 5), y: 97.8 },
+//             { x: new Date(2016, 6), y: 120.23 },
+//             { x: new Date(2016, 7), y: 201.18 },
+//             { x: new Date(2016, 8), y: 157.20 },
+//             { x: new Date(2016, 9), y: 123.8},
+//             { x: new Date(2016, 10), y: 303.8 },
+//             { x: new Date(2016, 11), y: 97.8 }
+//         ]
+//     },]
+// });
+// chart.render();
+
+// function toggleDataSeries(e) {
+//     if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+//         e.dataSeries.visible = false;
+//     }
+//     else {
+//         e.dataSeries.visible = true;
+//     }
+//     chart.render();
+// }
 }
 </script>

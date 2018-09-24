@@ -9,7 +9,7 @@ $PESAN = $this->session->userdata('PESAN');
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-12">
-                            <h3 style="margin-top: 0px; margin-bottom: 30px">309 Perbulan All</h3>
+                            <h3 style="margin-top: 0px; margin-bottom: 30px">404 Perbulan All</h3>
                             </div>    
                         </div>
                         <div class="row">
@@ -73,12 +73,12 @@ $PESAN = $this->session->userdata('PESAN');
         </div>
             <div class="box box-primary">
                 <div class="box-body"  style="height: 380px;">
-                        <div id="309Rupiah" style="height: 350px; max-width: 920px; margin: 0px auto;"></div>
+                        <div id="404Saldo" style="height: 350px; max-width: 920px; margin: 0px auto;"></div>
                 </div>
             </div>
             <!-- <div class="box box-primary">
                 <div class="box-body"  style="height: 350px;">
-                        <div id="309Kwh" style="height: 320px; max-width: 920px; margin: 0px auto;"></div>
+                        <div id="404Pelunasan" style="height: 320px; max-width: 920px; margin: 0px auto;"></div>
                 </div>
             </div> -->
     </div>
@@ -146,17 +146,17 @@ $PESAN = $this->session->userdata('PESAN');
 // chart start
 window.onload = function () {
 
-var chart = new CanvasJS.Chart("309Rupiah", {
+var chart = new CanvasJS.Chart("404Saldo", {
     animationEnabled: true,
     theme: "dark 2", // "light1", "light2", "dark1", "dark2"
     title:{
-        text: "309 (Rupiah)"
+        text: "404 (Saldo)"
     },
     axisX: {
         valueFormatString: "MMM"
     },
     axisY: {
-        title: "Rupiah"
+        title: "Saldo"
     },
      toolTip: {
         shared: true
@@ -186,17 +186,17 @@ var chart = new CanvasJS.Chart("309Rupiah", {
 });
 chart.render();
 
-// var chart = new CanvasJS.Chart("309Kwh", {
+// var chart = new CanvasJS.Chart("404Pelunasan", {
 //     animationEnabled: true,
 //     theme: "dark 2", // "light1", "light2", "dark1", "dark2"
 //     title:{
-//         text: "309 (Kwh)"
+//         text: "404 (Pelunasan)"
 //     },
 //     axisX: {
 //         valueFormatString: "MMM"
 //     },
 //     axisY: {
-//         title: "Kwh"
+//         title: "PElunasan"
 //     },
 //      toolTip: {
 //         shared: true

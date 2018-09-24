@@ -291,7 +291,7 @@
                         <li class="header">MAIN NAVIGATION</li>
                         <li class="treeview">
                           <a href="#">
-                            <i class="fa fa-dashboard"></i> <span>309</span>
+                            <i class="fa fa-dashboard"></i> <span>309 Rupiah</span>
                             <span class="pull-right-container">
                               <i class="fa fa-angle-left pull-right"></i>
                             </span>
@@ -304,26 +304,39 @@
                         </li>
                         <li class="treeview">
                           <a href="#">
-                            <i class="fa fa-dashboard"></i> <span>404 (Saldo)</span>
+                            <i class="fa fa-dashboard"></i> <span>309 Kwh</span>
                             <span class="pull-right-container">
                               <i class="fa fa-angle-left pull-right"></i>
                             </span>
                           </a>
                           <ul class="treeview-menu">
-                            <li><a href="<?php echo base_url('Rupiah_309/all');?>"><i class="fa fa-circle-o"></i> Perbulan</a></li>
-                            <li><a href="#"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
+                            <li><a href="<?php echo base_url('Rupiah_309/allKwh');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
+                            <li><a href="<?php echo base_url('Rupiah_309/kumulatifKwh');?>"><i class="fa fa-circle-o"></i> Perbulan Akumulasi/ Kumulatif</a></li>
+                            <li><a href="<?php echo base_url('Rupiah_309/deltaKwh');?>"><i class="fa fa-circle-o"></i> Perbulan Delta (Dibinding Tahun Kemarin)</a></li>
                           </ul>
                         </li>
                         <li class="treeview">
                           <a href="#">
-                            <i class="fa fa-dashboard"></i> <span>404 (Pelunasan)</span>
+                            <i class="fa fa-dashboard"></i> <span>404 Saldo</span>
                             <span class="pull-right-container">
                               <i class="fa fa-angle-left pull-right"></i>
                             </span>
                           </a>
                           <ul class="treeview-menu">
-                            <li><a href="<?php echo base_url('Rupiah_309/all');?>"><i class="fa fa-circle-o"></i> Perbulan All (Post, Pre, N+L)</a></li>
-                            <li><a href="#"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
+                            <li><a href="<?php echo base_url('Rupiah_309/all_404');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
+                            <li><a href="<?php echo base_url('Rupiah_309/delta_404');?>"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
+                          </ul>
+                        </li>
+                        <li class="treeview">
+                          <a href="#">
+                            <i class="fa fa-dashboard"></i> <span>404 Pelunasan</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li><a href="<?php echo base_url('Rupiah_309/all_404_Pelunasan');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
+                            <li><a href="<?php echo base_url('Rupiah_309/delta_404_Pelunasan');?>"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
                           </ul>
                         </li>
 

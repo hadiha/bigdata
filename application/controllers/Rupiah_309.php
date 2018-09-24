@@ -17,8 +17,21 @@ class Rupiah_309 extends CI_Controller {
     // <editor-fold defaultstate="collapsed" desc="Menu Dokumen - By Arif">
 
     public function all() {
-        $data['title'] = "Data 309 Semua";
+        $data['title'] = "Data 309 Rupiah";
         $data['konten'] = "309_rupiah/index_all";
+
+        // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
+        $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
+        $data['total_upi'] = $this->M_309_rupiah->get_upi();
+        // $data['total_up'] = $this->M_309_rupiah->get_up();
+
+        // print_r($data['total_upi']); exit();
+        $this->load->view('home', $data);
+    }
+
+    public function allKwh() {
+        $data['title'] = "Data 309 Kwh";
+        $data['konten'] = "309_rupiah/309AllKwh";
 
         // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
         $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
@@ -42,9 +55,87 @@ class Rupiah_309 extends CI_Controller {
         $this->load->view('home', $data);
     }
 
+    public function kumulatifKwh() {
+        $data['title'] = "Data 309 Akumulasi";
+        $data['konten'] = "309_rupiah/309KumulatifKwh";
+
+        // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
+        $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
+        $data['total_upi'] = $this->M_309_rupiah->get_upi();
+        // $data['total_up'] = $this->M_309_rupiah->get_up();
+
+        // print_r($data['total_upi']); exit();
+        $this->load->view('home', $data);
+    }
+
     public function delta() {
         $data['title'] = "Data 309 Delta";
         $data['konten'] = "309_rupiah/309delta";
+
+        // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
+        $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
+        $data['total_upi'] = $this->M_309_rupiah->get_upi();
+        // $data['total_up'] = $this->M_309_rupiah->get_up();
+
+        // print_r($data['total_upi']); exit();
+        $this->load->view('home', $data);
+    }
+
+    public function deltaKwh() {
+        $data['title'] = "Data 309 Delta";
+        $data['konten'] = "309_rupiah/309DeltaKwh";
+
+        // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
+        $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
+        $data['total_upi'] = $this->M_309_rupiah->get_upi();
+        // $data['total_up'] = $this->M_309_rupiah->get_up();
+
+        // print_r($data['total_upi']); exit();
+        $this->load->view('home', $data);
+    }
+
+    public function all_404() {
+        $data['title'] = "Data 404 Semua";
+        $data['konten'] = "404/404all";
+
+        // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
+        $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
+        $data['total_upi'] = $this->M_309_rupiah->get_upi();
+        // $data['total_up'] = $this->M_309_rupiah->get_up();
+
+        // print_r($data['total_upi']); exit();
+        $this->load->view('home', $data);
+    }
+
+    public function all_404_pelunasan() {
+        $data['title'] = "Data 404 Semua";
+        $data['konten'] = "404/404allPelunasan";
+
+        // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
+        $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
+        $data['total_upi'] = $this->M_309_rupiah->get_upi();
+        // $data['total_up'] = $this->M_309_rupiah->get_up();
+
+        // print_r($data['total_upi']); exit();
+        $this->load->view('home', $data);
+    }
+
+    public function delta_404() {
+        $data['title'] = "Data 404 Delta";
+        $data['konten'] = "404/404delta";
+
+        // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
+        $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
+        $data['total_upi'] = $this->M_309_rupiah->get_upi();
+        // $data['total_up'] = $this->M_309_rupiah->get_up();
+
+        // print_r($data['total_upi']); exit();
+        $this->load->view('home', $data);
+    }
+
+    public function delta_404_Pelunasan() {
+        $data['title'] = "Data 404 Delta";
+        $data['konten'] = "404/404deltaPelunasan";
 
         // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
         $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
