@@ -9,13 +9,13 @@ $PESAN = $this->session->userdata('PESAN');
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-12">
-                            <h3 style="margin-top: 0px; margin-bottom: 30px">404 Perbulan Delta (Dibanding Tahun Lalu)</h3>
+                            <h3 style="margin-top: 0px; margin-bottom: 30px"><b>309 Perbulan All</b></h3>
                             </div>    
                         </div>
                         <div class="row">
-                            <div class="col-md-1">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <label class="col-sm-12 control-label" style="text-align:left"> FILTER : </label>
+                                    <label class="col-sm-12 control-label" style="text-align:left"> Wilayah : </label>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -30,7 +30,12 @@ $PESAN = $this->session->userdata('PESAN');
                                     </div>
                                 </div>                                  
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left"> Tahun : </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <select name="tahun" id="tahun" class="form-control">
@@ -45,6 +50,13 @@ $PESAN = $this->session->userdata('PESAN');
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left"> Jenis Laporan : </label>
+                                </div>
+                            </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
@@ -57,7 +69,9 @@ $PESAN = $this->session->userdata('PESAN');
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-1">  
+                            </div>
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <button class="btn btn-primary" id="bcari"  name="button" value="cari" ><i class="fa fa-search fa-fw"></i> Cari</button>

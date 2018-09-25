@@ -41,8 +41,29 @@
 
         <!-- <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script> -->
         <script src="<?php echo base_url('assets/plugins/canvasjs/canvasjs.min.js');?>"></script>
-       
-       
+
+        <script src="<?php echo base_url('assets/dist/Chart.bundle.js');?>"></script>
+        <script src="<?php echo base_url('assets/utils.js');?>"></script>
+
+        <style>
+            canvas {
+                -moz-user-select: none;
+                -webkit-user-select: none;
+                -ms-user-select: none;
+            }
+            .chart-container {
+                width: 500px;
+                margin-left: 40px;
+                margin-right: 40px;
+                margin-bottom: 40px;
+            }
+            .container {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        </style>    
 
         <?php
         if ($konten=='vmonrcbadqa1') {

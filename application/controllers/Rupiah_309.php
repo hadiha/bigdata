@@ -8,6 +8,7 @@ class Rupiah_309 extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('M_309_rupiah');
+        $this->load->model('mdashboard');
         // LOAD LIBRARY
         $sesi_login = $this->session->userdata('logged');
         if (!isset($sesi_login)) {
@@ -17,16 +18,17 @@ class Rupiah_309 extends CI_Controller {
     // <editor-fold defaultstate="collapsed" desc="Menu Dokumen - By Arif">
 
     public function all() {
-        $data['title'] = "Data 309 Rupiah";
-        $data['konten'] = "309_rupiah/index_all";
+        $tahun = '2018';
+        $jenislap = 'TOTAL';
 
-        // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
-        $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
-        $data['total_upi'] = $this->M_309_rupiah->get_upi();
-        // $data['total_up'] = $this->M_309_rupiah->get_up();
-
-        // print_r($data['total_upi']); exit();
-        $this->load->view('home', $data);
+        $data['dataall'] = $this->mdashboard->get309all($tahun, $jenislap);     
+        if(empty($data['dataall'])){ 
+            $data['dataall'] = "Data Tidak Ditemukan";           
+            echo json_encode ($data);
+        } 
+        else {          
+            echo json_encode ($data);                   
+        }
     }
 
     public function allKwh() {
