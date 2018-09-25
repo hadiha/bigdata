@@ -9,7 +9,7 @@ $PESAN = $this->session->userdata('PESAN');
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-12">
-                            <h3 style="margin-top: 0px; margin-bottom: 30px"><b>309 Perbulan All</b></h3>
+                            <h3 style="margin-top: 0px; margin-bottom: 30px"><b>309 Kwh Perbulan All</b></h3>
                             </div>    
                         </div>
                         <div class="row">
@@ -137,21 +137,20 @@ $PESAN = $this->session->userdata('PESAN');
 var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 var color = Chart.helpers.color;
 var barChartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            labels: [
+                <?php foreach ($dataall as $dt_rupiah) { 
+                    echo $dt_rupiah['THBLLAP'] . ',';
+                }?>
+            ],
             datasets: [{
                 label: 'Kwh',
-                backgroundColor: window.chartColors.red,
-                borderColor: window.chartColors.red,
+                backgroundColor: window.chartColors.green,
+                borderColor: window.chartColors.green,
                 borderWidth: 1,
                 data: [
-                    18896966445.62,
-                    17271812960.97,
-                    19249491597.52,
-                    19368722447.61,
-                    20154114452.75,
-                    17522741178.99,
-                    19741002702.52,
-                    19827586121.33
+                    <?php foreach ($dataall as $dt_rupiah) { 
+                        echo $dt_rupiah['JMLKWH'] . ',';
+                    }?>
                 ]
             }]
 

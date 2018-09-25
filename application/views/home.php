@@ -52,12 +52,19 @@
                 -ms-user-select: none;
             }
             .chart-container {
-                width: 500px;
-                margin-left: 40px;
-                margin-right: 40px;
-                margin-bottom: 40px;
+                width: 100%;
+                margin-left: 30px;
+                margin-right: 30px;
+                margin-bottom: 30px;
             }
             .container {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container2 {
                 display: flex;
                 flex-direction: row;
                 flex-wrap: wrap;

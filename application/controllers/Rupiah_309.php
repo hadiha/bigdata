@@ -18,17 +18,19 @@ class Rupiah_309 extends CI_Controller {
     // <editor-fold defaultstate="collapsed" desc="Menu Dokumen - By Arif">
 
     public function all() {
+        $data['title'] = "Data 309 Rupiah";
+        $data['konten'] = "309_rupiah/index_all";
+
+        // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
+        $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
+        $data['total_upi'] = $this->M_309_rupiah->get_upi();
+
         $tahun = '2018';
         $jenislap = 'TOTAL';
 
         $data['dataall'] = $this->mdashboard->get309all($tahun, $jenislap);     
-        if(empty($data['dataall'])){ 
-            $data['dataall'] = "Data Tidak Ditemukan";           
-            echo json_encode ($data);
-        } 
-        else {          
-            echo json_encode ($data);                   
-        }
+        // print_r($data['dataall']); exit();
+        $this->load->view('home', $data);
     }
 
     public function allKwh() {
@@ -38,9 +40,12 @@ class Rupiah_309 extends CI_Controller {
         // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
         $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
-        // $data['total_up'] = $this->M_309_rupiah->get_up();
 
-        // print_r($data['total_upi']); exit();
+        $tahun = '2018';
+        $jenislap = 'TOTAL';
+
+        $data['dataall'] = $this->mdashboard->get309all($tahun, $jenislap);     
+        // print_r($data['dataall']); exit();
         $this->load->view('home', $data);
     }
 
@@ -103,9 +108,14 @@ class Rupiah_309 extends CI_Controller {
         // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
         $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
-        // $data['total_up'] = $this->M_309_rupiah->get_up();
 
-        // print_r($data['total_upi']); exit();
+        $tahun = '2018';
+        $unitupi = null;
+        $unitap = null;
+        $unitup = null;
+
+        $data['data404all'] = $this->mdashboard->get404all($tahun, $unitupi, $unitap, $unitup);     
+        // print_r($data['dataall']); exit();
         $this->load->view('home', $data);
     }
 
