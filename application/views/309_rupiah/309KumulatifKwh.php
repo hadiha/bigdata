@@ -2,10 +2,10 @@
 $PESAN = $this->session->userdata('PESAN');
 ?>
 <section class="content">
-    <div class="row">
+<div class="row">
         <div class="col-md-12">
             <div class="box box-primary">
-                <form id="form_upload" action="<?php echo site_url('#'); ?>" class="form-horizontal" method="POST" enctype="multipart/form-data" >
+                <form id="form_upload" class="form-horizontal" method="POST" enctype="multipart/form-data" >
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-1">
@@ -16,7 +16,7 @@ $PESAN = $this->session->userdata('PESAN');
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <select name="upi" id="upi" class="form-control">
+                                        <select name="upi" id="upi" class="form-control" disabled>
                                             <option value="00">NASIONAL</option>
                                               <?php foreach ($total_upi as $row) { ?>
                                               <option value="<?php echo $row['UNIT_UPI']; ?>" ><?php echo strtoupper($row['UNITUPI']); ?></option>   
@@ -53,15 +53,6 @@ $PESAN = $this->session->userdata('PESAN');
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <select name="bulan" id="bulan" class="form-control">
-                                            <option value="">--- Pilih Bulan ---</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
                                         <select name="tahun" id="tahun" class="form-control">
                                             <option value="">--- Pilih Tahun ---</option>
                                             <?php foreach ($rs_tahun as $index => $tahun) { ?>
@@ -74,10 +65,22 @@ $PESAN = $this->session->userdata('PESAN');
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <select name="jenislap" id="jenislap" class="form-control">
+                                            <option value="">--- Pilih Jenis Laporan ---</option>
+                                            <option value="LPB">PRABAYAR</option>
+                                            <option value="NORMAL">PASCA</option>
+                                            <option value="TOTAL">GABUNGAN</option>   
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>  
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-primary" id="bcari"  name="button" value="cari" ><i class="fa fa-search fa-fw"></i> Cari</button>
+                                        <button class="btn btn-primary" id="bcari"  name="button" value="cari" onclick="cari()"><i class="fa fa-search fa-fw"></i> Cari</button>
                                         <button class="btn btn-default" name="button" value="reset"><i class="fa  fa-refresh fa-fw" ></i> Reset</button>
                                     </div>
                                 </div>
@@ -90,13 +93,13 @@ $PESAN = $this->session->userdata('PESAN');
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-body">
-                    <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
+                    <div id="container" style="width: 100%; padding: 0px 30px 30px 30px">
+                        <canvas id="canvas"></canvas>
+                    </div>  
                 </div>
             </div>
         </div>
-    </div>
-
-
+</div>
 </section>
 <script type="text/javascript">
 
@@ -157,74 +160,104 @@ $PESAN = $this->session->userdata('PESAN');
     })
 
 // chart start
-window.onload = function () {
 
-var chart = new CanvasJS.Chart("chartContainer", {
-    animationEnabled: true,
-    theme: "light2", // "light1", "light2", "dark1", "dark2"
-    title:{
-        text: "Perbulan AKumulasi/Kumulatif"
-    },
-    axisY: {
-        title: "Rupiah"
-    },
-    data: [{        
-        type: "column",  
-        showInLegend: true, 
-        legendMarkerColor: "grey",
-        legendText: "Unit UP",
-        dataPoints: [      
-            { y: 300878, label: "Unit 1" },
-            { y: 266455,  label: "Unit 2" },
-            { y: 169709,  label: "Unit 3" },
-            { y: 158400,  label: "Unit 4" },
-            { y: 142503,  label: "Unit 5" },
-            { y: 101500, label: "Unit 6" },
-            { y: 97800,  label: "Unit 7" },
-            { y: 80000,  label: "Unit 8" }
+var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+var color = Chart.helpers.color;
+var barChartData = {
+    labels: [
+        <?php foreach ($datakomulatifkwh as $dt_kwh) { 
+            echo $dt_kwh['THBLLAP'] . ',';
+        }?>
+    ],
+    datasets: [{
+        label: 'Kwh',
+        backgroundColor: window.chartColors.blue,
+        borderColor: window.chartColors.blue,
+        borderWidth: 1,
+        data: [
+            <?php foreach ($datakomulatifkwh as $dt_kwh) { 
+                echo $dt_kwh['KWH_KOMULATIF'] . ',';
+            }?>
         ]
     }]
+
+};
+
+window.onload = function() {
+    var ctx = document.getElementById('canvas').getContext('2d');
+    window.myBar = new Chart(ctx, {
+        type: 'bar',
+        data: barChartData,
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: true,
+                fontSize: 18,
+                fontStyle: 'bold',
+                text: '309 Kwh Komulatif - <?php echo $jenislap ?> <?php echo $tahun ?>'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        callback: function(label, index, labels) {
+                            return label/1000000000+'M';
+                        },  
+                        min: 0
+                    }
+                }]
+            }
+        }
+    });
+
+};
+
+Chart.plugins.register({
+    afterDatasetsDraw: function(chart) {
+        var ctx = chart.ctx;
+
+        chart.data.datasets.forEach(function(dataset, i) {
+            var meta = chart.getDatasetMeta(i);
+            if (!meta.hidden) {
+                meta.data.forEach(function(element, index) {
+                            // Draw the text in black, with the specified font
+                            ctx.fillStyle = 'rgb(0, 0, 0)';
+
+                            var fontSize = 9;
+                            var fontStyle = 'normal';
+                            var fontFamily = 'Helvetica Neue';
+                            ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+
+                            // Just naively convert to string for now
+                            var dataString = dataset.data[index].toString();
+
+                            // Make sure alignment settings are correct
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+
+                            var padding = 5;
+                            var position = element.tooltipPosition();
+                            ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
+                        });
+            }
+        });
+    }
 });
-chart.render();
+
+function cari(){
+    var tahun=$('#tahun').val();
+    var jenislap=$('#jenislap').val();
+    $('#form_filter').ajaxForm ({
+        type: "POST",
+        url: "<?php echo base_url('Rupiah_309/kumulatifKwh'); ?>",
+        data: {"tahun":tahun, "jenislap":jenislap},
+        success: function(msg) {
+            var data = $data
+            console.log(data);
+        }
+    });
 }
 
-
-
-// var chart = null;
-// var dataPoints = [];
-
-// window.onload = function() {
-
-// chart = new CanvasJS.Chart("chartContainer", {
-//     animationEnabled: true,
-//     theme: "light2",
-//     title: {
-//         text: "Perbulan All"
-//     },
-//     axisY: {
-//         title: "Units",
-//         titleFontSize: 24
-//     },
-//     data: [{
-//         type: "column",
-//         yValueFormatString: "#,### Units",
-//         dataPoints: dataPoints
-//     }]
-// });
-
-
-// $.getJSON("https://canvasjs.com/data/gallery/javascript/daily-sales.json?callback=?", callback);    
-
-// }
-
-// function callback(data) {   
-//     for (var i = 0; i < data.dps.length; i++) {
-//         dataPoints.push({
-//             x: new Date(data.dps[i].date),
-//             y: data.dps[i].units
-//         });
-//     }
-//     chart.render(); 
-// }
-// end chart
 </script>

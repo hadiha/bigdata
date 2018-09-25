@@ -14,7 +14,7 @@ class mdashboard extends CI_Model {
           $m = oci_error();
           trigger_error(htmlentities($m['message']), E_USER_ERROR);
       }
-
+      
       $TAHUN = $tahun;
       $JENISLAP = $jenislap;
 

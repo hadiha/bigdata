@@ -5,23 +5,18 @@ $PESAN = $this->session->userdata('PESAN');
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary">
-                <form id="form_upload" action="<?php echo site_url('#'); ?>" class="form-horizontal" method="POST" enctype="multipart/form-data" >
+                <form id="form_upload" class="form-horizontal" method="POST" enctype="multipart/form-data" >
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-md-12">
-                            <h3 style="margin-top: 0px; margin-bottom: 30px"><b>404 Perbulan All</b></h3>
-                            </div>    
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-1">
                                 <div class="form-group">
-                                    <label class="col-sm-12 control-label" style="text-align:left"> Wilayah : </label>
+                                    <label class="col-sm-12 control-label" style="text-align:left"> FILTER : </label>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <select name="upi" id="upi" class="form-control">
+                                        <select name="upi" id="upi" class="form-control" disabled>
                                             <option value="00">NASIONAL</option>
                                               <?php foreach ($total_upi as $row) { ?>
                                               <option value="<?php echo $row['UNIT_UPI']; ?>" ><?php echo strtoupper($row['UNITUPI']); ?></option>   
@@ -30,12 +25,32 @@ $PESAN = $this->session->userdata('PESAN');
                                     </div>
                                 </div>                                  
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="col-sm-12 control-label" style="text-align:left"> Tahun : </label>
+                                    <div class="col-sm-12">
+                                        <select name="ap" id="ap" class="form-control" disabled="disabled">
+                                            <option value="">--- Pilih AP ---</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <select name="up" id="up" class="form-control" disabled="disabled">
+                                            <option value="">--- Pilih UP ---</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label"> </label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <select name="tahun" id="tahun" class="form-control">
@@ -50,62 +65,34 @@ $PESAN = $this->session->userdata('PESAN');
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <button class="btn btn-primary" id="bcari"  name="button" value="cari" ><i class="fa fa-search fa-fw"></i> Cari</button>
-                                        <button class="btn btn-default" name="button" value="reset"><i class="fa  fa-refresh fa-fw" ></i> Reset</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                     <!--    <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label class="col-sm-12 control-label" style="text-align:left"> Jenis Laporan : </label>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
                                     <div class="col-sm-12">
-                                        <select name="jenislap" id="jenislap" class="form-control">
-                                            <option value="">--- Pilih Jenis Laporan ---</option>
-                                            <option value="">LPB</option>
-                                            <option value="">Pasca</option>
-                                            <option value="">Gabungan</option>   
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-1">  
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <button class="btn btn-primary" id="bcari"  name="button" value="cari" ><i class="fa fa-search fa-fw"></i> Cari</button>
+                                        <button class="btn btn-primary" id="bcari"  name="button" value="cari" onclick="cari()"><i class="fa fa-search fa-fw"></i> Cari</button>
                                         <button class="btn btn-default" name="button" value="reset"><i class="fa  fa-refresh fa-fw" ></i> Reset</button>
                                     </div>
                                 </div>
                             </div>
-                          </div> -->
                         </div>
                     </div>
                 </form>
             </div>
         </div>
+        <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-body">
                     <div class="container" style="width: 100%;"></div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-body">
                     <div class="container2" style="width: 100%;"></div>
                 </div>
             </div>
+        </div>
     </div>
-
-
 </section>
 <script type="text/javascript">
 
@@ -218,15 +205,17 @@ $PESAN = $this->session->userdata('PESAN');
                     },  
                     title: {
                         display: true,
+                        fontSize: 18,
+                        fontStyle: 'bold',
                         text: title
                     },
                     scales: {
                         yAxes: [{
                             ticks: {
-                                 callback: function(label, index, labels) {
+                                callback: function(label, index, labels) {
                                     return label/1000000+'Jt';
-                                },
-                                min: 0,
+                                },  
+                                min: 0
                             }
                         }]
                     }
@@ -234,7 +223,7 @@ $PESAN = $this->session->userdata('PESAN');
             };
         }
 
-        function createConfig2(data,title) {
+    function createConfig2(data,title) {
             return {
                 type: 'bar',
                 data: data,
@@ -245,15 +234,17 @@ $PESAN = $this->session->userdata('PESAN');
                     },  
                     title: {
                         display: true,
+                        fontSize: 18,
+                        fontStyle: 'bold',
                         text: title
                     },
                     scales: {
                         yAxes: [{
                             ticks: {
-                                 callback: function(label, index, labels) {
+                                callback: function(label, index, labels) {
                                     return label/1000000000000+'T';
-                                },
-                                min: 0,
+                                },  
+                                min: 0
                             }
                         }]
                     }
@@ -299,10 +290,10 @@ $PESAN = $this->session->userdata('PESAN');
 
             [{
                 data: barChartData,
-                title: '404 Saldo Lembar'
+                title: '404 Saldo Lembar - <?php echo $tahun ?>'
             }, {
                 data: barChartDataRupiah,
-                title: '404 Saldo Rupiah'
+                title: '404 Saldo Rupiah - <?php echo $tahun ?>'
             }].forEach(function(details) {
                 var div = document.createElement('div');
                 div.classList.add('chart-container');
@@ -310,20 +301,31 @@ $PESAN = $this->session->userdata('PESAN');
                 var canvas = document.createElement('canvas');
                 div.appendChild(canvas);
                 if (details.data == barChartData) {
-                    container.appendChild(div);    
-                    var ctx = canvas.getContext('2d');
+                    container.appendChild(div); 
                     var config = createConfig(details.data,details.title);
-                    new Chart(ctx, config);     
                 }else{
                     container2.appendChild(div)
-                    var ctx = canvas.getContext('2d');
                     var config = createConfig2(details.data,details.title);
-                    new Chart(ctx, config);     
                 }
 
-               
+                var ctx = canvas.getContext('2d');
+                new Chart(ctx, config);
             });
     };
 
-
+function cari(){
+    var tahun=$('#tahun').val();
+    var upi=$('#upi').val();
+    var ap=$('#ap').val();
+    var up=$('#up').val();
+    $('#form_filter').ajaxForm ({
+        type: "POST",
+        url: "<?php echo base_url('Rupiah_309/all_404'); ?>",
+        data: {"tahun":tahun, "upi":upi, "ap":ap , "up":up},
+        success: function(msg) {
+            var data = $data
+            console.log(data);
+        }
+    });
+}
 </script>

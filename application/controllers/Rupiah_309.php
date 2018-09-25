@@ -25,10 +25,17 @@ class Rupiah_309 extends CI_Controller {
         $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
 
-        $tahun = '2018';
-        $jenislap = 'TOTAL';
-
-        $data['dataall'] = $this->mdashboard->get309all($tahun, $jenislap);     
+        $tahun = $this->input->post('tahun');
+        $jenislap = $this->input->post('jenislap');
+        if (!empty($tahun) or !empty($jenislap)) {
+            $data['dataall'] = $this->mdashboard->get309all($tahun, $jenislap);
+            $data['tahun'] = $tahun;
+            $data['jenislap'] = $jenislap;
+        }else{
+            $data['dataall'] = $this->mdashboard->get309all('2018', 'TOTAL');
+            $data['tahun'] = '2018';
+            $data['jenislap'] = 'GABUNGAN';
+        }    
         // print_r($data['dataall']); exit();
         $this->load->view('home', $data);
     }
@@ -37,14 +44,20 @@ class Rupiah_309 extends CI_Controller {
         $data['title'] = "Data 309 Kwh";
         $data['konten'] = "309_rupiah/309AllKwh";
 
-        // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
         $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
 
-        $tahun = '2018';
-        $jenislap = 'TOTAL';
-
-        $data['dataall'] = $this->mdashboard->get309all($tahun, $jenislap);     
+        $tahun = $this->input->post('tahun');
+        $jenislap = $this->input->post('jenislap');
+        if (!empty($tahun) or !empty($jenislap)) {
+            $data['dataall'] = $this->mdashboard->get309all($tahun, $jenislap);
+            $data['tahun'] = $tahun;
+            $data['jenislap'] = $jenislap;
+        }else{
+            $data['dataall'] = $this->mdashboard->get309all('2018', 'TOTAL');
+            $data['tahun'] = '2018';
+            $data['jenislap'] = 'GABUNGAN';
+        }    
         // print_r($data['dataall']); exit();
         $this->load->view('home', $data);
     }
@@ -53,12 +66,21 @@ class Rupiah_309 extends CI_Controller {
         $data['title'] = "Data 309 Akumulasi";
         $data['konten'] = "309_rupiah/309kumulatif";
 
-        // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
         $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
-        // $data['total_up'] = $this->M_309_rupiah->get_up();
 
-        // print_r($data['total_upi']); exit();
+        $tahun = $this->input->post('tahun');
+        $jenislap = $this->input->post('jenislap');
+        if (!empty($tahun) or !empty($jenislap)) {
+            $data['datakomulatif'] = $this->mdashboard->get309all($tahun, $jenislap);
+            $data['tahun'] = $tahun;
+            $data['jenislap'] = $jenislap;
+        }else{
+            $data['datakomulatif'] = $this->mdashboard->get309all('2018', 'TOTAL');
+            $data['tahun'] = '2018';
+            $data['jenislap'] = 'GABUNGAN';
+        }    
+        // print_r($data['dataall']); exit();
         $this->load->view('home', $data);
     }
 
@@ -66,12 +88,21 @@ class Rupiah_309 extends CI_Controller {
         $data['title'] = "Data 309 Akumulasi";
         $data['konten'] = "309_rupiah/309KumulatifKwh";
 
-        // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
         $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
-        // $data['total_up'] = $this->M_309_rupiah->get_up();
 
-        // print_r($data['total_upi']); exit();
+        $tahun = $this->input->post('tahun');
+        $jenislap = $this->input->post('jenislap');
+        if (!empty($tahun) or !empty($jenislap)) {
+            $data['datakomulatifkwh'] = $this->mdashboard->get309all($tahun, $jenislap);
+            $data['tahun'] = $tahun;
+            $data['jenislap'] = $jenislap;
+        }else{
+            $data['datakomulatifkwh'] = $this->mdashboard->get309all('2018', 'TOTAL');
+            $data['tahun'] = '2018';
+            $data['jenislap'] = 'GABUNGAN';
+        }    
+        // print_r($data['dataall']); exit();
         $this->load->view('home', $data);
     }
 
@@ -109,12 +140,24 @@ class Rupiah_309 extends CI_Controller {
         $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
 
-        $tahun = '2018';
-        $unitupi = null;
-        $unitap = null;
-        $unitup = null;
+        $tahun = $this->input->post('tahun');;
+        $upi = $this->input->post('upi');
+        $ap = $this->input->post('ap');
+        $up = $this->input->post('up');
 
-        $data['data404all'] = $this->mdashboard->get404all($tahun, $unitupi, $unitap, $unitup);     
+        if (!empty($tahun) or !empty($upi) or !empty($ap) or !empty($up)) {
+            $data['data404all'] = $this->mdashboard->get404all($tahun, $upi, $ap, $up); 
+            $data['tahun'] = $tahun;
+            $data['upi'] = $upi;
+            $data['ap'] = $ap;
+            $data['up'] = $up;
+        }else{
+            $data['data404all'] = $this->mdashboard->get404all('2018', NULL, NULL, NULL);
+            $data['tahun'] = '2018';
+            $data['upi'] = NULL;
+            $data['ap'] = NULL;
+            $data['up'] = NULL;
+        }    
         // print_r($data['dataall']); exit();
         $this->load->view('home', $data);
     }

@@ -2,100 +2,104 @@
 $PESAN = $this->session->userdata('PESAN');
 ?>
 <section class="content">
-    <div class="row">
+<div class="row">
         <div class="col-md-12">
-            <div class="box box-primary" style="padding-left: 10px; padding-top: 10px">
-                <form id="form_upload" action="<?php echo site_url('#'); ?>" class="form-horizontal" method="POST" enctype="multipart/form-data" >
+            <div class="box box-primary">
+                <form id="form_upload" class="form-horizontal" method="POST" enctype="multipart/form-data" >
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-md-12">
-                                <h3 style="margin-top: 0px; margin-bottom: 30px"><b>309 Rupiah Perbulan All</b></h3>
-                            </div>    
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-1">
                                 <div class="form-group">
-                                    <label class="col-sm-12 control-label" style="text-align:left"> Wilayah : </label>
+                                    <label class="col-sm-12 control-label" style="text-align:left"> FILTER : </label>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <select name="upi" id="upi" class="form-control" disabled="">
+                                        <select name="upi" id="upi" class="form-control" disabled>
                                             <option value="00">NASIONAL</option>
-                                            <?php foreach ($total_upi as $row) { ?>
+                                              <?php foreach ($total_upi as $row) { ?>
                                               <option value="<?php echo $row['UNIT_UPI']; ?>" ><?php echo strtoupper($row['UNITUPI']); ?></option>   
-                                          <?php } ?>
-                                      </select>
-                                  </div>
-                              </div>                                  
+                                              <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>                                  
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <select name="ap" id="ap" class="form-control" disabled="disabled">
+                                            <option value="">--- Pilih AP ---</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <select name="up" id="up" class="form-control" disabled="disabled">
+                                            <option value="">--- Pilih UP ---</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                           </div>
-                          <div class="col-md-1">
-                            <div class="form-group">
-                                <label class="col-sm-12 control-label" style="text-align:left"> Tahun : </label>
+                          <div class="row">
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label"> </label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                    <select name="tahun" id="tahun" class="form-control">
-                                        <option value="">--- Pilih Tahun ---</option>
-                                        <?php foreach ($rs_tahun as $index => $tahun) { ?>
-                                            <option value="<?php echo $tahun; ?>" <?php if ($search['tahun'] == $tahun) {
-                                                echo " selected";
-                                            } ?>><?php echo $tahun; ?></option>   
-                                        <?php } ?>
-                                    </select>
-                                </select>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <select name="tahun" id="tahun" class="form-control">
+                                            <option value="">--- Pilih Tahun ---</option>
+                                            <?php foreach ($rs_tahun as $index => $tahun) { ?>
+                                                        <option value="<?php echo $tahun; ?>" <?php if ($search['tahun'] == $tahun) {
+                                            echo " selected";
+                                        } ?>><?php echo $tahun; ?></option>   
+                                                    <?php } ?>
+                                                </select>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label class="col-sm-12 control-label" style="text-align:left"> Jenis Laporan : </label>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <select name="jenislap" id="jenislap" class="form-control">
-                                    <option value="">--- Pilih Jenis Laporan ---</option>
-                                    <option value="">LPB</option>
-                                    <option value="">PASCA</option>
-                                    <option value="">GABUNGAN</option>   
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-1">  
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <button class="btn btn-primary" id="bcari"  name="button" value="cari" ><i class="fa fa-search fa-fw"></i> Cari</button>
-                                <button class="btn btn-default" name="button" value="reset"><i class="fa  fa-refresh fa-fw" ></i> Reset</button>
-                                <!-- <button id="randomizeData">Randomize Data</button> -->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <select name="jenislap" id="jenislap" class="form-control">
+                                            <option value="">--- Pilih Jenis Laporan ---</option>
+                                            <option value="LPB">PRABAYAR</option>
+                                            <option value="NORMAL">PASCA</option>
+                                            <option value="TOTAL">GABUNGAN</option>   
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <button class="btn btn-primary" id="bcari"  name="button" value="cari" onclick="cari()"><i class="fa fa-search fa-fw"></i> Cari</button>
+                                        <button class="btn btn-default" name="button" value="reset"><i class="fa  fa-refresh fa-fw" ></i> Reset</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <div id="container" style="width: 100%; padding: 0px 30px 30px 30px">
+                        <canvas id="canvas"></canvas>
+                    </div>  
                 </div>
             </div>
         </div>
-    </form>
 </div>
-</div>
-<div class="box box-primary">
-    <div class="box-body">
-        <div id="container" style="width: 100%; padding: 0px 30px 30px 30px">
-            <canvas id="canvas"></canvas>
-        </div>
-    </div>
-</div>
-</div>
-
-
 </section>
 <script type="text/javascript">
 
@@ -132,7 +136,11 @@ $PESAN = $this->session->userdata('PESAN');
 var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 var color = Chart.helpers.color;
 var barChartData = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    labels: [
+        <?php foreach ($dataall as $dt_rupiah) { 
+            echo $dt_rupiah['THBLLAP'] . ',';
+        }?>
+    ],
     datasets: [{
         label: 'Rupiah',
         backgroundColor: window.chartColors.blue,
@@ -159,11 +167,16 @@ window.onload = function() {
             },
             title: {
                 display: true,
-                text: '309 Rupiah'
+                fontSize: 18,
+                fontStyle: 'bold',
+                text: '309 Rupiah - <?php echo $jenislap ?> <?php echo $tahun ?> '
             },
             scales: {
                 yAxes: [{
                     ticks: {
+                        callback: function(label, index, labels) {
+                            return label/1000000000000+'T';
+                        },  
                         min: 0
                     }
                 }]
@@ -205,5 +218,18 @@ Chart.plugins.register({
     }
 });
 
+function cari(){
+    var tahun=$('#tahun').val();
+    var jenislap=$('#jenislap').val();
+    $('#form_filter').ajaxForm ({
+        type: "POST",
+        url: "<?php echo base_url('Rupiah_309/all'); ?>",
+        data: {"tahun":tahun, "jenislap":jenislap},
+        success: function(msg) {
+            var data = $data
+            console.log(data);
+        }
+    });
+}
 
 </script>
