@@ -50,8 +50,16 @@ $PESAN = $this->session->userdata('PESAN');
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <button class="btn btn-primary" id="bcari"  name="button" value="cari" ><i class="fa fa-search fa-fw"></i> Cari</button>
+                                        <button class="btn btn-default" name="button" value="reset"><i class="fa  fa-refresh fa-fw" ></i> Reset</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row">
+                     <!--    <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label class="col-sm-12 control-label" style="text-align:left"> Jenis Laporan : </label>
@@ -79,7 +87,7 @@ $PESAN = $this->session->userdata('PESAN');
                                     </div>
                                 </div>
                             </div>
-                          </div>
+                          </div> -->
                         </div>
                     </div>
                 </form>
@@ -215,7 +223,37 @@ $PESAN = $this->session->userdata('PESAN');
                     scales: {
                         yAxes: [{
                             ticks: {
-                                min: 0
+                                 callback: function(label, index, labels) {
+                                    return label/1000000+'Jt';
+                                },
+                                min: 0,
+                            }
+                        }]
+                    }
+                }
+            };
+        }
+
+        function createConfig2(data,title) {
+            return {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'bottom',
+                    },  
+                    title: {
+                        display: true,
+                        text: title
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                 callback: function(label, index, labels) {
+                                    return label/1000000000000+'T';
+                                },
+                                min: 0,
                             }
                         }]
                     }
@@ -273,13 +311,17 @@ $PESAN = $this->session->userdata('PESAN');
                 div.appendChild(canvas);
                 if (details.data == barChartData) {
                     container.appendChild(div);    
+                    var ctx = canvas.getContext('2d');
+                    var config = createConfig(details.data,details.title);
+                    new Chart(ctx, config);     
                 }else{
                     container2.appendChild(div)
+                    var ctx = canvas.getContext('2d');
+                    var config = createConfig2(details.data,details.title);
+                    new Chart(ctx, config);     
                 }
 
-                var ctx = canvas.getContext('2d');
-                var config = createConfig(details.data,details.title);
-                new Chart(ctx, config);
+               
             });
     };
 
