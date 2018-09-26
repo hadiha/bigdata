@@ -9,7 +9,7 @@ $PESAN = $this->session->userdata('PESAN');
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-12">
-                            <h3 style="margin-top: 0px; margin-bottom: 30px"><b>309 Perbulan All</b></h3>
+                            <h3 style="margin-top: 0px; margin-bottom: 30px"><b>404 LUNAS</b></h3>
                             </div>    
                         </div>
                         <div class="row">
@@ -50,8 +50,16 @@ $PESAN = $this->session->userdata('PESAN');
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <button class="btn btn-primary" id="bcari"  name="button" value="cari" ><i class="fa fa-search fa-fw"></i> Cari</button>
+                                        <button class="btn btn-default" name="button" value="reset"><i class="fa  fa-refresh fa-fw" ></i> Reset</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label class="col-sm-12 control-label" style="text-align:left"> Jenis Laporan : </label>
@@ -79,22 +87,26 @@ $PESAN = $this->session->userdata('PESAN');
                                     </div>
                                 </div>
                             </div>
-                          </div>
+                          </div> -->
                         </div>
                     </div>
                 </form>
             </div>
-        </div>
-            <!-- <div class="box box-primary">
-                <div class="box-body"  style="height: 350px;">
-                        <div id="404Saldo" style="height: 320px; max-width: 920px; margin: 0px auto;"></div>
-                </div>
-            </div> -->
-            <div class="box box-primary">
-                <div class="box-body"  style="height: 350px;">
-                        <div id="404Pelunasan" style="height: 320px; max-width: 920px; margin: 0px auto;"></div>
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <div class="container" style="width: 100%;"></div>
+                    </div>
                 </div>
             </div>
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <div class="container2" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -157,128 +169,180 @@ $PESAN = $this->session->userdata('PESAN');
         ;
     })
 
-// chart start
-window.onload = function () {
+  // chart start
 
-// var chart = new CanvasJS.Chart("404Saldo", {
-//     animationEnabled: true,
-//     theme: "dark 2", // "light1", "light2", "dark1", "dark2"
-//     title:{
-//         text: "404 (Saldo)"
-//     },
-//     axisX: {
-//         valueFormatString: "MMM"
-//     },
-//     axisY: {
-//         title: "Saldo"
-//     },
-//      toolTip: {
-//         shared: true
-//     },
-//     data: [{        
-//         type: "column",  
-//         // showInLegend: true, 
-//         legendMarkerColor: "grey",
-//         legendText: "Bulan",
-//         xValueFormatString: "MMMM YYYY",
-//         yValueFormatString: "$#,##0",
-//         dataPoints: [      
-//             { x: new Date(2018, 0), y: 300878, indexLabel: "300878" },
-//             { x: new Date(2018, 1), y: 266455, indexLabel: "266455"},
-//             { x: new Date(2018, 2), y: 169709, indexLabel: "169709" },
-//             { x: new Date(2018, 3), y: 158400, indexLabel: "158400" },
-//             { x: new Date(2018, 4), y: 142503, indexLabel: "142503" },
-//             { x: new Date(2018, 5), y: 101500,indexLabel: "101500" },
-//             { x: new Date(2018, 6), y: 97800, indexLabel: "97800" },
-//             { x: new Date(2018, 7), y: 80000, indexLabel: "80000" },
-//             { x: new Date(2018, 8), y: 102350, indexLabel: "102350" },
-//             { x: new Date(2018, 9), y: 182800, indexLabel: "182800" },
-//             { x: new Date(2018, 10), y: 90280, indexLabel: "90280" },
-//             { x: new Date(2018, 11), y: 120340, indexLabel: "120340" },
-//         ]
-//     }]
-// });
-// chart.render();
+    var barChartData = {
+        labels: [
+        <?php foreach ($data404lunas as $dt_404) { 
+            echo $dt_404['THBL'] . ',';
+        }?>     
+        ],
+        datasets: [{
+            label: 'Lembar',
+            backgroundColor: window.chartColors.red,
+            borderColor: window.chartColors.red,
+            data: [
+            <?php foreach ($data404lunas as $dt_404) { 
+                echo $dt_404['LBR_TOTAL'] . ',';
+            }?>
+            ],
+            fill: false,
+        }]
 
-var chart = new CanvasJS.Chart("404Pelunasan", {
-    animationEnabled: true,
-    theme: "dark 2", // "light1", "light2", "dark1", "dark2"
-    title:{
-        text: "404 (Pelunasan)"
-    },
-    axisX: {
-        valueFormatString: "MMM"
-    },
-    axisY: {
-        title: "PElunasan"
-    },
-     toolTip: {
-        shared: true
-    },
-    data: [{        
-        type: "column",  
-        // showInLegend: true, 
-        legendMarkerColor: "grey",
-        legendText: "Bulan",
-        xValueFormatString: "MMMM YYYY",
-        yValueFormatString: "$#,##0",
-        dataPoints: [      
-            { x: new Date(2018, 0), y: 300878, indexLabel: "300878" },
-            { x: new Date(2018, 1), y: 266455, indexLabel: "266455"},
-            { x: new Date(2018, 2), y: 169709, indexLabel: "169709" },
-            { x: new Date(2018, 3), y: 158400, indexLabel: "158400" },
-            { x: new Date(2018, 4), y: 142503, indexLabel: "142503" },
-            { x: new Date(2018, 5), y: 101500,indexLabel: "101500" },
-            { x: new Date(2018, 6), y: 97800, indexLabel: "97800" },
-            { x: new Date(2018, 7), y: 80000, indexLabel: "80000" },
-            { x: new Date(2018, 8), y: 102350, indexLabel: "102350" },
-            { x: new Date(2018, 9), y: 182800, indexLabel: "182800" },
-            { x: new Date(2018, 10), y: 90280, indexLabel: "90280" },
-            { x: new Date(2018, 11), y: 120340, indexLabel: "120340" },
-        ]
-    }]
-});
-chart.render();
+    };
 
+    var barChartDataRupiah = {
+        labels: [
+        <?php foreach ($data404lunas as $dt_404) { 
+            echo $dt_404['THBL'] . ',';
+        }?>     
+        ],
+        datasets: [{
+            label: 'Rupiah',
+            backgroundColor: window.chartColors.blue,
+            borderColor: window.chartColors.blue,
+            data: [
+            <?php foreach ($data404lunas as $dt_404) { 
+                echo $dt_404['RUPIAH_TOTAL'] . ',';
+            }?>
+            ],
+            fill: false,
+        }]
+
+    };
+
+    function createConfig(data,title) {
+            return {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'bottom',
+                    },  
+                    title: {
+                        display: true,
+                        fontSize: 18,
+                        fontStyle: 'bold',
+                        text: title
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                callback: function(label, index, labels) {
+                                    return label/1000000+'Jt';
+                                },  
+                                min: 0
+                            }
+                        }]
+                    }
+                }
+            };
+        }
+
+    function createConfig2(data,title) {
+            return {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'bottom',
+                    },  
+                    title: {
+                        display: true,
+                        fontSize: 18,
+                        fontStyle: 'bold',
+                        text: title
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                callback: function(label, index, labels) {
+                                    return label/1000000000000+'T';
+                                },  
+                                min: 0
+                            }
+                        }]
+                    }
+                }
+            };
+        }
+
+    Chart.plugins.register({
+        afterDatasetsDraw: function(chart) {
+            var ctx = chart.ctx;
+
+            chart.data.datasets.forEach(function(dataset, i) {
+                var meta = chart.getDatasetMeta(i);
+                if (!meta.hidden) {
+                    meta.data.forEach(function(element, index) {
+                                // Draw the text in black, with the specified font
+                                ctx.fillStyle = 'rgb(0, 0, 0)';
+
+                                var fontSize = 9;
+                                var fontStyle = 'normal';
+                                var fontFamily = 'Helvetica Neue';
+                                ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+
+                                // Just naively convert to string for now
+                                var dataString = dataset.data[index].toString();
+
+                                // Make sure alignment settings are correct
+                                ctx.textAlign = 'center';
+                                ctx.textBaseline = 'middle';
+
+                                var padding = 5;
+                                var position = element.tooltipPosition();
+                                ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
+                            });
+                }
+            });
+        }
+    });
+
+    window.onload = function() {
+            var container = document.querySelector('.container');
+            var container2 = document.querySelector('.container2');
+
+            [{
+                data: barChartData,
+                title: '404 Lunas Lembar - <?php echo $tahun ?>'
+            }, {
+                data: barChartDataRupiah,
+                title: '404 Lunas Rupiah - <?php echo $tahun ?>'
+            }].forEach(function(details) {
+                var div = document.createElement('div');
+                div.classList.add('chart-container');
+
+                var canvas = document.createElement('canvas');
+                div.appendChild(canvas);
+                if (details.data == barChartData) {
+                    container.appendChild(div); 
+                    var config = createConfig(details.data,details.title);
+                }else{
+                    container2.appendChild(div)
+                    var config = createConfig2(details.data,details.title);
+                }
+
+                var ctx = canvas.getContext('2d');
+                new Chart(ctx, config);
+            });
+    };
+
+function cari(){
+    var tahun=$('#tahun').val();
+    var upi=$('#upi').val();
+    var ap=$('#ap').val();
+    var up=$('#up').val();
+    $('#form_filter').ajaxForm ({
+        type: "POST",
+        url: "<?php echo base_url('Rupiah_309/all_404_pelunasan'); ?>",
+        data: {"tahun":tahun, "upi":upi, "ap":ap , "up":up},
+        success: function(msg) {
+            var data = $data
+            console.log(data);
+        }
+    });
 }
-
-
-
-// var chart = null;
-// var dataPoints = [];
-
-// window.onload = function() {
-
-// chart = new CanvasJS.Chart("chartContainer", {
-//     animationEnabled: true,
-//     theme: "light2",
-//     title: {
-//         text: "Perbulan All"
-//     },
-//     axisY: {
-//         title: "Units",
-//         titleFontSize: 24
-//     },
-//     data: [{
-//         type: "column",
-//         yValueFormatString: "#,### Units",
-//         dataPoints: dataPoints
-//     }]
-// });
-
-
-// $.getJSON("https://canvasjs.com/data/gallery/javascript/daily-sales.json?callback=?", callback);    
-
-// }
-
-// function callback(data) {   
-//     for (var i = 0; i < data.dps.length; i++) {
-//         dataPoints.push({
-//             x: new Date(data.dps[i].date),
-//             y: data.dps[i].units
-//         });
-//     }
-//     chart.render(); 
-// }
-// end chart
 </script>
