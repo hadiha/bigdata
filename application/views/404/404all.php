@@ -313,19 +313,19 @@ $PESAN = $this->session->userdata('PESAN');
             });
     };
 
-function cari(){
-    var tahun=$('#tahun').val();
-    var upi=$('#upi').val();
-    var ap=$('#ap').val();
-    var up=$('#up').val();
-    $('#form_filter').ajaxForm ({
-        type: "POST",
-        url: "<?php echo base_url('Rupiah_309/all_404'); ?>",
-        data: {"tahun":tahun, "upi":upi, "ap":ap , "up":up},
-        success: function(msg) {
-            var data = $data
-            console.log(data);
-        }
-    });
-}
+    function cari(){
+        var tahun=$('#tahun').val();
+        var upi=$('#upi').val();
+        var ap=$('#ap').val();
+        var up=$('#up').val();
+        $('#form_filter').ajaxForm ({
+            type: "POST",
+            url: "<?php echo base_url('Rupiah_309/all_404'); ?>",
+            data: {"tahun":tahun, "upi":upi, "ap":ap , "up":up},
+            success: function(msg) {
+                var data = $data
+                console.log(data);
+            }
+        });
+    }
 </script>

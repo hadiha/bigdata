@@ -16,7 +16,7 @@ $PESAN = $this->session->userdata('PESAN');
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <select name="upi" id="upi" class="form-control" disabled>
+                                        <select name="unitupi" id="unitupi" class="form-control">
                                             <option value="00">NASIONAL</option>
                                               <?php foreach ($total_upi as $row) { ?>
                                               <option value="<?php echo $row['UNIT_UPI']; ?>" ><?php echo strtoupper($row['UNITUPI']); ?></option>   
@@ -28,7 +28,7 @@ $PESAN = $this->session->userdata('PESAN');
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <select name="ap" id="ap" class="form-control" disabled="disabled">
+                                        <select name="unitap" id="unitap" class="form-control" disabled="disabled">
                                             <option value="">--- Pilih AP ---</option>
                                         </select>
                                     </div>
@@ -37,7 +37,7 @@ $PESAN = $this->session->userdata('PESAN');
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <select name="up" id="up" class="form-control" disabled="disabled">
+                                        <select name="unitup" id="unitup" class="form-control" disabled="disabled">
                                             <option value="">--- Pilih UP ---</option>
                                         </select>
                                     </div>
@@ -53,7 +53,7 @@ $PESAN = $this->session->userdata('PESAN');
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <select name="tahun" id="tahun" class="form-control">
+                                        <select name="tahun" id="tahun" class="form-control" required="true">
                                             <option value="">--- Pilih Tahun ---</option>
                                             <?php foreach ($rs_tahun as $index => $tahun) { ?>
                                                         <option value="<?php echo $tahun; ?>" <?php if ($search['tahun'] == $tahun) {
@@ -68,7 +68,7 @@ $PESAN = $this->session->userdata('PESAN');
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <select name="jenislap" id="jenislap" class="form-control">
+                                        <select name="jenislap" id="jenislap" class="form-control" required="true">
                                             <option value="">--- Pilih Jenis Laporan ---</option>
                                             <option value="LPB">PRABAYAR</option>
                                             <option value="NORMAL">PASCA</option>
@@ -100,12 +100,10 @@ $PESAN = $this->session->userdata('PESAN');
             </div>
         </div>
 </div>
-
-
 </section>
 <script type="text/javascript">
 
-    $('#upi').change(function () {
+    $('#unitupi').change(function () {
       var level = $(this).val();
         if(level){
           $.ajax ({
@@ -114,27 +112,27 @@ $PESAN = $this->session->userdata('PESAN');
               data: {'level': level},
               success : function(response) {
                 var output = $.parseJSON(response);
-                $("#ap").find('option').remove();
-                $("#ap").append('<option value="">SEMUA</option>');
+                $("#unitap").find('option').remove();
+                $("#unitap").append('<option value="">SEMUA</option>');
                 $.each(output,function(key, value)
                 {
-                    $("#ap").append('<option value=' + value.UNIT_AP + '>' + value.UNITAP+ '</option>');
+                    $("#unitap").append('<option value=' + value.UNIT_AP + '>' + value.UNITAP+ '</option>');
                 });
               }
           });
         }
 
         if (level != 00) {
-          $('#ap').prop('disabled', false);
+          $('#unitap').prop('disabled', false);
         } else {
-          $('#ap').prop('disabled', true);
-          $('#up').prop('disabled', true);
+          $('#unitap').prop('disabled', true);
+          $('#unitup').prop('disabled', true);
         }
         ;
     })
 
 
-    $('#ap').change(function () {
+    $('#unitap').change(function () {
       var level_ap = $(this).val();
         if(level_ap){
           $.ajax ({
@@ -143,20 +141,20 @@ $PESAN = $this->session->userdata('PESAN');
               data: {'level_ap': level_ap},
               success : function(response) {
                 var rs = $.parseJSON(response);
-                $("#up").find('option').remove();
-                $("#up").append('<option value="">SEMUA</option>');
+                $("#unitup").find('option').remove();
+                $("#unitup").append('<option value="">SEMUA</option>');
                 $.each(rs,function(key, value)
                 {
-                    $("#up").append('<option value=' + value.UNIT_UP + '>' + value.UNITUP+ '</option>');
+                    $("#unitup").append('<option value=' + value.UNIT_UP + '>' + value.UNITUP+ '</option>');
                 });
               }
           });
         }
 
         if (level_ap != 00) {
-          $('#up').prop('disabled', false);
+          $('#unitup').prop('disabled', false);
         } else {
-          $('#up').prop('disabled', true);
+          $('#unitup').prop('disabled', true);
         }
         ;
     })
@@ -185,6 +183,27 @@ var barChartData = {
 
 };
 
+var dataY = [{
+    ticks: {
+        callback: function(label, index, labels) {
+            <?php if (!empty($unitupi) or !empty($unitap) or !empty($unitup)): ?>
+                return label/1000000000+'M';
+            <?php else: ?>
+                return label/1000000000000+'T';
+            <?php endif ?>
+        },  
+        min: 0
+    }
+}]
+
+var texttitle = <?php if (!empty($unitupi) && !empty($unitap) && !empty($unitup)): ?>
+                    '309 Rupiah Komulatif <?php echo $jenislap ?> - <?php echo $unitup ?> Tahun <?php echo $tahun ?>'
+                <?php elseif (!empty($unitupi) && !empty($unitap)): ?>
+                    '309 Rupiah Komulatif <?php echo $jenislap ?> - <?php echo $unitap ?> Tahun <?php echo $tahun ?>'
+                <?php else: ?>
+                    '309 Rupiah Komulatif <?php echo $jenislap ?> - <?php echo $unitupi ?> Tahun <?php echo $tahun ?>'
+                <?php endif ?>
+
 window.onload = function() {
     var ctx = document.getElementById('canvas').getContext('2d');
     window.myBar = new Chart(ctx, {
@@ -199,17 +218,10 @@ window.onload = function() {
                 display: true,
                 fontSize: 18,
                 fontStyle: 'bold',
-                text: '309 Rupiah Komulatif - <?php echo $jenislap ?> <?php echo $tahun ?>'
+                text: texttitle
             },
             scales: {
-                yAxes: [{
-                    ticks: {
-                        callback: function(label, index, labels) {
-                            return label/1000000000000+'T';
-                        },  
-                        min: 0
-                    }
-                }]
+                yAxes: dataY
             }
         }
     });
@@ -227,7 +239,7 @@ Chart.plugins.register({
                             // Draw the text in black, with the specified font
                             ctx.fillStyle = 'rgb(0, 0, 0)';
 
-                            var fontSize = 9;
+                            var fontSize = 10;
                             var fontStyle = 'normal';
                             var fontFamily = 'Helvetica Neue';
                             ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
@@ -251,10 +263,13 @@ Chart.plugins.register({
 function cari(){
     var tahun=$('#tahun').val();
     var jenislap=$('#jenislap').val();
+    var unitupi=$('#unitupi').val();
+    var unitap=$('#unitap').val();
+    var unitup=$('#unitup').val();
     $('#form_filter').ajaxForm ({
         type: "POST",
         url: "<?php echo base_url('Rupiah_309/kumulatif'); ?>",
-        data: {"tahun":tahun, "jenislap":jenislap},
+        data: {"tahun":tahun, "jenislap":jenislap, "unitupi":unitupi, "unitap":unitap, "unitup":unitup},
         success: function(msg) {
             var data = $data
             console.log(data);
