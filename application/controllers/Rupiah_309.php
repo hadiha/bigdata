@@ -17,6 +17,19 @@ class Rupiah_309 extends CI_Controller {
     }
     // <editor-fold defaultstate="collapsed" desc="Menu Dokumen - By Arif">
 
+    public function main() {
+        $data['title'] = "Dashboard";
+        $data['konten'] = "vdashboard";
+
+        $data['data309all'] = $this->mdashboard->get309all('2018', 'TOTAL', NULL, NULL, NULL);
+        $data['data309delta'] = $this->mdashboard->get309delta('2018', '2017', 'TOTAL', NULL, NULL, NULL);
+        $data['datatahun'] = '2018';
+        $data['datatahun2'] = '2017';
+        $data['datajenislap']= 'GABUNGAN';
+        // print_r($data['dataall']); exit();
+        $this->load->view('home', $data);
+    }
+
     public function all() {
         $data['title'] = "Data 309 Rupiah";
         $data['konten'] = "309_rupiah/index_all";
