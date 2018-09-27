@@ -80,7 +80,7 @@ class auth extends CI_Controller {
 				);
 				$this->session->set_userdata($session);
 				$response['status']="Sukses";
-				$response['url']="".base_url('statistik')."";
+				$response['url']="".base_url('Rupiah_309/main')."";
 				echo json_encode($response);
 			}
     	}

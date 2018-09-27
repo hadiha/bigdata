@@ -268,7 +268,7 @@ function cari(){
     var unitup=$('#unitup').val();
     $('#form_filter').ajaxForm ({
         type: "POST",
-        url: "<?php echo base_url('Rupiah_309/allkwh'); ?>",
+        url: "<?php echo base_url('Rupiah_309/data309/allkwh'); ?>",
         data: {"tahun":tahun, "jenislap":jenislap, "unitupi":unitupi, "unitap":unitap, "unitup":unitup},
         success: function(msg) {
             var data = $data

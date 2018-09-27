@@ -165,7 +165,7 @@ var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'A
 var color = Chart.helpers.color;
 var barChartData = {
     labels: [
-        <?php foreach ($datakomulatif as $dt_rupiah) { 
+        <?php foreach ($dataall as $dt_rupiah) { 
             echo $dt_rupiah['THBLLAP'] . ',';
         }?>
     ],
@@ -175,7 +175,7 @@ var barChartData = {
         borderColor: window.chartColors.blue,
         borderWidth: 1,
         data: [
-            <?php foreach ($datakomulatif as $dt_rupiah) { 
+            <?php foreach ($dataall as $dt_rupiah) { 
                 echo $dt_rupiah['RP_KOMULATIF'] . ',';
             }?>
         ]
@@ -268,7 +268,7 @@ function cari(){
     var unitup=$('#unitup').val();
     $('#form_filter').ajaxForm ({
         type: "POST",
-        url: "<?php echo base_url('Rupiah_309/kumulatif'); ?>",
+        url: "<?php echo base_url('Rupiah_309/data309/kumulatif'); ?>",
         data: {"tahun":tahun, "jenislap":jenislap, "unitupi":unitupi, "unitap":unitap, "unitup":unitup},
         success: function(msg) {
             var data = $data

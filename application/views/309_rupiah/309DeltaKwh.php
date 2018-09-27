@@ -178,7 +178,7 @@ $PESAN = $this->session->userdata('PESAN');
 
 var chartData = {
     labels: [
-        <?php foreach ($datadeltakwh as $dt_kwh) { 
+        <?php foreach ($datadelta as $dt_kwh) { 
             echo $dt_kwh['THBLLAP'] . ',';
         }?> 
     ],
@@ -189,7 +189,7 @@ var chartData = {
         borderWidth: 2,
         fill: false,
         data: [
-            <?php foreach ($datadeltakwh as $dt_kwh) { 
+            <?php foreach ($datadelta as $dt_kwh) { 
                 echo $dt_kwh['JMLKWH'] . ',';
             }?>
         ]
@@ -200,7 +200,7 @@ var chartData = {
         borderWidth: 2,
         fill: false,
         data: [
-            <?php foreach ($datadeltakwh as $dt_kwh) { 
+            <?php foreach ($datadelta as $dt_kwh) { 
                 echo $dt_kwh['JMLKWH_2'] . ',';
             }?>
         ]
@@ -209,7 +209,7 @@ var chartData = {
         label: '<?php echo $datatahun ?>',
         backgroundColor: window.chartColors.blue,
         data: [
-            <?php foreach ($datadeltakwh as $dt_kwh) { 
+            <?php foreach ($datadelta as $dt_kwh) { 
                 echo $dt_kwh['JMLKWH'] . ',';
             }?>
         ],
@@ -220,7 +220,7 @@ var chartData = {
         label: '<?php echo $tahun1 ?>',
         backgroundColor: window.chartColors.red,
         data: [
-            <?php foreach ($datadeltakwh as $dt_kwh) { 
+            <?php foreach ($datadelta as $dt_kwh) { 
                 echo $dt_kwh['JMLKWH_2'] . ',';
             }?>
         ],
@@ -290,7 +290,7 @@ function cari(){
     var unitup=$('#unitup').val();
     $('#form_filter').ajaxForm ({
         type: "POST",
-        url: "<?php echo base_url('Rupiah_309/deltakwh'); ?>",
+        url: "<?php echo base_url('Rupiah_309/delta309/deltakwh'); ?>",
         data: {"tahun":tahun, "tahun1":tahun1, "jenislap":jenislap, "unitupi":unitupi, "unitap":unitap, "unitup":unitup},
         success: function(msg) {
             var data = $data

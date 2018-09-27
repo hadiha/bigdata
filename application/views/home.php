@@ -100,204 +100,6 @@
             }
         </style>    
 
-        <?php
-        if ($konten=='vmonrcbadqa1') {
-        ?>
-        <style>
-        .table th {
-            text-align: center; 
-            background-color: #99cc00;
-            color: white;
-        }
-        .table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td {
-            border: 2px solid #f7f7f7;
-            font-size: 10px;
-        }
-        </style>
-        <script src="<?php echo base_url('assets/plugins/datatables/jquery.dataTables.min.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('assets/plugins/datatables/dataTables.bootstrap.min.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('assets/plugins/jqueryform/jquery.form.js');?>"></script>
-        <link href="<?php echo base_url('assets/plugins/datepicker/datepicker3.css');?>" rel="stylesheet" type="text/css" />
-        <script src="<?php echo base_url('assets/plugins/datepicker/bootstrap-datepicker.js');?>" type="text/javascript"></script>
-        <link href="<?php echo base_url('assets/plugins/timepicker/bootstrap-timepicker.css');?>" rel="stylesheet" type="text/css" />
-        <script src="<?php echo base_url('assets/plugins/timepicker/bootstrap-timepicker.js');?>" type="text/javascript"></script>
-        <?php
-        }
-        elseif ($konten=='vmonqa1final'){
-        ?>
-        <style>
-        .table th {
-            text-align: center; 
-            background-color: #99cc00;
-            color: white;
-        }
-        .table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td {
-            border: 2px solid #f7f7f7;
-            font-size: 10px;
-        }
-        </style>
-        <script src="<?php echo base_url('assets/plugins/jqueryform/jquery.form.js');?>"></script>
-        <script src="<?php echo base_url('assets/plugins/datatables/jquery.dataTables.min.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('assets/plugins/datatables/dataTables.bootstrap.min.js');?>" type="text/javascript"></script>
-        <?php
-        }
-        elseif ($konten=='vdokumen'){
-        ?>
-        <style>
-        .table th {
-            text-align: center; 
-            background-color: #99cc00;
-            color: white;
-        }
-        .table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td {
-            border: 2px solid #f7f7f7;
-            font-size: 10px;
-        }
-        .form-horizontal .control-label {
-            text-align: left;
-        }
-        </style>
-        <script src="<?php echo base_url('assets/plugins/jqueryform/jquery.form.js');?>"></script>
-        <script src="<?php echo base_url('assets/plugins/datatables/jquery.dataTables.min.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('assets/plugins/datatables/dataTables.bootstrap.min.js');?>" type="text/javascript"></script>
-        <link href="<?php echo base_url('assets/plugins/datepicker/datepicker3.css');?>" rel="stylesheet" type="text/css" />
-        <script src="<?php echo base_url('assets/plugins/datepicker/bootstrap-datepicker.js');?>" type="text/javascript"></script>
-        
-        <?php
-        }
-        elseif ($konten=='vmontranspre'){
-        ?>
-        <style>
-        .form-horizontal .control-label {
-            text-align: left;
-        }
-        </style>
-        <link href="<?php echo base_url('assets/plugins/datepicker/datepicker3.css');?>" rel="stylesheet" type="text/css" />
-        <script src="<?php echo base_url('assets/plugins/datepicker/bootstrap-datepicker.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('assets/plugins/jqueryform/jquery.form.js');?>"></script>
-        <?php
-        }
-        elseif ($konten=='vflag') {
-        ?>
-        <style>
-        .form-horizontal .control-label {
-            text-align: left;
-        }
-        </style>
-        <link href="<?php echo base_url('assets/plugins/datepicker/datepicker3.css');?>" rel="stylesheet" type="text/css" />
-        <script src="<?php echo base_url('assets/plugins/datepicker/bootstrap-datepicker.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('assets/plugins/jqueryform/jquery.form.js');?>"></script>
-        <?php
-        }
-        elseif ($konten=='vmonhitungbil'){
-        ?>
-        <style>
-        .form-horizontal .control-label {
-            text-align: left;
-        }
-        </style>
-        <link href="<?php echo base_url('assets/plugins/datepicker/datepicker3.css');?>" rel="stylesheet" type="text/css" />
-        <script src="<?php echo base_url('assets/plugins/datepicker/bootstrap-datepicker.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('assets/plugins/jqueryform/jquery.form.js');?>"></script>
-        <?php
-        }
-        elseif ($konten=='vcheckinganomali309') {
-        ?>
-        <style>
-        .table th {
-            text-align: center; 
-            background-color: #D9D9D9;
-            color: black;
-        }
-        .table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td {
-            border: 2px solid #f7f7f7;
-            font-size: 10px;
-        }
-        </style>
-        <script src="<?php echo base_url('assets/plugins/datatables/jquery.dataTables.min.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('assets/plugins/datatables/dataTables.bootstrap.min.js');?>" type="text/javascript"></script>
-        <?php    
-        }
-        elseif (($konten=='vcheckingparentsdetail404') or ($konten=='vchecking406') or ($konten=='vcheckingsaldoawal404dan406')) {
-        ?>
-        <style>
-        .table th {
-            text-align: center; 
-            background-color: #963634;
-            color: white;
-        }
-        .table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td {
-            border: 2px solid #f7f7f7;
-            font-size: 10px;
-        }
-        </style>
-        <script src="<?php echo base_url('assets/plugins/datatables/jquery.dataTables.min.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('assets/plugins/datatables/dataTables.bootstrap.min.js');?>" type="text/javascript"></script>
-        <?php
-        }
-        elseif (($konten=='vchecking404') or ($konten=='vchecking404pal') or ($konten=='vchecking404ppnr3') or ($konten=='vchecking404ppj') or ($konten=='vcheckingkontrol404bk') or ($konten=='vchecking404ujldanbpdicicil') or ($konten=='vchecking404ts') or ($konten=='vcheckingjumlah')) {
-        ?>
-        <style>
-        .table th {
-            text-align: center; 
-            background-color: #c0c0c0;
-            color: black;
-        }
-        .table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td {
-            border: 2px solid #f7f7f7;
-            font-size: 10px;
-        }
-        </style>
-        <script src="<?php echo base_url('assets/plugins/datatables/jquery.dataTables.min.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('assets/plugins/datatables/dataTables.bootstrap.min.js');?>" type="text/javascript"></script>
-        <?php
-        }
-        elseif (($konten=='vchecking309kontrol') or ($konten=='vcheckingkontrol406')) {
-        ?>
-        <style>
-        .table th {
-            text-align: center; 
-            background-color: #993366;
-            color: white;
-        }
-        .table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td {
-            border: 2px solid #f7f7f7;
-            font-size: 10px;
-        }
-        </style>
-        <script src="<?php echo base_url('assets/plugins/datatables/jquery.dataTables.min.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('assets/plugins/datatables/dataTables.bootstrap.min.js');?>" type="text/javascript"></script>
-        <?php
-        }
-        elseif (($konten=='vcheckinglaplpb') or ($konten=='vcheckingpendlklamp')) {
-        ?>
-        <style>
-        .table th {
-            text-align: center; 
-            background-color: #fff;
-            color: black;
-        }
-        .table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td {
-            border: 2px solid #000;
-            font-size: 10px;
-        }
-        </style>
-        <script src="<?php echo base_url('assets/plugins/datatables/jquery.dataTables.min.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('assets/plugins/datatables/dataTables.bootstrap.min.js');?>" type="text/javascript"></script>
-        <?php
-        }
-        elseif ($konten=='vupdatepassword') {
-        ?>
-        <style>
-        .form-horizontal .control-label {
-            text-align: left;
-        }
-        </style>
-        <script src="<?php echo base_url('assets/plugins/jqueryform/jquery.form.js');?>"></script>
-        <?php
-        }
-        ?>
-        
     </head>
     <body class="skin-blue fixed">
         <div class="wrapper">
@@ -345,8 +147,8 @@
          
                     <ul class="sidebar-menu">
                         <li class="header">MAIN NAVIGATION</li>
-                        <li <?php if ($konten=='Rupiah_309/vdashboard') {echo "class=active";} ?>>
-                            <a href="<?php echo base_url('vdashboard');?>"><i class="fa fa-bar-chart"></i><span> Dashboard</span></a>
+                        <li <?php if ($konten=='309_rupiah/vdashboard') {echo "class=active";} ?>>
+                            <a href="<?php echo base_url('Rupiah_309/main');?>"><i class="fa fa-bar-chart"></i><span> Dashboard</span></a>
                         </li>
                         <li class="treeview">
                           <a href="#">
@@ -356,9 +158,9 @@
                             </span>
                           </a>
                           <ul class="treeview-menu">
-                            <li><a href="<?php echo base_url('Rupiah_309/all');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
-                            <li><a href="<?php echo base_url('Rupiah_309/kumulatif');?>"><i class="fa fa-circle-o"></i> Perbulan Akumulasi/ Kumulatif</a></li>
-                            <li><a href="<?php echo base_url('Rupiah_309/delta');?>"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
+                            <li><a href="<?php echo base_url('Rupiah_309/data309/perbulan');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
+                            <li><a href="<?php echo base_url('Rupiah_309/data309/kumulatif');?>"><i class="fa fa-circle-o"></i> Perbulan Akumulasi/ Kumulatif</a></li>
+                            <li><a href="<?php echo base_url('Rupiah_309/delta309/delta');?>"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
                           </ul>
                         </li>
                         <li class="treeview">
@@ -369,9 +171,9 @@
                             </span>
                           </a>
                           <ul class="treeview-menu">
-                            <li><a href="<?php echo base_url('Rupiah_309/allKwh');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
-                            <li><a href="<?php echo base_url('Rupiah_309/kumulatifKwh');?>"><i class="fa fa-circle-o"></i> Perbulan Akumulasi/ Kumulatif</a></li>
-                            <li><a href="<?php echo base_url('Rupiah_309/deltaKwh');?>"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
+                            <li><a href="<?php echo base_url('Rupiah_309/data309/allKwh');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
+                            <li><a href="<?php echo base_url('Rupiah_309/data309/kumulatifKwh');?>"><i class="fa fa-circle-o"></i> Perbulan Akumulasi/ Kumulatif</a></li>
+                            <li><a href="<?php echo base_url('Rupiah_309/delta309/deltaKwh');?>"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
                           </ul>
                         </li>
                         <li class="treeview">

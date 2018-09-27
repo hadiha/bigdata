@@ -166,7 +166,7 @@ var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'A
 var color = Chart.helpers.color;
 var barChartData = {
     labels: [
-        <?php foreach ($datakomulatifkwh as $dt_kwh) { 
+        <?php foreach ($dataall as $dt_kwh) { 
             echo $dt_kwh['THBLLAP'] . ',';
         }?>
     ],
@@ -176,7 +176,7 @@ var barChartData = {
         borderColor: window.chartColors.blue,
         borderWidth: 1,
         data: [
-            <?php foreach ($datakomulatifkwh as $dt_kwh) { 
+            <?php foreach ($dataall as $dt_kwh) { 
                 echo $dt_kwh['KWH_KOMULATIF'] . ',';
             }?>
         ]
@@ -269,7 +269,7 @@ function cari(){
     var unitup=$('#unitup').val();
     $('#form_filter').ajaxForm ({
         type: "POST",
-        url: "<?php echo base_url('Rupiah_309/kumulatifkwh'); ?>",
+        url: "<?php echo base_url('Rupiah_309/data309/kumulatifkwh'); ?>",
         data: {"tahun":tahun, "jenislap":jenislap, "unitupi":unitupi, "unitap":unitap, "unitup":unitup},
         success: function(msg) {
             var data = $data
