@@ -53,9 +53,9 @@
             }
             .chart-container {
                 width: 100%;
-                margin-left: 30px;
-                margin-right: 30px;
-                margin-bottom: 30px;
+                margin-left: 20px;
+                margin-right: 20px;
+                margin-bottom: 20px;
             }
             .container {
                 display: flex;
@@ -65,6 +65,34 @@
             }
 
             .container2 {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container3 {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container4 {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container5 {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container6 {
                 display: flex;
                 flex-direction: row;
                 flex-wrap: wrap;
@@ -317,9 +345,12 @@
          
                     <ul class="sidebar-menu">
                         <li class="header">MAIN NAVIGATION</li>
+                        <li <?php if ($konten=='Rupiah_309/vdashboard') {echo "class=active";} ?>>
+                            <a href="<?php echo base_url('vdashboard');?>"><i class="fa fa-bar-chart"></i><span> Dashboard</span></a>
+                        </li>
                         <li class="treeview">
                           <a href="#">
-                            <i class="fa fa-dashboard"></i> <span>309 Rupiah</span>
+                            <i class="fa fa-bar-chart"></i> <span>309 Rupiah</span>
                             <span class="pull-right-container">
                               <i class="fa fa-angle-left pull-right"></i>
                             </span>
@@ -332,7 +363,7 @@
                         </li>
                         <li class="treeview">
                           <a href="#">
-                            <i class="fa fa-dashboard"></i> <span>309 Kwh</span>
+                            <i class="fa fa-bar-chart"></i> <span>309 Kwh</span>
                             <span class="pull-right-container">
                               <i class="fa fa-angle-left pull-right"></i>
                             </span>
@@ -345,7 +376,7 @@
                         </li>
                         <li class="treeview">
                           <a href="#">
-                            <i class="fa fa-dashboard"></i> <span>404 Saldo</span>
+                            <i class="fa fa-bar-chart"></i> <span>404 Saldo</span>
                             <span class="pull-right-container">
                               <i class="fa fa-angle-left pull-right"></i>
                             </span>
@@ -357,7 +388,7 @@
                         </li>
                         <li class="treeview">
                           <a href="#">
-                            <i class="fa fa-dashboard"></i> <span>404 Pelunasan</span>
+                            <i class="fa fa-bar-chart"></i> <span>404 Pelunasan</span>
                             <span class="pull-right-container">
                               <i class="fa fa-angle-left pull-right"></i>
                             </span>
