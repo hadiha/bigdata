@@ -26,24 +26,25 @@ class data_404 extends CI_Controller {
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
 
         $tahun = $this->input->post('tahun');;
-        $upi = $this->input->post('upi');
-        $ap = $this->input->post('ap');
-        $up = $this->input->post('up');
+        $unitupi = $this->input->post('unitupi');
+        $unitap = $this->input->post('unitap');
+        $unitup = $this->input->post('unitup');
 
         // print_r($tahun); exit();
 
-        if (!empty($tahun) or !empty($upi) or !empty($ap) or !empty($up)) {
-            $data['data404all'] = $this->mdashboard->get404all($tahun, $upi, $ap, $up); 
-            $data['tahun'] = $tahun;
-            $data['upi'] = $upi;
-            $data['ap'] = $ap;
-            $data['up'] = $up;
+        if (!empty($tahun) or !empty($unitupi) or !empty($unitap) or !empty($unitup)) {
+            $data['data404all'] = $this->mdashboard->get404all($tahun, $unitupi, $unitap, $unitup); 
+            $data['filterTahun'] = $tahun;
+            $data['filterUpi'] = $unitupi;
+            $data['filterAp'] = $unitap;
+            $data['filterUp'] = $unitup;
+            // print_r($data); exit();
         }else{
             $data['data404all'] = $this->mdashboard->get404all('2018', NULL, NULL, NULL);
-            $data['tahun'] = '2018';
-            $data['upi'] = NULL;
-            $data['ap'] = NULL;
-            $data['up'] = NULL;
+            $data['filterTahun'] = '2018';
+            $data['filterUpi'] = 'NASIONAL';
+            $data['filterAp'] = NULL;
+            $data['filterUp'] = NULL;
         }    
         // print_r($data['dataall']); exit();
         $this->load->view('home', $data);
