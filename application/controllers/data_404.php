@@ -18,7 +18,7 @@ class data_404 extends CI_Controller {
     // <editor-fold defaultstate="collapsed" desc="Menu Dokumen - By Arif">
 
     public function saldo() {
-        $data['title'] = "Data 404 Semua";
+        $data['title'] = "Data 404 Saldo";
         $data['konten'] = "404/404all";
 
         // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
@@ -29,6 +29,8 @@ class data_404 extends CI_Controller {
         $upi = $this->input->post('upi');
         $ap = $this->input->post('ap');
         $up = $this->input->post('up');
+
+        // print_r($tahun); exit();
 
         if (!empty($tahun) or !empty($upi) or !empty($ap) or !empty($up)) {
             $data['data404all'] = $this->mdashboard->get404all($tahun, $upi, $ap, $up); 
@@ -48,7 +50,7 @@ class data_404 extends CI_Controller {
     }
 
     public function pelunasan() {
-        $data['title'] = "Data 404 Semua";
+        $data['title'] = "Data 404 Lunas";
         $data['konten'] = "404/404allPelunasan";
 
         $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();

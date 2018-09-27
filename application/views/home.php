@@ -327,7 +327,7 @@
                           <ul class="treeview-menu">
                             <li><a href="<?php echo base_url('Rupiah_309/all');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
                             <li><a href="<?php echo base_url('Rupiah_309/kumulatif');?>"><i class="fa fa-circle-o"></i> Perbulan Akumulasi/ Kumulatif</a></li>
-                            <li><a href="<?php echo base_url('Rupiah_309/delta');?>"><i class="fa fa-circle-o"></i> Perbulan Delta (Dibinding Tahun Kemarin)</a></li>
+                            <li><a href="<?php echo base_url('Rupiah_309/delta');?>"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
                           </ul>
                         </li>
                         <li class="treeview">
@@ -340,7 +340,7 @@
                           <ul class="treeview-menu">
                             <li><a href="<?php echo base_url('Rupiah_309/allKwh');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
                             <li><a href="<?php echo base_url('Rupiah_309/kumulatifKwh');?>"><i class="fa fa-circle-o"></i> Perbulan Akumulasi/ Kumulatif</a></li>
-                            <li><a href="<?php echo base_url('Rupiah_309/deltaKwh');?>"><i class="fa fa-circle-o"></i> Perbulan Delta (Dibinding Tahun Kemarin)</a></li>
+                            <li><a href="<?php echo base_url('Rupiah_309/deltaKwh');?>"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
                           </ul>
                         </li>
                         <li class="treeview">

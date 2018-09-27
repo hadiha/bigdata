@@ -5,7 +5,7 @@ $PESAN = $this->session->userdata('PESAN');
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary">
-                <form id="form_upload" class="form-horizontal" method="POST" enctype="multipart/form-data" >
+                <form id="form_filter" class="form-horizontal" method="POST" enctype="multipart/form-data" >
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-1">
@@ -16,8 +16,8 @@ $PESAN = $this->session->userdata('PESAN');
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <select name="upi" id="upi" class="form-control" disabled>
-                                            <option value="00">NASIONAL</option>
+                                        <select name="upi" id="upi" class="form-control">
+                                            <option value="">NASIONAL</option>
                                               <?php foreach ($total_upi as $row) { ?>
                                               <option value="<?php echo $row['UNIT_UPI']; ?>" ><?php echo strtoupper($row['UNITUPI']); ?></option>   
                                               <?php } ?>
@@ -55,10 +55,10 @@ $PESAN = $this->session->userdata('PESAN');
                                     <div class="col-sm-12">
                                         <select name="tahun" id="tahun" class="form-control">
                                             <option value="">--- Pilih Tahun ---</option>
-                                            <?php foreach ($rs_tahun as $index => $tahun) { ?>
-                                                        <option value="<?php echo $tahun; ?>" <?php if ($search['tahun'] == $tahun) {
-                                            echo " selected";
-                                        } ?>><?php echo $tahun; ?></option>   
+                                                <?php foreach ($rs_tahun as $index => $tahun) { ?>
+                                                <option value="<?php echo $tahun; ?>" <?php if ($search['tahun'] == $tahun) {
+                                                    echo " selected";
+                                                    } ?>><?php echo $tahun; ?></option>   
                                                     <?php } ?>
                                                 </select>
                                         </select>
@@ -106,7 +106,10 @@ $PESAN = $this->session->userdata('PESAN');
               success : function(response) {
                 var output = $.parseJSON(response);
                 $("#ap").find('option').remove();
+                $("#up").find('option').remove();
                 $("#ap").append('<option value="">SEMUA</option>');
+                $("#up").append('<option value="">-- Pilih UP --</option>');
+                $('#up').prop('disabled', true);
                 $.each(output,function(key, value)
                 {
                     $("#ap").append('<option value=' + value.UNIT_AP + '>' + value.UNITAP+ '</option>');
@@ -115,7 +118,7 @@ $PESAN = $this->session->userdata('PESAN');
           });
         }
 
-        if (level != 00) {
+        if (level != '') {
           $('#ap').prop('disabled', false);
         } else {
           $('#ap').prop('disabled', true);
@@ -144,7 +147,7 @@ $PESAN = $this->session->userdata('PESAN');
           });
         }
 
-        if (level_ap != 00) {
+        if (level_ap != '') {
           $('#up').prop('disabled', false);
         } else {
           $('#up').prop('disabled', true);
@@ -314,11 +317,11 @@ $PESAN = $this->session->userdata('PESAN');
     };
 
 function cari(){
-    var tahun=$('#tahun').val();
     var upi=$('#upi').val();
     var ap=$('#ap').val();
     var up=$('#up').val();
-    $('#form_filter').ajaxForm ({
+    var tahun=$('#tahun').val();
+    $('#form_filter').ajaxForm({
         type: "POST",
         url: "<?php echo base_url('data_404/saldo'); ?>",
         data: {"tahun":tahun, "upi":upi, "ap":ap , "up":up},

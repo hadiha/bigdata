@@ -22,7 +22,7 @@ $PESAN = $this->session->userdata('PESAN');
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <select name="upi" id="upi" class="form-control">
-                                            <option value="00">NASIONAL</option>
+                                            <option value="">NASIONAL</option>
                                               <?php foreach ($total_upi as $row) { ?>
                                               <option value="<?php echo $row['UNIT_UPI']; ?>" ><?php echo strtoupper($row['UNITUPI']); ?></option>   
                                               <?php } ?>
