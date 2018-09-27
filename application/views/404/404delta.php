@@ -5,23 +5,18 @@ $PESAN = $this->session->userdata('PESAN');
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary">
-                <form id="form_upload" action="<?php echo site_url('#'); ?>" class="form-horizontal" method="POST" enctype="multipart/form-data" >
+                <form id="form_filter" class="form-horizontal" method="POST" enctype="multipart/form-data" >
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-md-12">
-                            <h3 style="margin-top: 0px; margin-bottom: 30px"><b>404 Delta Saldo</b></h3>
-                            </div>    
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-1">
                                 <div class="form-group">
-                                    <label class="col-sm-12 control-label" style="text-align:left"> Wilayah : </label>
+                                    <label class="col-sm-12 control-label" style="text-align:left"> FILTER : </label>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <select name="upi" id="upi" class="form-control">
+                                        <select name="unitupi" id="unitupi" class="form-control">
                                             <option value="">NASIONAL</option>
                                               <?php foreach ($total_upi as $row) { ?>
                                               <option value="<?php echo $row['UNIT_UPI']; ?>" ><?php echo strtoupper($row['UNITUPI']); ?></option>   
@@ -30,59 +25,58 @@ $PESAN = $this->session->userdata('PESAN');
                                     </div>
                                 </div>                                  
                             </div>
-                            <div class="col-md-1">
-                                <div class="form-group">
-                                    <label class="col-sm-12 control-label" style="text-align:left"> Tahun : </label>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <select name="tahun" id="tahun" class="form-control">
-                                            <option value="">--- Pilih Tahun ---</option>
-                                            <?php foreach ($rs_tahun as $index => $tahun) { ?>
-                                                        <option value="<?php echo $tahun; ?>" <?php if ($search['tahun'] == $tahun) {
-                                            echo " selected";
-                                        } ?>><?php echo $tahun; ?></option>   
-                                                    <?php } ?>
+                                        <select name="unitap" id="unitap" class="form-control" disabled="disabled">
+                                            <option value="">--- Pilih AP ---</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <select name="tahun1" id="tahun1" class="form-control">
-                                            <option value="">--- Pilih Tahun ---</option>
-                                            <?php foreach ($rs_tahun as $index => $tahun) { ?>
-                                                        <option value="<?php echo $tahun; ?>" <?php if ($search['tahun'] == $tahun) {
-                                            echo " selected";
-                                        } ?>><?php echo $tahun; ?></option>   
-                                                    <?php } ?>
+                                        <select name="unitup" id="unitup" class="form-control" disabled="disabled">
+                                            <option value="">--- Pilih UP ---</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-1">
                                 <div class="form-group">
-                                    <label class="col-sm-12 control-label" style="text-align:left"> Jenis Laporan : </label>
+                                    <label class="col-sm-12 control-label" style="text-align:left"> Tahun : </label>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <select name="jenislap" id="jenislap" class="form-control">
-                                            <option value="">--- Pilih Jenis Laporan ---</option>
-                                            <option value="">LPB</option>
-                                            <option value="">Pasca</option>
-                                            <option value="">Gabungan</option>   
+                                        <select name="tahun" id="tahun" class="form-control">
+                                            <option value="">--- Pilih Tahun ---</option>
+                                            <?php foreach ($rs_tahun as $index => $tahun) { ?>
+                                                        <option value="<?php echo $tahun; ?>" <?php if ($filterTahun == $tahun) {
+                                            echo " selected";
+                                        } ?>><?php echo $tahun; ?></option>   
+                                                    <?php } ?>
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-1">  
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <select name="tahunBdg" id="tahunBdg" class="form-control">
+                                            <option value="">--- Pilih Tahun Pembanding---</option>
+                                            <?php foreach ($rs_tahun as $index => $tahun) { ?>
+                                                        <option value="<?php echo $tahun; ?>" <?php if ($filterTahunBdg == $tahun) {
+                                            echo " selected";
+                                        } ?>><?php echo $tahun; ?></option>   
+                                                    <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -92,7 +86,6 @@ $PESAN = $this->session->userdata('PESAN');
                                     </div>
                                 </div>
                             </div>
-                          </div>
                         </div>
                     </div>
                 </form>
@@ -118,7 +111,7 @@ $PESAN = $this->session->userdata('PESAN');
 </section>
 <script type="text/javascript">
 
-    $('#upi').change(function () {
+    $('#unitupi').change(function () {
       var level = $(this).val();
         if(level){
           $.ajax ({
@@ -127,27 +120,30 @@ $PESAN = $this->session->userdata('PESAN');
               data: {'level': level},
               success : function(response) {
                 var output = $.parseJSON(response);
-                $("#ap").find('option').remove();
-                $("#ap").append('<option value="">SEMUA</option>');
+                $("#unitap").find('option').remove();
+                $("#unitup").find('option').remove();
+                $("#unitap").append('<option value="">SEMUA</option>');
+                $("#unitup").append('<option value="">-- Pilih UP --</option>');
+                $('#unitup').prop('disabled', true);
                 $.each(output,function(key, value)
                 {
-                    $("#ap").append('<option value=' + value.UNIT_AP + '>' + value.UNITAP+ '</option>');
+                    $("#unitap").append('<option value=' + value.UNIT_AP + '>' + value.UNITAP+ '</option>');
                 });
               }
           });
         }
 
-        if (level != 00) {
-          $('#ap').prop('disabled', false);
+        if (level != '') {
+          $('#unitap').prop('disabled', false);
         } else {
-          $('#ap').prop('disabled', true);
-          $('#up').prop('disabled', true);
+          $('#unitap').prop('disabled', true);
+          $('#unitup').prop('disabled', true);
         }
         ;
     })
 
 
-    $('#ap').change(function () {
+    $('#unitap').change(function () {
       var level_ap = $(this).val();
         if(level_ap){
           $.ajax ({
@@ -156,20 +152,20 @@ $PESAN = $this->session->userdata('PESAN');
               data: {'level_ap': level_ap},
               success : function(response) {
                 var rs = $.parseJSON(response);
-                $("#up").find('option').remove();
-                $("#up").append('<option value="">SEMUA</option>');
+                $("#unitup").find('option').remove();
+                $("#unitup").append('<option value="">SEMUA</option>');
                 $.each(rs,function(key, value)
                 {
-                    $("#up").append('<option value=' + value.UNIT_UP + '>' + value.UNITUP+ '</option>');
+                    $("#unitup").append('<option value=' + value.UNIT_UP + '>' + value.UNITUP+ '</option>');
                 });
               }
           });
         }
 
-        if (level_ap != 00) {
-          $('#up').prop('disabled', false);
+        if (level_ap != '') {
+          $('#unitup').prop('disabled', false);
         } else {
-          $('#up').prop('disabled', true);
+          $('#unitup').prop('disabled', true);
         }
         ;
     })
@@ -179,14 +175,42 @@ $PESAN = $this->session->userdata('PESAN');
 var barChartData = {
     labels: ['Januari', 'Febuari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
     datasets: [{
+        type: 'line',
+        label: 'Line <?php echo $filterTahun ?>',
+        borderColor: window.chartColors.blue,
+        borderWidth: 2,
+        fill: false,
+        data: [
+            <?php 
+                foreach ($data404deltasaldo as $dt_404) { 
+                    if (in_array('GRAFIK1', $dt_404)) {
+                        echo $dt_404['RUPIAH_TOTAL'] . ',';
+                        }
+            }; ?>
+        ]
+    },{
+        type: 'line',
+        label: 'Line <?php echo $filterTahunBdg ?>',
+        borderColor: window.chartColors.red,
+        borderWidth: 2,
+        fill: false,
+        data: [
+            <?php 
+                foreach ($data404deltasaldo as $dt_404) { 
+                    if (in_array('GRAFIK2', $dt_404)) {
+                        echo $dt_404['RUPIAH_TOTAL'] . ',';
+                        }
+            }; ?>
+        ]
+    },{
         type: 'bar',
-        label: '2017',
+        label: <?php echo $filterTahun ?>,
         backgroundColor: window.chartColors.blue,
         data: [
             <?php 
-                foreach ($data404saldo as $dt_404) { 
+                foreach ($data404deltasaldo as $dt_404) { 
                     if (in_array('GRAFIK1', $dt_404)) {
-                        echo $dt_404['LBR_TOTAL'] . ',';
+                        echo $dt_404['RUPIAH_TOTAL'] . ',';
                         }
             }; ?>
             
@@ -195,33 +219,61 @@ var barChartData = {
         borderWidth: 2
     }, {
         type: 'bar',
-        label: '2018',
+        label: <?php echo $filterTahunBdg ?>,
         backgroundColor: window.chartColors.red,
         data: [
         <?php 
-                foreach ($data404saldo as $dt_404) { 
+                foreach ($data404deltasaldo as $dt_404) { 
                     if (in_array('GRAFIK2', $dt_404)) {
-                        echo $dt_404['LBR_TOTAL'] . ',';
+                        echo $dt_404['RUPIAH_TOTAL'] . ',';
                         }
             }; ?>
         ],
         borderColor: 'white',
         borderWidth: 2
-    }]
+    }], 
 
 };  
 
-var barChartDataRupiah = {
+var barChartDataLb = {
     labels: ['Januari', 'Febuari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
     datasets: [{
+        type: 'line',
+        label: 'Line <?php echo $filterTahun ?>',
+        borderColor: window.chartColors.blue,
+        borderWidth: 2,
+        fill: false,
+        data: [
+            <?php 
+                foreach ($data404deltasaldo as $dt_404) { 
+                    if (in_array('GRAFIK1', $dt_404)) {
+                        echo $dt_404['LBR_TOTAL'] . ',';
+                        }
+            }; ?>
+        ]
+    },{
+        type: 'line',
+        label: 'Line <?php echo $filterTahunBdg ?>',
+        borderColor: window.chartColors.red,
+        borderWidth: 2,
+        fill: false,
+        data: [
+            <?php 
+                foreach ($data404deltasaldo as $dt_404) { 
+                    if (in_array('GRAFIK2', $dt_404)) {
+                        echo $dt_404['LBR_TOTAL'] . ',';
+                        }
+            }; ?>
+        ]
+    },{
         type: 'bar',
-        label: '2017',
+        label: <?php echo $filterTahun ?>,
         backgroundColor: window.chartColors.blue,
         data: [
             <?php 
-                foreach ($data404saldo as $dt_404) { 
+                foreach ($data404deltasaldo as $dt_404) { 
                     if (in_array('GRAFIK1', $dt_404)) {
-                        echo $dt_404['RUPIAH_TOTAL'] . ',';
+                        echo $dt_404['LBR_TOTAL'] . ',';
                         }
             }; ?>
             
@@ -230,13 +282,13 @@ var barChartDataRupiah = {
         borderWidth: 2
     }, {
         type: 'bar',
-        label: '2018',
+        label: <?php echo $filterTahunBdg ?>,
         backgroundColor: window.chartColors.red,
         data: [
         <?php 
-                foreach ($data404saldo as $dt_404) { 
+                foreach ($data404deltasaldo as $dt_404) { 
                     if (in_array('GRAFIK2', $dt_404)) {
-                        echo $dt_404['RUPIAH_TOTAL'] . ',';
+                        echo $dt_404['LBR_TOTAL'] . ',';
                         }
             }; ?>
         ],
@@ -249,15 +301,18 @@ var barChartDataRupiah = {
 function createConfig(data,title) {
             return {
                type: 'bar',
-                data: barChartDataRupiah,
+                data: barChartData,
                 options: {
                     responsive: true,
                     legend: {
                         position: 'bottom',
+                        labels: {
+                            usePointStyle: true
+                        }
                     },
                     title: {
                         display: true,
-                        text: 'Saldo Rupiah'
+                        text: title
                     },
                     tooltips: {
                         mode: 'index',
@@ -267,7 +322,11 @@ function createConfig(data,title) {
                         yAxes: [{
                             ticks: {
                                 callback: function(label, index, labels) {
-                                    return label/1000000000000+'T';
+                                    <?php if (!empty($filterUpi) or !empty($filterAp) or !empty($filterUp)): ?>
+                                        return label/1000000000+'M';
+                                    <?php else: ?>
+                                        return label/1000000000000+'T';
+                                    <?php endif ?>
                                 },  
                                 min: 0
                             }
@@ -280,15 +339,18 @@ function createConfig(data,title) {
     function createConfig2(data,title) {
             return {
                 type: 'bar',
-                data: barChartData,
+                data: barChartDataLb,
                 options: {
                     responsive: true,
                     legend: {
                         position: 'bottom',
+                        labels: {
+                            usePointStyle: true
+                        }
                     },
                     title: {
                         display: true,
-                        text: 'Saldo Lembar'
+                        text: title
                     },
                     tooltips: {
                         mode: 'index',
@@ -298,7 +360,11 @@ function createConfig(data,title) {
                         yAxes: [{
                             ticks: {
                                 callback: function(label, index, labels) {
-                                    return label/1000000+'Jt';
+                                    <?php if (!empty($filterUpi) or !empty($filterAp) or !empty($filterUp)): ?>
+                                        return label/1000+'K';
+                                    <?php else: ?>
+                                        return label/1000000+'J';
+                                    <?php endif ?>
                                 },  
                                 min: 0
                             }
@@ -308,16 +374,32 @@ function createConfig(data,title) {
             };
         }
 
-window.onload = function() {
+        var titleRp = <?php if (!empty($filterUpi) && !empty($filterAp) && !empty($filterUp)): ?>
+                    '404 Delta Rupiah - <?php echo $filterUp ?> Tahun <?php echo $filterTahunBdg ?>/<?php echo $filterTahun ?>'
+                <?php elseif (!empty($filterUpi) && !empty($filterAp)): ?>
+                    '404 Delta Rupiah - <?php echo $filterAp ?> Tahun <?php echo $filterTahunBdg ?>/<?php echo $filterTahun ?>'
+                <?php else: ?>
+                    '404 Delta Rupiah - <?php echo $filterUpi ?> Tahun <?php echo $filterTahunBdg ?>/<?php echo $filterTahun ?>'
+                <?php endif ?>
+
+        var titleLb = <?php if (!empty($filterUpi) && !empty($filterAp) && !empty($filterUp)): ?>
+                    '404 Delta Lembar - <?php echo $filterUp ?> Tahun <?php echo $filterTahunBdg ?>/<?php echo $filterTahun ?>'
+                <?php elseif (!empty($filterUpi) && !empty($filterAp)): ?>
+                    '404 Delta Lembar - <?php echo $filterAp ?> Tahun <?php echo $filterTahunBdg ?>/<?php echo $filterTahun ?>'
+                <?php else: ?>
+                    '404 Delta Lembar - <?php echo $filterUpi ?> Tahun <?php echo $filterTahunBdg ?>/<?php echo $filterTahun ?>'
+                <?php endif ?>
+
+        window.onload = function() {
             var container = document.querySelector('.container');
             var container2 = document.querySelector('.container2');
 
             [{
                 data: barChartData,
-                title: '404 Saldo Lembar - <?php echo $tahun ?>'
+                title: titleRp
             }, {
-                data: barChartDataRupiah,
-                title: '404 Saldo Rupiah - <?php echo $tahun ?>'
+                data: barChartDataLb,
+                title: titleLb
             }].forEach(function(details) {
                 var div = document.createElement('div');
                 div.classList.add('chart-container');
@@ -337,38 +419,20 @@ window.onload = function() {
             });
     };
 
-
-// window.onload = function() {
-//     var ctx = document.getElementById('canvas').getContext('2d');
-//     window.myMixedChart = new Chart(ctx, {
-//         type: 'bar',
-//         data: barChartData,
-//         options: {
-//             responsive: true,
-//             legend: {
-//                 position: 'bottom',
-//             },
-//             title: {
-//                 display: true,
-//                 text: 'Perbulan Delta'
-//             },
-//             tooltips: {
-//                 mode: 'index',
-//                 intersect: true
-//             },
-//             scales: {
-//                         yAxes: [{
-//                             ticks: {
-//                                 callback: function(label, index, labels) {
-//                                     return label/1000000+'Jt';
-//                                 },  
-//                                 min: 0
-//                             }
-//                         }]
-//                     }
-//         }
-//     });
-// };
-
-
+    function cari(){
+        var tahun=$('#tahun').val();
+        var tahunBdg=$('#tahunBdg').val();
+        var unitupi=$('#unitupi').val();
+        var unitap=$('#unitap').val();
+        var unitup=$('#unitup').val();
+        $('#form_filter').ajaxForm({
+            type: "POST",
+            url: "<?php echo base_url('data_404/delta_saldo'); ?>",
+            data: {"tahun":tahun, "tahunBdg":tahunBdg, "unitupi":unitupi, "unitap":unitap , "unitup":unitup},
+            success: function(msg) {
+                var data = $data
+                console.log(data);
+            }
+        });
+    }
 </script>

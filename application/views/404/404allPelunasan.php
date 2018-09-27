@@ -5,7 +5,7 @@ $PESAN = $this->session->userdata('PESAN');
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary">
-                <form id="form_upload" action="<?php echo site_url('#'); ?>" class="form-horizontal" method="POST" enctype="multipart/form-data" >
+                <form id="form_upload" class="form-horizontal" method="POST" enctype="multipart/form-data" >
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-1">
@@ -16,7 +16,7 @@ $PESAN = $this->session->userdata('PESAN');
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <select name="upi" id="upi" class="form-control">
+                                        <select name="unitupi" id="unitupi" class="form-control">
                                             <option value="">NASIONAL</option>
                                               <?php foreach ($total_upi as $row) { ?>
                                               <option value="<?php echo $row['UNIT_UPI']; ?>" ><?php echo strtoupper($row['UNITUPI']); ?></option>   
@@ -28,7 +28,7 @@ $PESAN = $this->session->userdata('PESAN');
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <select name="ap" id="ap" class="form-control" disabled="disabled">
+                                        <select name="unitap" id="unitap" class="form-control" disabled="disabled">
                                             <option value="">--- Pilih AP ---</option>
                                         </select>
                                     </div>
@@ -37,7 +37,7 @@ $PESAN = $this->session->userdata('PESAN');
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <select name="up" id="up" class="form-control" disabled="disabled">
+                                        <select name="unitup" id="unitup" class="form-control" disabled="disabled">
                                             <option value="">--- Pilih UP ---</option>
                                         </select>
                                     </div>
@@ -56,7 +56,7 @@ $PESAN = $this->session->userdata('PESAN');
                                         <select name="tahun" id="tahun" class="form-control">
                                             <option value="">--- Pilih Tahun ---</option>
                                                 <?php foreach ($rs_tahun as $index => $tahun) { ?>
-                                                <option value="<?php echo $tahun; ?>" <?php if ($search['tahun'] == $tahun) {
+                                                <option value="<?php echo $tahun; ?>" <?php if (date('Y') == $tahun) {
                                                 echo " selected";
                                                 } ?>><?php echo $tahun; ?></option>   
                                                 <?php } ?>
@@ -127,58 +127,61 @@ $PESAN = $this->session->userdata('PESAN');
 </section>
 <script type="text/javascript">
 
-    $('#upi').change(function () {
+    $('#unitupi').change(function () {
       var level = $(this).val();
         if(level){
           $.ajax ({
               type: "POST",
-              url: "<?php echo site_url('data_404/get_all_ap') ?>",
+              url: "<?php echo site_url('Rupiah_309/get_all_ap') ?>",
               data: {'level': level},
               success : function(response) {
                 var output = $.parseJSON(response);
-                $("#ap").find('option').remove();
-                $("#ap").append('<option value="">SEMUA</option>');
+                $("#unitap").find('option').remove();
+                $("#unitup").find('option').remove();
+                $("#unitap").append('<option value="">SEMUA</option>');
+                $("#unitup").append('<option value="">-- Pilih UP --</option>');
+                $('#unitup').prop('disabled', true);
                 $.each(output,function(key, value)
                 {
-                    $("#ap").append('<option value=' + value.UNIT_AP + '>' + value.UNITAP+ '</option>');
+                    $("#unitap").append('<option value=' + value.UNIT_AP + '>' + value.UNITAP+ '</option>');
                 });
               }
           });
         }
 
-        if (level != 00) {
-          $('#ap').prop('disabled', false);
+        if (level != '') {
+          $('#unitap').prop('disabled', false);
         } else {
-          $('#ap').prop('disabled', true);
-          $('#up').prop('disabled', true);
+          $('#unitap').prop('disabled', true);
+          $('#unitup').prop('disabled', true);
         }
         ;
     })
 
 
-    $('#ap').change(function () {
+    $('#unitap').change(function () {
       var level_ap = $(this).val();
         if(level_ap){
           $.ajax ({
               type: "POST",
-              url: "<?php echo site_url('data_404/get_all_up') ?>",
+              url: "<?php echo site_url('Rupiah_309/get_all_up') ?>",
               data: {'level_ap': level_ap},
               success : function(response) {
                 var rs = $.parseJSON(response);
-                $("#up").find('option').remove();
-                $("#up").append('<option value="">SEMUA</option>');
+                $("#unitup").find('option').remove();
+                $("#unitup").append('<option value="">SEMUA</option>');
                 $.each(rs,function(key, value)
                 {
-                    $("#up").append('<option value=' + value.UNIT_UP + '>' + value.UNITUP+ '</option>');
+                    $("#unitup").append('<option value=' + value.UNIT_UP + '>' + value.UNITUP+ '</option>');
                 });
               }
           });
         }
 
-        if (level_ap != 00) {
-          $('#up').prop('disabled', false);
+        if (level_ap != '') {
+          $('#unitup').prop('disabled', false);
         } else {
-          $('#up').prop('disabled', true);
+          $('#unitup').prop('disabled', true);
         }
         ;
     })
@@ -244,7 +247,11 @@ $PESAN = $this->session->userdata('PESAN');
                         yAxes: [{
                             ticks: {
                                 callback: function(label, index, labels) {
-                                    return label/1000000000000+'T';
+                                    <?php if (!empty($filterUpi) or !empty($filterAp) or !empty($filterUp)): ?>
+                                        return label/1000000000+'M';
+                                    <?php else: ?>
+                                        return label/1000000000000+'T';
+                                    <?php endif ?>
                                 },  
                                 min: 0
                             }
@@ -273,7 +280,11 @@ $PESAN = $this->session->userdata('PESAN');
                         yAxes: [{
                             ticks: {
                                 callback: function(label, index, labels) {
-                                    return label/1000000+'Jt';
+                                    <?php if (!empty($filterUpi) or !empty($filterAp) or !empty($filterUp)): ?>
+                                        return label/1000+'K';
+                                    <?php else: ?>
+                                        return label/1000000+'J';
+                                    <?php endif ?>
                                 },  
                                 min: 0
                             }
@@ -315,16 +326,32 @@ $PESAN = $this->session->userdata('PESAN');
         }
     });
 
+    var titleRp = <?php if (!empty($filterUpi) && !empty($filterAp) && !empty($filterUp)): ?>
+                    '404 Lunas Rupiah - <?php echo $filterUp ?> Tahun <?php echo $filterTahun ?>'
+                <?php elseif (!empty($filterUpi) && !empty($filterAp)): ?>
+                    '404 Lunas Rupiah - <?php echo $filterAp ?> Tahun <?php echo $filterTahun ?>'
+                <?php else: ?>
+                    '404 Lunas Rupiah - <?php echo $filterUpi ?> Tahun <?php echo $filterTahun ?>'
+                <?php endif ?>
+
+    var titleLb = <?php if (!empty($filterUpi) && !empty($filterAp) && !empty($filterUp)): ?>
+                    '404 Lunas Lembar - <?php echo $filterUp ?> Tahun <?php echo $filterTahun ?>'
+                <?php elseif (!empty($filterUpi) && !empty($filterAp)): ?>
+                    '404 Lunas Lembar - <?php echo $filterAp ?> Tahun <?php echo $filterTahun ?>'
+                <?php else: ?>
+                    '404 Lunas Lembar - <?php echo $filterUpi ?> Tahun <?php echo $filterTahun ?>'
+                <?php endif ?>
+
     window.onload = function() {
             var container = document.querySelector('.container');
             var container2 = document.querySelector('.container2');
 
             [{
                 data: barChartData,
-                title: '404 Lunas Lembar - <?php echo $tahun ?>'
+                title: titleLb
             }, {
                 data: barChartDataRupiah,
-                title: '404 Lunas Rupiah - <?php echo $tahun ?>'
+                title: titleRp
             }].forEach(function(details) {
                 var div = document.createElement('div');
                 div.classList.add('chart-container');
@@ -346,13 +373,13 @@ $PESAN = $this->session->userdata('PESAN');
 
 function cari(){
     var tahun=$('#tahun').val();
-    var upi=$('#upi').val();
-    var ap=$('#ap').val();
-    var up=$('#up').val();
+    var unitupi=$('#unitupi').val();
+    var unitap=$('#unitap').val();
+    var unitup=$('#unitup').val();
     $('#form_filter').ajaxForm ({
         type: "POST",
         url: "<?php echo base_url('data_404/pelunasan'); ?>",
-        data: {"tahun":tahun, "upi":upi, "ap":ap , "up":up},
+        data: {"tahun":tahun, "unitupi":unitupi, "unitap":unitap, "unitup":unitup},
         success: function(msg) {
             var data = $data
             console.log(data);

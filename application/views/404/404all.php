@@ -56,7 +56,7 @@ $PESAN = $this->session->userdata('PESAN');
                                         <select name="tahun" id="tahun" class="form-control">
                                             <option value="">--- Pilih Tahun ---</option>
                                                 <?php foreach ($rs_tahun as $index => $tahun) { ?>
-                                                <option value="<?php echo $tahun; ?>" <?php if ($search['tahun'] == $tahun) {
+                                                <option value="<?php echo $tahun; ?>" <?php if ($filterTahun == $tahun) {
                                                 echo " selected";
                                                 } ?>><?php echo $tahun; ?></option>   
                                                 <?php } ?>
@@ -215,10 +215,10 @@ $PESAN = $this->session->userdata('PESAN');
                         yAxes: [{
                             ticks: {
                                 callback: function(label, index, labels) {
-                                    <?php if (!empty($filterUpi) or !empty($filterAp) or !empty($filterUp)): ?>
-                                        return label/1000000+'J';
-                                    <?php else: ?>
+                                    <?php if (!empty($filterAp) or !empty($filterUp)): ?>
                                         return label/1000000000+'M';
+                                    <?php else: ?>
+                                        return label/1000000000000+'T';
                                     <?php endif ?>
                                 },  
                                 min: 0
@@ -248,7 +248,7 @@ $PESAN = $this->session->userdata('PESAN');
                         yAxes: [{
                             ticks: {
                                 callback: function(label, index, labels) {
-                                    <?php if (!empty($filterUpi) or !empty($filterAp) or !empty($filterUp)): ?>
+                                    <?php if (!empty($filterAp) or !empty($filterUp)): ?>
                                         return label/1000+'K';
                                     <?php else: ?>
                                         return label/1000000+'J';

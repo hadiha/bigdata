@@ -40,8 +40,8 @@ class data_404 extends CI_Controller {
             $data['filterUp'] = $unitup;
             // print_r($data); exit();
         }else{
-            $data['data404all'] = $this->mdashboard->get404all('2018', NULL, NULL, NULL);
-            $data['filterTahun'] = '2018';
+            $data['data404all'] = $this->mdashboard->get404all(date('Y'), NULL, NULL, NULL);
+            $data['filterTahun'] = date('Y');
             $data['filterUpi'] = 'NASIONAL';
             $data['filterAp'] = NULL;
             $data['filterUp'] = NULL;
@@ -58,22 +58,22 @@ class data_404 extends CI_Controller {
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
 
         $tahun = $this->input->post('tahun');;
-        $upi = $this->input->post('upi');
-        $ap = $this->input->post('ap');
-        $up = $this->input->post('up');
+        $unitupi = $this->input->post('unitupi');
+        $unitap = $this->input->post('unitap');
+        $unitup = $this->input->post('unitup');
 
-        if (!empty($tahun) or !empty($upi) or !empty($ap) or !empty($up)) {
-            $data['data404lunas'] = $this->mdashboard->get404lunas($tahun, $upi, $ap, $up); 
-            $data['tahun'] = $tahun;
-            $data['upi'] = $upi;
-            $data['ap'] = $ap;
-            $data['up'] = $up;
+        if (!empty($tahun) or !empty($unitupi) or !empty($unitap) or !empty($unitup)) {
+            $data['data404lunas'] = $this->mdashboard->get404lunas($tahun, $unitupi, $unitap, $unitup); 
+            $data['filterTahun'] = $tahun;
+            $data['filterUpi'] = $unitupi;
+            $data['filterAp'] = $unitap;
+            $data['filterUp'] = $unitup;
         }else{
-            $data['data404lunas'] = $this->mdashboard->get404lunas('2018', NULL, NULL, NULL);
-            $data['tahun'] = '2018';
-            $data['upi'] = NULL;
-            $data['ap'] = NULL;
-            $data['up'] = NULL;
+            $data['data404lunas'] = $this->mdashboard->get404lunas(date('Y'), NULL, NULL, NULL);
+            $data['filterTahun'] = date('Y');
+            $data['filterUpi'] = 'NASIONAL';
+            $data['filterAp'] = NULL;
+            $data['filterUp'] = NULL;
         }    
         // print_r($data['dataall']); exit();
         $this->load->view('home', $data);
@@ -88,28 +88,28 @@ class data_404 extends CI_Controller {
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
 
         $tahun = $this->input->post('tahun');;
-        $tahun1 = $this->input->post('tahun1');;
-        $upi = $this->input->post('upi');
-        $ap = $this->input->post('ap');
-        $up = $this->input->post('up');
+        $tahunBdg = $this->input->post('tahunBdg');;
+        $unitupi = $this->input->post('unitupi');
+        $unitap = $this->input->post('unitap');
+        $unitup = $this->input->post('unitup');
 
-        if (!empty($tahun) or !empty($tahun1) or !empty($upi) or !empty($ap) or !empty($up)) {
-            $data['data404saldo'] = $this->mdashboard->get404deltasaldo($tahun, $tahun1, $upi, $ap, $up); 
-            $data['tahun'] = '2017';
-            $data['tahun1'] = '2018';
-            $data['upi'] = $upi;
-            $data['ap'] = $ap;
-            $data['up'] = $up;
+        if (!empty($tahun) or !empty($tahunBdg) or !empty($unitupi) or !empty($unitap) or !empty($unitup)) {
+            $data['data404deltasaldo'] = $this->mdashboard->get404deltasaldo($tahun, $tahunBdg, $unitupi, $unitap, $unitup); 
+            $data['filterTahun'] = $tahun;
+            $data['filterTahunBdg'] = $tahunBdg;
+            $data['filterUpi'] = $unitupi;
+            $data['filterAp'] = $unitap;
+            $data['filterUp'] = $unitup;
         }else{
-            $data['data404saldo'] = $this->mdashboard->get404deltasaldo('2017', '2018', NULL, NULL, NULL);
-            $data['tahun'] = '2017';
-            $data['tahun1'] = '2018';
-            $data['upi'] = NULL;
-            $data['ap'] = NULL;
-            $data['up'] = NULL;
+            $data['data404deltasaldo'] = $this->mdashboard->get404deltasaldo(date('Y'), date('Y')-1, NULL, NULL, NULL);
+            $data['filterTahun'] = date('Y');
+            $data['filterTahunBdg'] = date('Y') - 1;
+            $data['filterUpi'] = 'NASIONAL';
+            $data['filterAp'] = NULL;
+            $data['filterUp'] = NULL;
         }
 
-        // print_r($data['data404saldo']); exit();
+        // print_r($data['data404deltasaldo']); exit();
         $this->load->view('home', $data);
     }
 
@@ -122,25 +122,25 @@ class data_404 extends CI_Controller {
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
 
         $tahun = $this->input->post('tahun');;
-        $tahun1 = $this->input->post('tahun1');;
-        $upi = $this->input->post('upi');
-        $ap = $this->input->post('ap');
-        $up = $this->input->post('up');
+        $tahunBdg = $this->input->post('tahunBdg');;
+        $unitupi = $this->input->post('unitupi');
+        $unitap = $this->input->post('unitap');
+        $unitup = $this->input->post('unitup');
 
-        if (!empty($tahun) or !empty($tahun1) or !empty($upi) or !empty($ap) or !empty($up)) {
-            $data['data404lunas'] = $this->mdashboard->get404deltalunas($tahun, $tahun1, $upi, $ap, $up); 
-            $data['tahun'] = '2017';
-            $data['tahun1'] = '2018';
-            $data['upi'] = $upi;
-            $data['ap'] = $ap;
-            $data['up'] = $up;
+        if (!empty($tahun) or !empty($tahunBdg) or !empty($unitupi) or !empty($unitap) or !empty($unitup)) {
+            $data['data404deltalunas'] = $this->mdashboard->get404deltalunas($tahun, $tahunBdg, $unitupi, $unitap, $unitup); 
+            $data['filterTahun'] = $tahun;
+            $data['filterTahunBdg'] = $tahunBdg;
+            $data['filterUpi'] = $unitupi;
+            $data['filterAp'] = $unitap;
+            $data['filterUp'] = $unitup;
         }else{
-            $data['data404lunas'] = $this->mdashboard->get404deltalunas('2017', '2018', NULL, NULL, NULL);
-            $data['tahun'] = '2017';
-            $data['tahun1'] = '2018';
-            $data['upi'] = NULL;
-            $data['ap'] = NULL;
-            $data['up'] = NULL;
+            $data['data404deltalunas'] = $this->mdashboard->get404deltalunas(date('Y'), date('Y')-1, NULL, NULL, NULL);
+            $data['filterTahun'] = date('Y');
+            $data['filterTahunBdg'] = date('Y')-1;
+            $data['filterUpi'] = 'NASIONAL';
+            $data['filterAp'] = NULL;
+            $data['filterUp'] = NULL;
         }
 
         // print_r($data['total_upi']); exit();
