@@ -351,8 +351,8 @@
                             </span>
                           </a>
                           <ul class="treeview-menu">
-                            <li><a href="<?php echo base_url('Rupiah_309/all_404');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
-                            <li><a href="<?php echo base_url('Rupiah_309/delta_404');?>"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
+                            <li><a href="<?php echo base_url('data_404/saldo');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
+                            <li><a href="<?php echo base_url('data_404/delta_saldo');?>"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
                           </ul>
                         </li>
                         <li class="treeview">
@@ -363,8 +363,8 @@
                             </span>
                           </a>
                           <ul class="treeview-menu">
-                            <li><a href="<?php echo base_url('Rupiah_309/all_404_Pelunasan');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
-                            <li><a href="<?php echo base_url('Rupiah_309/delta_404_Pelunasan');?>"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
+                            <li><a href="<?php echo base_url('data_404/pelunasan');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
+                            <li><a href="<?php echo base_url('data_404/delta_pelunasan');?>"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
                           </ul>
                         </li>
 

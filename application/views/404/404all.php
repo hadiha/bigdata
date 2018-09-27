@@ -213,7 +213,7 @@ $PESAN = $this->session->userdata('PESAN');
                         yAxes: [{
                             ticks: {
                                 callback: function(label, index, labels) {
-                                    return label/1000000+'Jt';
+                                    return label/1000000000000+'T';
                                 },  
                                 min: 0
                             }
@@ -242,7 +242,7 @@ $PESAN = $this->session->userdata('PESAN');
                         yAxes: [{
                             ticks: {
                                 callback: function(label, index, labels) {
-                                    return label/1000000000000+'T';
+                                    return label/1000000+'Jt';
                                 },  
                                 min: 0
                             }
@@ -300,7 +300,7 @@ $PESAN = $this->session->userdata('PESAN');
 
                 var canvas = document.createElement('canvas');
                 div.appendChild(canvas);
-                if (details.data == barChartData) {
+                if (details.data == barChartDataRupiah) {
                     container.appendChild(div); 
                     var config = createConfig(details.data,details.title);
                 }else{
@@ -320,7 +320,7 @@ function cari(){
     var up=$('#up').val();
     $('#form_filter').ajaxForm ({
         type: "POST",
-        url: "<?php echo base_url('Rupiah_309/all_404'); ?>",
+        url: "<?php echo base_url('data_404/saldo'); ?>",
         data: {"tahun":tahun, "upi":upi, "ap":ap , "up":up},
         success: function(msg) {
             var data = $data

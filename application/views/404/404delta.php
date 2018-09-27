@@ -49,6 +49,20 @@ $PESAN = $this->session->userdata('PESAN');
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <select name="tahun1" id="tahun1" class="form-control">
+                                            <option value="">--- Pilih Tahun ---</option>
+                                            <?php foreach ($rs_tahun as $index => $tahun) { ?>
+                                                        <option value="<?php echo $tahun; ?>" <?php if ($search['tahun'] == $tahun) {
+                                            echo " selected";
+                                        } ?>><?php echo $tahun; ?></option>   
+                                                    <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-2">
@@ -83,14 +97,21 @@ $PESAN = $this->session->userdata('PESAN');
                     </div>
                 </form>
             </div>
-        </div>
-           <div class="box box-primary">
-                <div class="box-body">
-                    <div style="width: 100%; padding: 0px 30px 30px 30px;">
-                        <canvas id="canvas"></canvas>
-                    </div>  
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <div class="container" style="width: 100%;"></div>
+                    </div>
                 </div>
             </div>
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <div class="container2" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -155,28 +176,20 @@ $PESAN = $this->session->userdata('PESAN');
 
 // chart start
 
-var chartData = {
-    // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-    labels: [ <?php foreach ($data404saldo as $dt_404) { 
-                echo $dt_404['THBL'] . ',';
-            }?>],
+var barChartData = {
+    labels: ['Januari', 'Febuari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
     datasets: [{
         type: 'bar',
         label: '2017',
         backgroundColor: window.chartColors.blue,
         data: [
-        19155138885833,
-        17541448903849,
-        20227438062873,
-        19753473416446,
-        21148304997972,
-        19371284613957,
-        20616446984580,
-        21193551673230,
-        20818843568606,
-        22012136779321,
-        21287024472178,
-        20901069433923
+            <?php 
+                foreach ($data404saldo as $dt_404) { 
+                    if (in_array('GRAFIK1', $dt_404)) {
+                        echo $dt_404['LBR_TOTAL'] . ',';
+                        }
+            }; ?>
+            
         ],
         borderColor: 'white',
         borderWidth: 2
@@ -185,18 +198,47 @@ var chartData = {
         label: '2018',
         backgroundColor: window.chartColors.red,
         data: [
-        21168669541747,
-        19404129616478,
-        21639585845008,
-        21798989183430,
-        22690068441818,
-        19619568735686,
-        22177087303262,
-        22326414019154,
-        0,
-        0,
-        0,
-        0
+        <?php 
+                foreach ($data404saldo as $dt_404) { 
+                    if (in_array('GRAFIK2', $dt_404)) {
+                        echo $dt_404['LBR_TOTAL'] . ',';
+                        }
+            }; ?>
+        ],
+        borderColor: 'white',
+        borderWidth: 2
+    }]
+
+};  
+
+var barChartDataRupiah = {
+    labels: ['Januari', 'Febuari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+    datasets: [{
+        type: 'bar',
+        label: '2017',
+        backgroundColor: window.chartColors.blue,
+        data: [
+            <?php 
+                foreach ($data404saldo as $dt_404) { 
+                    if (in_array('GRAFIK1', $dt_404)) {
+                        echo $dt_404['RUPIAH_TOTAL'] . ',';
+                        }
+            }; ?>
+            
+        ],
+        borderColor: 'white',
+        borderWidth: 2
+    }, {
+        type: 'bar',
+        label: '2018',
+        backgroundColor: window.chartColors.red,
+        data: [
+        <?php 
+                foreach ($data404saldo as $dt_404) { 
+                    if (in_array('GRAFIK2', $dt_404)) {
+                        echo $dt_404['RUPIAH_TOTAL'] . ',';
+                        }
+            }; ?>
         ],
         borderColor: 'white',
         borderWidth: 2
@@ -204,27 +246,129 @@ var chartData = {
 
 };
 
-window.onload = function() {
-    var ctx = document.getElementById('canvas').getContext('2d');
-    window.myMixedChart = new Chart(ctx, {
-        type: 'bar',
-        data: chartData,
-        options: {
-            responsive: true,
-            legend: {
-                position: 'bottom',
-            },
-            title: {
-                display: true,
-                text: 'Perbulan Delta 2018'
-            },
-            tooltips: {
-                mode: 'index',
-                intersect: true
-            }
+function createConfig(data,title) {
+            return {
+               type: 'bar',
+                data: barChartDataRupiah,
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'bottom',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Saldo Rupiah'
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: true
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                callback: function(label, index, labels) {
+                                    return label/1000000000000+'T';
+                                },  
+                                min: 0
+                            }
+                        }]
+                    }
+                }
+            };
         }
-    });
-};
+
+    function createConfig2(data,title) {
+            return {
+                type: 'bar',
+                data: barChartData,
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'bottom',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Saldo Lembar'
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: true
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                callback: function(label, index, labels) {
+                                    return label/1000000+'Jt';
+                                },  
+                                min: 0
+                            }
+                        }]
+                    }
+                }
+            };
+        }
+
+window.onload = function() {
+            var container = document.querySelector('.container');
+            var container2 = document.querySelector('.container2');
+
+            [{
+                data: barChartData,
+                title: '404 Saldo Lembar - <?php echo $tahun ?>'
+            }, {
+                data: barChartDataRupiah,
+                title: '404 Saldo Rupiah - <?php echo $tahun ?>'
+            }].forEach(function(details) {
+                var div = document.createElement('div');
+                div.classList.add('chart-container');
+
+                var canvas = document.createElement('canvas');
+                div.appendChild(canvas);
+                if (details.data == barChartData) {
+                    container.appendChild(div); 
+                    var config = createConfig(details.data,details.title);
+                }else{
+                    container2.appendChild(div)
+                    var config = createConfig2(details.data,details.title);
+                }
+
+                var ctx = canvas.getContext('2d');
+                new Chart(ctx, config);
+            });
+    };
+
+
+// window.onload = function() {
+//     var ctx = document.getElementById('canvas').getContext('2d');
+//     window.myMixedChart = new Chart(ctx, {
+//         type: 'bar',
+//         data: barChartData,
+//         options: {
+//             responsive: true,
+//             legend: {
+//                 position: 'bottom',
+//             },
+//             title: {
+//                 display: true,
+//                 text: 'Perbulan Delta'
+//             },
+//             tooltips: {
+//                 mode: 'index',
+//                 intersect: true
+//             },
+//             scales: {
+//                         yAxes: [{
+//                             ticks: {
+//                                 callback: function(label, index, labels) {
+//                                     return label/1000000+'Jt';
+//                                 },  
+//                                 min: 0
+//                             }
+//                         }]
+//                     }
+//         }
+//     });
+// };
 
 
 </script>

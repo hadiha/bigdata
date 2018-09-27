@@ -118,7 +118,7 @@ $PESAN = $this->session->userdata('PESAN');
         if(level){
           $.ajax ({
               type: "POST",
-              url: "<?php echo site_url('Rupiah_309/get_all_ap') ?>",
+              url: "<?php echo site_url('data_404/get_all_ap') ?>",
               data: {'level': level},
               success : function(response) {
                 var output = $.parseJSON(response);
@@ -147,7 +147,7 @@ $PESAN = $this->session->userdata('PESAN');
         if(level_ap){
           $.ajax ({
               type: "POST",
-              url: "<?php echo site_url('Rupiah_309/get_all_up') ?>",
+              url: "<?php echo site_url('data_404/get_all_up') ?>",
               data: {'level_ap': level_ap},
               success : function(response) {
                 var rs = $.parseJSON(response);
@@ -230,7 +230,7 @@ $PESAN = $this->session->userdata('PESAN');
                         yAxes: [{
                             ticks: {
                                 callback: function(label, index, labels) {
-                                    return label/1000000+'Jt';
+                                    return label/1000000000000+'T';
                                 },  
                                 min: 0
                             }
@@ -259,7 +259,7 @@ $PESAN = $this->session->userdata('PESAN');
                         yAxes: [{
                             ticks: {
                                 callback: function(label, index, labels) {
-                                    return label/1000000000000+'T';
+                                    return label/1000000+'Jt';
                                 },  
                                 min: 0
                             }
@@ -317,7 +317,7 @@ $PESAN = $this->session->userdata('PESAN');
 
                 var canvas = document.createElement('canvas');
                 div.appendChild(canvas);
-                if (details.data == barChartData) {
+                if (details.data == barChartDataRupiah) {
                     container.appendChild(div); 
                     var config = createConfig(details.data,details.title);
                 }else{
@@ -337,7 +337,7 @@ function cari(){
     var up=$('#up').val();
     $('#form_filter').ajaxForm ({
         type: "POST",
-        url: "<?php echo base_url('Rupiah_309/all_404_pelunasan'); ?>",
+        url: "<?php echo base_url('data_404/pelunasan'); ?>",
         data: {"tahun":tahun, "upi":upi, "ap":ap , "up":up},
         success: function(msg) {
             var data = $data
