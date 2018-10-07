@@ -82,7 +82,7 @@ $PESAN = $this->session->userdata('PESAN');
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <button class="btn btn-primary" id="bcari"  name="button" value="cari" ><i class="fa fa-search fa-fw"></i> Cari</button>
-                                        <button class="btn btn-default" name="button" value="reset"><i class="fa  fa-refresh fa-fw" ></i> Reset</button>
+                                        <!-- <button class="btn btn-default" name="button" value="reset"><i class="fa  fa-refresh fa-fw" ></i> Reset</button> -->
                                     </div>
                                 </div>
                             </div>
@@ -93,6 +93,7 @@ $PESAN = $this->session->userdata('PESAN');
             <div class="col-md-12">
                 <div class="box box-primary">
                     <div class="box-body">
+                        <!-- <div id="inchart"><h2 style="text-align: center">404 Saldo Delta - Cari Data Terlebih Dahulu!</h2></div> -->
                         <div class="container" style="width: 100%;"></div>
                     </div>
                 </div>
@@ -105,11 +106,41 @@ $PESAN = $this->session->userdata('PESAN');
                 </div>
             </div>
         </div>
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="loading_modal">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="margin-top: 300px; margin-left: 650px">
+            <img src="<?php echo base_url('assets/dist/img/ajax-loader.gif');?>" alt=""/>
+        </div>
+    </div>
+    <div id="notifikasi" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5><i id="font" class="fa"></i> <div style="display:inline" id="status"></div></h5>
+                </div>
+                <div class="modal-body">
+                    <p id="teks"></p>
+                </div>
+                <div class="modal-footer">
+                    <button id="button_close" type="button" class="btn" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 
 
 </section>
 <script type="text/javascript">
+
+    function show_failed_notification(status, pesan){
+        $('#notifikasi').modal('show');
+        $('#notifikasi').addClass('modal-warning');
+        $('#font').addClass('fa-warning fa-fw');
+        $('#button_close').addClass('btn-warning');
+        $('#status').html(status);
+        $('#teks').html(pesan);
+    }
+
 
     $('#unitupi').change(function () {
       var level = $(this).val();
@@ -425,11 +456,21 @@ function createConfig(data,title) {
         var unitupi=$('#unitupi').val();
         var unitap=$('#unitap').val();
         var unitup=$('#unitup').val();
+         $('#inchart').hide();
         $('#form_filter').ajaxForm({
             type: "POST",
             url: "<?php echo base_url('data_404/delta_saldo'); ?>",
             data: {"tahun":tahun, "tahunBdg":tahunBdg, "unitupi":unitupi, "unitap":unitap , "unitup":unitup},
+            beforeSend: function () {
+                $('#bcari').attr('disabled', 'disabled');
+                $('#bcari').button('loading');
+                // loading
+                $('#loading_modal').modal({
+                    backdrop: 'static', keyboard: false
+                });
+            },
             success: function(msg) {
+                $('#inchart').hide();
                 var data = $data
                 console.log(data);
             }

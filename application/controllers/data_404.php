@@ -15,38 +15,52 @@ class data_404 extends CI_Controller {
             redirect('auth/login');
         }
     }
-    // <editor-fold defaultstate="collapsed" desc="Menu Dokumen - By Arif">
+
+    public function getdata404($param) {
+        $tahun = $this->input->post('tahun');
+        $unitupi = $this->input->post('unitupi');
+        $unitap = $this->input->post('unitap');
+        $unitup =$this->input->post('unitup');
+
+        if ($unitupi == '00') {
+            $unitupi = NULL;
+        }else if($unitap == '00') {
+            $unitap = NULL;
+        }else if($unitup == '00') {
+            $unitup = NULL;
+        }
+        // parameter
+        if ($param == 'saldoall') {
+            $data['data404all'] = $this->mdashboard->get404all($tahun, $unitupi, $unitap, $unitup); 
+            if (empty($data['data404all']) || $data['data404all'] == '') {
+                $data['status'] = 'Kosong';
+                $data['msg'] = 'Data Tidak Ditemukan';
+            }
+        }else if($param == 'lunasall'){
+            $data['data404all'] = $this->mdashboard->get404lunas($tahun, $unitupi, $unitap, $unitup); 
+            if (empty($data['data404all']) || $data['data404all'] == '') {
+                $data['status'] = 'Kosong';
+                $data['msg'] = 'Data Tidak Ditemukan';
+            }
+        }
+        $data['tahun'] = $tahun;
+        $data['unitupi'] = $unitupi;
+        $data['unitap'] = $unitap;
+        $data['unitup'] = $unitup;
+        echo json_encode($data);
+    }
 
     public function saldo() {
         $data['title'] = "Data 404 Saldo";
         $data['konten'] = "404/404all";
 
-        // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
         $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
 
-        $tahun = $this->input->post('tahun');;
-        $unitupi = $this->input->post('unitupi');
-        $unitap = $this->input->post('unitap');
-        $unitup = $this->input->post('unitup');
-
-        // print_r($tahun); exit();
-
-        if (!empty($tahun) or !empty($unitupi) or !empty($unitap) or !empty($unitup)) {
-            $data['data404all'] = $this->mdashboard->get404all($tahun, $unitupi, $unitap, $unitup); 
-            $data['filterTahun'] = $tahun;
-            $data['filterUpi'] = $unitupi;
-            $data['filterAp'] = $unitap;
-            $data['filterUp'] = $unitup;
-            // print_r($data); exit();
-        }else{
-            $data['data404all'] = $this->mdashboard->get404all(date('Y'), NULL, NULL, NULL);
-            $data['filterTahun'] = date('Y');
-            $data['filterUpi'] = 'NASIONAL';
-            $data['filterAp'] = NULL;
-            $data['filterUp'] = NULL;
-        }    
-        // print_r($data['dataall']); exit();
+        $data['filterTahun'] = date('Y');
+        $data['filterUpi'] = 'NASIONAL';
+        $data['filterAp'] = NULL;
+        $data['filterUp'] = NULL;
         $this->load->view('home', $data);
     }
 
@@ -57,26 +71,47 @@ class data_404 extends CI_Controller {
         $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
 
+        $data['filterTahun'] = date('Y');
+        $data['filterUpi'] = 'NASIONAL';
+        $data['filterAp'] = NULL;
+        $data['filterUp'] = NULL;
+        $this->load->view('home', $data);
+    }
+
+     public function getdata404delta($param) {
         $tahun = $this->input->post('tahun');;
+        $tahun1 = $this->input->post('tahun1');;
         $unitupi = $this->input->post('unitupi');
         $unitap = $this->input->post('unitap');
         $unitup = $this->input->post('unitup');
 
-        if (!empty($tahun) or !empty($unitupi) or !empty($unitap) or !empty($unitup)) {
-            $data['data404lunas'] = $this->mdashboard->get404lunas($tahun, $unitupi, $unitap, $unitup); 
-            $data['filterTahun'] = $tahun;
-            $data['filterUpi'] = $unitupi;
-            $data['filterAp'] = $unitap;
-            $data['filterUp'] = $unitup;
-        }else{
-            $data['data404lunas'] = $this->mdashboard->get404lunas(date('Y'), NULL, NULL, NULL);
-            $data['filterTahun'] = date('Y');
-            $data['filterUpi'] = 'NASIONAL';
-            $data['filterAp'] = NULL;
-            $data['filterUp'] = NULL;
-        }    
-        // print_r($data['dataall']); exit();
-        $this->load->view('home', $data);
+        if ($unitupi == '00') {
+            $unitupi = NULL;
+        }else if($unitap == '00') {
+            $unitap = NULL;
+        }else if($unitup == '00') {
+            $unitup = NULL;
+        }
+        // parameter
+        if ($param == 'saldodelta') {
+            $data['data404delta'] = $this->mdashboard->get404deltasaldo($tahun, $tahun1, $unitupi, $unitap, $unitup); 
+            if (empty($data['data404delta']) || $data['data404delta'] == '') {
+                $data['status'] = 'Kosong';
+                $data['msg'] = 'Data Tidak Ditemukan';
+            }
+        }else if($param == 'lunasdelta'){
+            $data['data404delta'] = $this->mdashboard->get404deltalunas($tahun, $tahun1, $unitupi, $unitap, $unitup);  
+            if (empty($data['data404delta']) || $data['data404delta'] == '') {
+                $data['status'] = 'Kosong';
+                $data['msg'] = 'Data Tidak Ditemukan';
+            }
+        }
+        $data['datatahun'] = $tahun;
+        $data['tahun1'] = $tahun;
+        $data['unitupi'] = $unitupi;
+        $data['unitap'] = $unitap;
+        $data['unitup'] = $unitup;
+        echo json_encode($data);
     }
 
     public function delta_saldo() {
@@ -101,7 +136,7 @@ class data_404 extends CI_Controller {
             $data['filterAp'] = $unitap;
             $data['filterUp'] = $unitup;
         }else{
-            $data['data404deltasaldo'] = $this->mdashboard->get404deltasaldo(date('Y'), date('Y')-1, NULL, NULL, NULL);
+            // $data['data404deltasaldo'] = $this->mdashboard->get404deltasaldo(date('Y'), date('Y')-1, NULL, NULL, NULL);
             $data['filterTahun'] = date('Y');
             $data['filterTahunBdg'] = date('Y') - 1;
             $data['filterUpi'] = 'NASIONAL';
@@ -135,7 +170,7 @@ class data_404 extends CI_Controller {
             $data['filterAp'] = $unitap;
             $data['filterUp'] = $unitup;
         }else{
-            $data['data404deltalunas'] = $this->mdashboard->get404deltalunas(date('Y'), date('Y')-1, NULL, NULL, NULL);
+            // $data['data404deltalunas'] = $this->mdashboard->get404deltalunas(date('Y'), date('Y')-1, NULL, NULL, NULL);
             $data['filterTahun'] = date('Y');
             $data['filterTahunBdg'] = date('Y')-1;
             $data['filterUpi'] = 'NASIONAL';

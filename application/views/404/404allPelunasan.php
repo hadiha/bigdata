@@ -5,7 +5,7 @@ $PESAN = $this->session->userdata('PESAN');
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary">
-                <form id="form_upload" class="form-horizontal" method="POST" enctype="multipart/form-data" >
+                <form id="form_filter" class="form-horizontal" method="POST" enctype="multipart/form-data" >
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-1">
@@ -67,65 +67,67 @@ $PESAN = $this->session->userdata('PESAN');
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-primary" id="bcari"  name="button" value="cari" onclick="cari()"><i class="fa fa-search fa-fw"></i> Cari</button>
-                                        <button class="btn btn-default" name="button" value="reset"><i class="fa  fa-refresh fa-fw" ></i> Reset</button>
+                                        <button class="btn btn-primary" id="bcari"  name="button" value="cari"><i class="fa fa-search fa-fw"></i> Cari</button>
+                                        <!-- <button class="btn btn-default" name="button" value="reset"><i class="fa  fa-refresh fa-fw" ></i> Reset</button> -->
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label class="col-sm-12 control-label" style="text-align:left"> Jenis Laporan : </label>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <select name="jenislap" id="jenislap" class="form-control">
-                                            <option value="">--- Pilih Jenis Laporan ---</option>
-                                            <option value="">LPB</option>
-                                            <option value="">Pasca</option>
-                                            <option value="">Gabungan</option>   
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-1">  
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <button class="btn btn-primary" id="bcari"  name="button" value="cari" ><i class="fa fa-search fa-fw"></i> Cari</button>
-                                        <button class="btn btn-default" name="button" value="reset"><i class="fa  fa-refresh fa-fw" ></i> Reset</button>
-                                    </div>
-                                </div>
-                            </div>
-                          </div> -->
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="col-md-12">
-                <div class="box box-primary">
-                    <div class="box-body">
-                        <div class="container" style="width: 100%;"></div>
-                    </div>
+        </div>
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <div id="inchart"><h2 style="text-align: center">404 Lunas All - Cari Data Terlebih Dahulu!</h2></div>
+                    <div id="container" style="width: 100%; padding: 0px 30px 30px 30px">
+                        <canvas id="canvas"></canvas>
+                    </div>  
                 </div>
             </div>
-            <div class="col-md-12">
-                <div class="box box-primary">
-                    <div class="box-body">
-                        <div class="container2" style="width: 100%;"></div>
+        </div>
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <div id="container" style="width: 100%; padding: 0px 30px 30px 30px">
+                        <canvas id="canvas2"></canvas>
+                    </div>  
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="loading_modal">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="margin-top: 300px; margin-left: 650px">
+                <img src="<?php echo base_url('assets/dist/img/ajax-loader.gif');?>" alt=""/>
+            </div>
+        </div>
+        <div id="notifikasi" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5><i id="font" class="fa"></i> <div style="display:inline" id="status"></div></h5>
+                    </div>
+                    <div class="modal-body">
+                        <p id="teks"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="button_close" type="button" class="btn" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 </section>
 <script type="text/javascript">
+
+    function show_failed_notification(status, pesan){
+        $('#notifikasi').modal('show');
+        $('#notifikasi').addClass('modal-warning');
+        $('#font').addClass('fa-warning fa-fw');
+        $('#button_close').addClass('btn-warning');
+        $('#status').html(status);
+        $('#teks').html(pesan);
+    }
 
     $('#unitupi').change(function () {
       var level = $(this).val();
@@ -186,47 +188,150 @@ $PESAN = $this->session->userdata('PESAN');
         ;
     })
 
-  // chart start
+    // chart start
+    var texttitle = '';
+    var texttitlerp = '';
+    var vunitupi='';
+    var vunitap='';
+    var vunitup='';
+    var rowslbr = [];
+    var rowsrp = [];
+    var rowsthbl = [];
+
+    $(document).ready(function(){
+        $("#bcari").click(function(){
+            var tahun=$('#tahun').val();
+            vunitupi=$('#unitupi').val();
+            vunitap=$('#unitap').val();
+            vunitup=$('#unitup').val();
+
+            if (tahun == null || tahun == '') {
+                show_failed_notification('WARNING!','Tahun Tidak Boleh Kosong');
+            } else{
+                $.ajax({
+                type: "post",
+                url: "<?php echo site_url('data_404/getdata404/lunasall') ?>",
+                cache: false,               
+                data:{"tahun":tahun, "unitupi":vunitupi, "unitap":vunitap, "unitup":vunitup},
+                beforeSend: function () {
+                    $('#bcari').attr('disabled', 'disabled');
+                    $('#bcari').button('loading');
+                    // loading
+                    $('#loading_modal').modal({
+                        backdrop: 'static', keyboard: false
+                    });
+                },
+                success: function(data){
+                    $('#loading_modal').modal('hide');
+                    $('#bcari').removeAttr('disabled');
+                    $('#bcari').button('reset');
+                    var obj = JSON.parse(data);
+                    var jsonrp = obj.data404all;
+                    var jtahun = obj.tahun;
+                    var junitupi = obj.unitupi;
+                    var junitap = obj.unitap;
+                    var junitup = obj.unitup;
+                    var msg = obj.msg;
+                    var status = obj.status;
+                    rowslbr.splice(0, rowslbr.length);
+                    rowsrp.splice(0, rowsrp.length);
+                    rowsthbl.splice(0, rowsthbl.length);
+
+                    if (status == 'Kosong') {
+                        show_failed_notification(status, msg);
+                        $('#inchart').show();
+                    }else{
+
+                        $('#inchart').hide();
+
+                        if (junitupi != "" && junitap != "" && junitup != "") {
+                            texttitlerp = '404 Lunas Rupiah - Tahun '+jtahun+' ('+junitup+')'
+                            texttitle = '404 Lunas Lembar - Tahun '+jtahun+' ('+junitup+')'
+                        } else if(junitupi != "" && junitap != ""){
+                            texttitlerp = '404 Lunas Rupiah - Tahun '+jtahun+' ('+junitap+')'
+                            texttitle = '404 Lunas Lembar - Tahun '+jtahun+' ('+junitap+')'
+                        } else {
+                            texttitlerp = '404 Lunas Rupiah - Tahun '+jtahun+' ('+junitupi+')'
+                            texttitle = '404 Lunas Lembar - Tahun '+jtahun+' ('+junitupi+')'
+                        }
+
+                        for (var i = 0; i < obj.data404all.length; i++) {
+                            var LBR_TOTAL = obj.data404all[i].LBR_TOTAL;
+                            var RUPIAH_TOTAL = obj.data404all[i].RUPIAH_TOTAL;
+                            var THBL = obj.data404all[i].THBL;
+
+                            rowslbr.push(
+                                parseInt(LBR_TOTAL)     
+                                );
+
+                            rowsrp.push(
+                                parseInt(RUPIAH_TOTAL)     
+                                );
+
+                            rowsthbl.push(
+                                parseInt(THBL)           
+                                );
+                        };  
+                        renderchart();
+                        renderchart2();
+                    }   
+                }   
+
+                }); 
+                return false;
+            }
+        });
+    });     
 
     var barChartData = {
-        labels: [
-        <?php foreach ($data404lunas as $dt_404) { 
-            echo $dt_404['THBL'] . ',';
-        }?>     
-        ],
+        labels:rowsthbl,
         datasets: [{
             label: 'Lembar',
-            backgroundColor: window.chartColors.red,
-            borderColor: window.chartColors.red,
-            data: [
-            <?php foreach ($data404lunas as $dt_404) { 
-                echo $dt_404['LBR_TOTAL'] . ',';
-            }?>
-            ],
-            fill: false,
+            backgroundColor: window.chartColors.blue,
+            borderColor: window.chartColors.blue,
+            borderWidth: 1,
+            data: rowslbr
         }]
 
     };
 
     var barChartDataRupiah = {
-        labels: [
-        <?php foreach ($data404lunas as $dt_404) { 
-            echo $dt_404['THBL'] . ',';
-        }?>     
-        ],
+        labels:rowsthbl,
         datasets: [{
             label: 'Rupiah',
-            backgroundColor: window.chartColors.blue,
-            borderColor: window.chartColors.blue,
-            data: [
-            <?php foreach ($data404lunas as $dt_404) { 
-                echo $dt_404['RUPIAH_TOTAL'] . ',';
-            }?>
-            ],
-            fill: false,
+            backgroundColor: window.chartColors.red,
+            borderColor: window.chartColors.red,
+            borderWidth: 1,
+            data: rowsrp
         }]
 
     };
+
+    var dataY = [{
+        ticks: {
+            callback: function(label, index, labels) {
+                if (vunitupi == '00' || vunitupi == '') {
+                     return label/1000000000000+'T';
+                }else{
+                    return label/1000000000+'M';
+                }
+            },  
+            min: 0
+        }
+    }]
+
+    var dataY2 = [{
+        ticks: {
+            callback: function(label, index, labels) {
+                if (vunitupi == '00' || vunitupi == '') {
+                     return label/1000000+'Jt';
+                }else{
+                    return label/1000+'Rb';
+                }
+            },  
+            min: 0
+        }
+    }]
 
     function createConfig(data,title) {
             return {
@@ -239,23 +344,12 @@ $PESAN = $this->session->userdata('PESAN');
                     },  
                     title: {
                         display: true,
-                        fontSize: 18,
-                        fontStyle: 'bold',
+                        fontSize: 20,
+                        padding: 30,
                         text: title
                     },
                     scales: {
-                        yAxes: [{
-                            ticks: {
-                                callback: function(label, index, labels) {
-                                    <?php if (!empty($filterUpi) or !empty($filterAp) or !empty($filterUp)): ?>
-                                        return label/1000000000+'M';
-                                    <?php else: ?>
-                                        return label/1000000000000+'T';
-                                    <?php endif ?>
-                                },  
-                                min: 0
-                            }
-                        }]
+                        yAxes: dataY
                     }
                 }
             };
@@ -272,23 +366,12 @@ $PESAN = $this->session->userdata('PESAN');
                     },  
                     title: {
                         display: true,
-                        fontSize: 18,
-                        fontStyle: 'bold',
+                        fontSize: 20,
+                        padding: 30,
                         text: title
                     },
                     scales: {
-                        yAxes: [{
-                            ticks: {
-                                callback: function(label, index, labels) {
-                                    <?php if (!empty($filterUpi) or !empty($filterAp) or !empty($filterUp)): ?>
-                                        return label/1000+'K';
-                                    <?php else: ?>
-                                        return label/1000000+'J';
-                                    <?php endif ?>
-                                },  
-                                min: 0
-                            }
-                        }]
+                        yAxes: dataY2
                     }
                 }
             };
@@ -305,7 +388,7 @@ $PESAN = $this->session->userdata('PESAN');
                                 // Draw the text in black, with the specified font
                                 ctx.fillStyle = 'rgb(0, 0, 0)';
 
-                                var fontSize = 9;
+                                var fontSize = 10;
                                 var fontStyle = 'normal';
                                 var fontFamily = 'Helvetica Neue';
                                 ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
@@ -326,64 +409,50 @@ $PESAN = $this->session->userdata('PESAN');
         }
     });
 
-    var titleRp = <?php if (!empty($filterUpi) && !empty($filterAp) && !empty($filterUp)): ?>
-                    '404 Lunas Rupiah - <?php echo $filterUp ?> Tahun <?php echo $filterTahun ?>'
-                <?php elseif (!empty($filterUpi) && !empty($filterAp)): ?>
-                    '404 Lunas Rupiah - <?php echo $filterAp ?> Tahun <?php echo $filterTahun ?>'
-                <?php else: ?>
-                    '404 Lunas Rupiah - <?php echo $filterUpi ?> Tahun <?php echo $filterTahun ?>'
-                <?php endif ?>
-
-    var titleLb = <?php if (!empty($filterUpi) && !empty($filterAp) && !empty($filterUp)): ?>
-                    '404 Lunas Lembar - <?php echo $filterUp ?> Tahun <?php echo $filterTahun ?>'
-                <?php elseif (!empty($filterUpi) && !empty($filterAp)): ?>
-                    '404 Lunas Lembar - <?php echo $filterAp ?> Tahun <?php echo $filterTahun ?>'
-                <?php else: ?>
-                    '404 Lunas Lembar - <?php echo $filterUpi ?> Tahun <?php echo $filterTahun ?>'
-                <?php endif ?>
-
-    window.onload = function() {
-            var container = document.querySelector('.container');
-            var container2 = document.querySelector('.container2');
-
-            [{
-                data: barChartData,
-                title: titleLb
-            }, {
-                data: barChartDataRupiah,
-                title: titleRp
-            }].forEach(function(details) {
-                var div = document.createElement('div');
-                div.classList.add('chart-container');
-
-                var canvas = document.createElement('canvas');
-                div.appendChild(canvas);
-                if (details.data == barChartDataRupiah) {
-                    container.appendChild(div); 
-                    var config = createConfig(details.data,details.title);
-                }else{
-                    container2.appendChild(div)
-                    var config = createConfig2(details.data,details.title);
+    function renderchart(){
+        var ctx = document.getElementById('canvas').getContext('2d');
+        window.myBar = new Chart(ctx, {
+            type: 'bar',
+            data: barChartDataRupiah,
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'bottom',
+                },
+                title: {
+                    display: true,
+                    fontSize: 20,
+                    padding: 30,
+                    text: texttitlerp
+                },
+                scales: {
+                    yAxes: dataY
                 }
+            }
+        });
+    }
 
-                var ctx = canvas.getContext('2d');
-                new Chart(ctx, config);
-            });
-    };
+    function renderchart2(){
+        var ctx = document.getElementById('canvas2').getContext('2d');
+        window.myBar = new Chart(ctx, {
+            type: 'bar',
+            data: barChartData,
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'bottom',
+                },
+                title: {
+                    display: true,
+                    fontSize: 20,
+                    padding: 30,
+                    text: texttitle
+                },
+                scales: {
+                    yAxes: dataY2
+                }
+            }
+        });
+    }
 
-function cari(){
-    var tahun=$('#tahun').val();
-    var unitupi=$('#unitupi').val();
-    var unitap=$('#unitap').val();
-    var unitup=$('#unitup').val();
-    $('#form_filter').ajaxForm ({
-        type: "POST",
-        url: "<?php echo base_url('data_404/pelunasan'); ?>",
-        data: {"tahun":tahun, "unitupi":unitupi, "unitap":unitap, "unitup":unitup},
-        success: function(msg) {
-            var data = $data
-            console.log(data);
-        }
-    });
-}
 </script>

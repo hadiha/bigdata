@@ -39,9 +39,6 @@
         <script src="<?php echo base_url('assets/dist/js/app.js');?>" type="text/javascript"></script>
         <!-- DATA TABES SCRIPT -->
 
-        <!-- <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script> -->
-        <script src="<?php echo base_url('assets/plugins/canvasjs/canvasjs.min.js');?>"></script>
-
         <script src="<?php echo base_url('assets/dist/Chart.bundle.js');?>"></script>
         <script src="<?php echo base_url('assets/utils.js');?>"></script>
 
@@ -147,9 +144,9 @@
          
                     <ul class="sidebar-menu">
                         <li class="header">MAIN NAVIGATION</li>
-                        <li <?php if ($konten=='309_rupiah/vdashboard') {echo "class=active";} ?>>
+                        <!-- <li <?php if ($konten=='309_rupiah/vdashboard') {echo "class=active";} ?>>
                             <a href="<?php echo base_url('Rupiah_309/main');?>"><i class="fa fa-bar-chart"></i><span> Dashboard</span></a>
-                        </li>
+                        </li> -->
                         <li class="treeview">
                           <a href="#">
                             <i class="fa fa-bar-chart"></i> <span>309 Rupiah</span>

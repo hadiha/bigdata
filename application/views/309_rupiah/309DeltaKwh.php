@@ -96,7 +96,7 @@ $PESAN = $this->session->userdata('PESAN');
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <button class="btn btn-primary" id="bcari"  name="button" value="cari" onclick="cari()"><i class="fa fa-search fa-fw"></i> Cari</button>
-                                        <button class="btn btn-default" name="button" value="reset"><i class="fa  fa-refresh fa-fw" ></i> Reset</button>
+                                        <!-- <button class="btn btn-default" name="button" value="reset"><i class="fa  fa-refresh fa-fw" ></i> Reset</button> -->
                                     </div>
                                 </div>
                             </div>
@@ -108,15 +108,44 @@ $PESAN = $this->session->userdata('PESAN');
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-body">
-                    <div style="width: 100%; padding: 0px 30px 30px 30px;">
+                    <div id="inchart"><h2 style="text-align: center">309 Kwh Delta - Cari Data Terlebih Dahulu!</h2></div>
+                    <div id="container" style="width: 100%; padding: 0px 30px 30px 30px">
                         <canvas id="canvas"></canvas>
                     </div>  
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="loading_modal">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="margin-top: 300px; margin-left: 650px">
+                <img src="<?php echo base_url('assets/dist/img/ajax-loader.gif');?>" alt=""/>
+            </div>
+        </div>
+        <div id="notifikasi" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5><i id="font" class="fa"></i> <div style="display:inline" id="status"></div></h5>
+                    </div>
+                    <div class="modal-body">
+                        <p id="teks"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="button_close" type="button" class="btn" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 <script type="text/javascript">
+    function show_failed_notification(status, pesan){
+        $('#notifikasi').modal('show');
+        $('#notifikasi').addClass('modal-warning');
+        $('#font').addClass('fa-warning fa-fw');
+        $('#button_close').addClass('btn-warning');
+        $('#status').html(status);
+        $('#teks').html(pesan);
+    }
 
     $('#unitupi').change(function () {
       var level = $(this).val();
@@ -176,126 +205,251 @@ $PESAN = $this->session->userdata('PESAN');
 
 // chart start
 
-var chartData = {
-    labels: [
-        <?php foreach ($datadelta as $dt_kwh) { 
-            echo $dt_kwh['THBLLAP'] . ',';
-        }?> 
-    ],
-    datasets: [{
-        type: 'line',
-        label: 'Line <?php echo $datatahun ?>',
-        borderColor: window.chartColors.blue,
-        borderWidth: 2,
-        fill: false,
-        data: [
-            <?php foreach ($datadelta as $dt_kwh) { 
-                echo $dt_kwh['JMLKWH'] . ',';
-            }?>
-        ]
-    },{
-        type: 'line',
-        label: 'Line <?php echo $tahun1 ?>',
-        borderColor: window.chartColors.red,
-        borderWidth: 2,
-        fill: false,
-        data: [
-            <?php foreach ($datadelta as $dt_kwh) { 
-                echo $dt_kwh['JMLKWH_2'] . ',';
-            }?>
-        ]
-    },{
-        type: 'bar',
-        label: '<?php echo $datatahun ?>',
-        backgroundColor: window.chartColors.blue,
-        data: [
-            <?php foreach ($datadelta as $dt_kwh) { 
-                echo $dt_kwh['JMLKWH'] . ',';
-            }?>
-        ],
-        borderColor: 'white',
-        borderWidth: 2
-    }, {
-        type: 'bar',
-        label: '<?php echo $tahun1 ?>',
-        backgroundColor: window.chartColors.red,
-        data: [
-            <?php foreach ($datadelta as $dt_kwh) { 
-                echo $dt_kwh['JMLKWH_2'] . ',';
-            }?>
-        ],
-        borderColor: 'white',
-        borderWidth: 2
-    }]
+var jInit = '<?php echo $init?>';
+var texttitle = '';
+var datalabel = '';
+var datalabel2 = '';
+if(jInit == 'akhir'){
+    var rowsall = [];
+    var rowsall2 = [];
+    var rowsthbl = [];
+}else{
+    var rowsall =   [
+                        <?php foreach ($datadelta as $dt_rupiah) { 
+                            echo $dt_rupiah['JMLKWH'] . ',';
+                        }?>
+                    ];
+    var rowsall2 =   [
+                        <?php foreach ($datadelta as $dt_rupiah) { 
+                            echo $dt_rupiah['JMLKWH_2'] . ',';
+                        }?>
+                    ];
+    var rowsthbl =  [
+                        <?php foreach ($datadelta as $dt_rupiah) { 
+                            echo $dt_rupiah['THBLLAP'] . ',';
+                        }?>
+                    ];
+    texttitle = <?php if (!empty($unitupi) && !empty($unitap) && !empty($unitup)): ?>
+                    '309 Kwh Delta <?php echo $jenislap ?> - Tahun <?php echo $datatahun ?>/<?php echo $tahun1 ?> (<?php echo $unitup ?>)'
+                <?php elseif (!empty($unitupi) && !empty($unitap)): ?>
+                    '309 Kwh Delta <?php echo $jenislap ?> - Tahun <?php echo $datatahun ?>/<?php echo $tahun1 ?> (<?php echo $unitap ?>)'
+                <?php else: ?>
+                    '309 Kwh Delta <?php echo $jenislap ?> - Tahun <?php echo $datatahun ?>/<?php echo $tahun1 ?> (<?php echo $unitupi ?>)'
+                <?php endif ?>
+    datalabel = '<?php echo $datatahun ?>'
 
-};
+    datalabel2 = '<?php echo $tahun1 ?>'
+
+    console.log('rowsall :'+ rowsall);
+    console.log('rowsall2 :'+ rowsall2);
+}
+
+var vunitupi='';
+var vunitap='';
+var vunitup='';
+
+$(document).ready(function(){
+    $("#bcari").click(function(){
+        var tahun=$('#tahun').val();
+        var tahun1=$('#tahun1').val();
+        var jenislap=$('#jenislap').val();
+        vunitupi=$('#unitupi').val();
+        vunitap=$('#unitap').val();
+        vunitup=$('#unitup').val();
+
+        if (tahun == null || tahun == '') {
+            show_failed_notification('WARNING!','Tahun Tidak Boleh Kosong');
+        }else if(tahun1 == null || tahun1 == ''){
+            show_failed_notification('WARNING!','Tahun Pembanding Tidak Boleh Kosong');
+        }else if(jenislap == null || jenislap == ''){
+            show_failed_notification('WARNING!','Jenislap Tidak Boleh Kosong');
+        }else{
+            $.ajax({
+                type: "post",
+                url: "<?php echo site_url('Rupiah_309/getdelta309') ?>",
+                cache: false,               
+                data:{"tahun":tahun, "tahun1":tahun1, "jenislap":jenislap, "unitupi":vunitupi, "unitap":vunitap, "unitup":vunitup},
+                beforeSend: function () {
+                    $('#bcari').attr('disabled', 'disabled');
+                    $('#bcari').button('loading');
+                    // loading
+                    $('#loading_modal').modal({
+                        backdrop: 'static', keyboard: false
+                    });
+                },
+                success: function(data){
+                    $('#loading_modal').modal('hide');
+                    $('#bcari').removeAttr('disabled');
+                    $('#bcari').button('reset');
+                    var obj = JSON.parse(data);
+                    var jsonrp = obj.datadelta;
+                    var jtahun = obj.datatahun;
+                    var jtahun1 = obj.tahun1;
+                    var jjenislap = obj.jenislap;
+                    var junitupi = obj.unitupi;
+                    var junitap = obj.unitap;
+                    var junitup = obj.unitup;
+                    var msg = obj.msg;
+                    var status = obj.status;
+                    jInit = obj.init;
+                    rowsall.splice(0, rowsall.length);
+                    rowsall2.splice(0, rowsall2.length);
+                    rowsthbl.splice(0, rowsthbl.length);
+
+                    if (status == 'Kosong') {
+                        show_failed_notification(status, msg);
+                        myBar.destroy();
+                        $('#inchart').show();
+                    }else{
+
+                        $('#inchart').hide();
+
+                        if (junitupi != "" && junitap != "" && junitup != "") {
+                            texttitle = '309 Kwh Delta '+jenislap+' - Tahun '+jtahun+'/'+jtahun1+' ('+junitup+')'
+                        } else if(junitupi != "" && junitap != ""){
+                            texttitle = '309 Kwh Delta '+jenislap+' - Tahun '+jtahun+'/'+jtahun1+' ('+junitap+')'
+                        } else {
+                            texttitle = '309 Kwh Delta '+jenislap+' - Tahun '+jtahun+'/'+jtahun1+' ('+junitupi+')'
+                        }
+
+                        datalabel = jtahun
+                        datalabel2 = jtahun1
+
+                        for (var i = 0; i < obj.datadelta.length; i++) {
+                            var JMLKWH = obj.datadelta[i].JMLKWH;
+                            var JMLKWH_2 = obj.datadelta[i].JMLKWH_2;
+                            var THBLLAP = obj.datadelta[i].THBLLAP;
+                            
+                            rowsall.push(
+                                parseInt(JMLKWH)     
+                            );
+
+                            rowsall2.push(
+                                parseInt(JMLKWH_2)     
+                            );
+
+                            rowsthbl.push(
+                                parseInt(THBLLAP)           
+                            );
+                        };  
+                        renderchart();
+                    }
+                }   
+
+            });
+            return false;
+        }
+    });
+}); 
+
+
+// var barChartData = {
+//     labels:rowsthbl,
+//     datasets: [{
+//         type: 'line',
+//         label: datalabel,
+//         borderColor: window.chartColors.blue,
+//         borderWidth: 2,
+//         fill: false,
+//         data: rowsall
+//     },{
+//         type: 'line',
+//         label: datalabel2,
+//         borderColor: window.chartColors.red,
+//         borderWidth: 2,
+//         fill: false,
+//         data: rowsall2
+//     },{
+//         type: 'bar',
+//         label: datalabel,
+//         backgroundColor: window.chartColors.blue,
+//         data: rowsall,
+//         borderColor: 'white',
+//         borderWidth: 2
+//     }, {
+//         type: 'bar',
+//         label: datalabel2,
+//         backgroundColor: window.chartColors.red,
+//         data: rowsall2,
+//         borderColor: 'white',
+//         borderWidth: 2
+//     }]
+
+// };
 
 var dataY = [{
     ticks: {
         callback: function(label, index, labels) {
-            <?php if (!empty($unitupi) or !empty($unitap) or !empty($unitup)): ?>
+            if (vunitupi == '00') {
+                 return label/1000000000+'M';
+            }else{
                 return label/1000000+'Jt';
-            <?php else: ?>
-                return label/1000000000+'M';
-            <?php endif ?>
+            }
         },  
         min: 0
     }
 }]
 
-var texttitle = <?php if (!empty($unitupi) && !empty($unitap) && !empty($unitup)): ?>
-                    '309 Kwh Delta <?php echo $jenislap ?> - <?php echo $unitup ?> Tahun <?php echo $datatahun ?>'
-                <?php elseif (!empty($unitupi) && !empty($unitap)): ?>
-                    '309 Kwh Delta <?php echo $jenislap ?> - <?php echo $unitap ?> Tahun <?php echo $datatahun ?>'
-                <?php else: ?>
-                    '309 Kwh Delta <?php echo $jenislap ?> - <?php echo $unitupi ?> Tahun <?php echo $datatahun ?>'
-                <?php endif ?>
-
 window.onload = function() {
+    // renderchart();
+};
+
+function renderchart(){
     var ctx = document.getElementById('canvas').getContext('2d');
-    window.myMixedChart = new Chart(ctx, {
+    window.myBar = new Chart(ctx, {
         type: 'bar',
-        data: chartData,
+        data: {
+    labels:rowsthbl,
+    datasets: [{
+        type: 'line',
+        label: datalabel,
+        borderColor: window.chartColors.blue,
+        borderWidth: 2,
+        fill: false,
+        data: rowsall
+    },{
+        type: 'line',
+        label: datalabel2,
+        borderColor: window.chartColors.red,
+        borderWidth: 2,
+        fill: false,
+        data: rowsall2
+    },{
+        type: 'bar',
+        label: datalabel,
+        backgroundColor: window.chartColors.blue,
+        data: rowsall,
+        borderColor: 'white',
+        borderWidth: 2
+    }, {
+        type: 'bar',
+        label: datalabel2,
+        backgroundColor: window.chartColors.red,
+        data: rowsall2,
+        borderColor: 'white',
+        borderWidth: 2
+    }]
+
+},
         options: {
             responsive: true,
             legend: {
                 position: 'bottom',
                 labels: {
                             usePointStyle: true
-                        }
+                        }   
             },
             title: {
                 display: true,
-                fontSize: 18,
-                fontStyle: 'bold',
+                fontSize: 20,
+                padding: 30,
                 text: texttitle
-            },
-            tooltips: {
-                mode: 'index',
-                intersect: true
             },
             scales: {
                 yAxes: dataY
             }
         }
     });
-};
-
-function cari(){
-    var tahun=$('#tahun').val();
-    var tahun1=$('#tahun1').val();
-    var jenislap=$('#jenislap').val();
-    var unitupi=$('#unitupi').val();
-    var unitap=$('#unitap').val();
-    var unitup=$('#unitup').val();
-    $('#form_filter').ajaxForm ({
-        type: "POST",
-        url: "<?php echo base_url('Rupiah_309/delta309/deltakwh'); ?>",
-        data: {"tahun":tahun, "tahun1":tahun1, "jenislap":jenislap, "unitupi":unitupi, "unitap":unitap, "unitup":unitup},
-        success: function(msg) {
-            var data = $data
-            console.log(data);
-        }
-    });
 }
+
 </script>

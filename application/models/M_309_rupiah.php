@@ -7,8 +7,9 @@ class M_309_rupiah extends CI_Model {
     public function get_list_tahun() {
         $tahun_skrg = date('Y');
         $tahun_start = $tahun_skrg - 5 ;
+        $tahun_end = $tahun_skrg + 4 ;
 
-        for ($i=$tahun_start; $i <= $tahun_skrg; $i++) { 
+        for ($i=$tahun_start; $i <= $tahun_end; $i++) { 
             $result[] = $i;
         }
 

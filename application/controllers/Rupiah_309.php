@@ -18,10 +18,15 @@ class Rupiah_309 extends CI_Controller {
     // <editor-fold defaultstate="collapsed" desc="Menu Dokumen - By Arif">
 
     public function main() {
-        $data['title'] = "Dashboard";
-        $data['konten'] = "309_rupiah/vdashboard";
+        // $data['title'] = "Dashboard";
+        // $data['konten'] = "309_rupiah/vdashboard";
+        $data['title'] = "Data 309 Rupiah";
+        $data['konten'] = "309_rupiah/index_all";
 
-        $data['data309all'] = $this->mdashboard->get309all(date('Y'), 'TOTAL', NULL, NULL, NULL);
+        $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
+        $data['total_upi'] = $this->M_309_rupiah->get_upi();
+
+        // $data['data309all'] = $this->mdashboard->get309all(date('Y'), 'TOTAL', '52', '52100', '52101');
         $data['datatahun'] = date('Y');
         $data['datajenislap']= 'GABUNGAN';
         // print_r($data['dataall']); exit();
@@ -47,175 +52,46 @@ class Rupiah_309 extends CI_Controller {
         $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
 
+        
+        // $data['dataall'] = $this->mdashboard->get309all(date('Y'), 'TOTAL', '52', '52100', '52101');
+        $data['tahun'] = date('Y');
+        $data['jenislap'] = 'GABUNGAN';
+        $data['unitupi'] = '';
+        $data['unitap'] = '';
+        $data['unitup'] = '';
+        $data['init'] = 'awal';
+        $this->load->view('home', $data);
+    }
+
+    public function get309all() {
         $tahun = $this->input->post('tahun');
         $jenislap = $this->input->post('jenislap');
         $unitupi = $this->input->post('unitupi');
         $unitap = $this->input->post('unitap');
         $unitup =$this->input->post('unitup');
+
         if ($unitupi == '00') {
             $unitupi = NULL;
+        }else if($unitap == '00') {
+            $unitap = NULL;
+        }else if($unitup == '00') {
+            $unitup = NULL;
         }
-
-        if (!empty($tahun) or !empty($jenislap) or !empty($unitupi) or !empty($unitap) or !empty($unitup)) {
-            $data['dataall'] = $this->mdashboard->get309all($tahun, $jenislap, $unitupi, $unitap, $unitup);
-            $data['tahun'] = $tahun;
-            $data['jenislap'] = $jenislap;
-            $data['unitupi'] = $unitupi;
-            $data['unitap'] = $unitap;
-            $data['unitup'] = $unitup;
-        }else{
-            $data['dataall'] = $this->mdashboard->get309all(date('Y'), 'TOTAL', NULL, NULL, NULL);
-            $data['tahun'] = date('Y');
-            $data['jenislap'] = 'GABUNGAN';
-            $data['unitupi'] = NULL;
-            $data['unitap'] = NULL;
-            $data['unitup'] = NULL;
-        }    
-        // print_r($data['dataall']); exit();
-        $this->load->view('home', $data);
+        // parameter
+        $data['dataall'] = $this->mdashboard->get309all($tahun, $jenislap, $unitupi, $unitap, $unitup);
+        if (empty($data['dataall']) || $data['dataall'] == '') {
+            $data['status'] = 'Kosong';
+            $data['msg'] = 'Data Tidak Ditemukan';
+        }
+        $data['init'] = 'akhir';
+        $data['tahun'] = $tahun;
+        $data['jenislap'] = $jenislap;
+        $data['unitupi'] = $unitupi;
+        $data['unitap'] = $unitap;
+        $data['unitup'] = $unitup;
+        echo json_encode($data);
     }
 
-
-    // public function all() {
-    //     $data['title'] = "Data 309 Rupiah";
-    //     $data['konten'] = "309_rupiah/index_all";
-
-    //     // $data['rs_bulan'] = $this->datetimemanipulation->get_list_month();
-    //     $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
-    //     $data['total_upi'] = $this->M_309_rupiah->get_upi();
-
-    //     $tahun = $this->input->post('tahun');
-    //     $jenislap = $this->input->post('jenislap');
-    //     $unitupi = $this->input->post('unitupi');
-    //     $unitap = $this->input->post('unitap');
-    //     $unitup =$this->input->post('unitup');
-    //     if ($unitupi == '00') {
-    //         $unitupi = NULL;
-    //     }
-
-    //     if (!empty($tahun) or !empty($jenislap) or !empty($unitupi) or !empty($unitap) or !empty($unitup)) {
-    //         $data['dataall'] = $this->mdashboard->get309all($tahun, $jenislap, $unitupi, $unitap, $unitup);
-    //         $data['tahun'] = $tahun;
-    //         $data['jenislap'] = $jenislap;
-    //         $data['unitupi'] = $unitupi;
-    //         $data['unitap'] = $unitap;
-    //         $data['unitup'] = $unitup;
-    //     }else{
-    //         $data['dataall'] = $this->mdashboard->get309all(date('Y'), 'TOTAL', NULL, NULL, NULL);
-    //         $data['tahun'] = date('Y');
-    //         $data['jenislap'] = 'GABUNGAN';
-    //         $data['unitupi'] = NULL;
-    //         $data['unitap'] = NULL;
-    //         $data['unitup'] = NULL;
-    //     }    
-    //     // print_r($data['dataall']); exit();
-    //     $this->load->view('home', $data);
-    // }
-
-    // public function allKwh() {
-    //     $data['title'] = "Data 309 Kwh";
-    //     $data['konten'] = "309_rupiah/309AllKwh";
-
-    //     $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
-    //     $data['total_upi'] = $this->M_309_rupiah->get_upi();
-
-    //     $tahun = $this->input->post('tahun');
-    //     $jenislap = $this->input->post('jenislap');
-    //     $unitupi = $this->input->post('unitupi');
-    //     $unitap = $this->input->post('unitap');
-    //     $unitup =$this->input->post('unitup');
-    //     if ($unitupi == '00') {
-    //         $unitupi = NULL;
-    //     }
-
-    //     if (!empty($tahun) or !empty($jenislap) or !empty($unitupi) or !empty($unitap) or !empty($unitup)) {
-    //         $data['dataall'] = $this->mdashboard->get309all($tahun, $jenislap, $unitupi, $unitap, $unitup);
-    //         $data['tahun'] = $tahun;
-    //         $data['jenislap'] = $jenislap;
-    //         $data['unitupi'] = $unitupi;
-    //         $data['unitap'] = $unitap;
-    //         $data['unitup'] = $unitup;
-    //     }else{
-    //         $data['dataall'] = $this->mdashboard->get309all(date('Y'), 'TOTAL', NULL, NULL, NULL);
-    //         $data['tahun'] = date('Y');
-    //         $data['jenislap'] = 'GABUNGAN';
-    //         $data['unitupi'] = NULL;
-    //         $data['unitap'] = NULL;
-    //         $data['unitup'] = NULL;
-    //     }    
-    //     // print_r($data['dataall']); exit();
-    //     $this->load->view('home', $data);
-    // }
-
-    // public function kumulatif() {
-    //     $data['title'] = "Data 309 Akumulasi";
-    //     $data['konten'] = "309_rupiah/309kumulatif";
-
-    //     $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
-    //     $data['total_upi'] = $this->M_309_rupiah->get_upi();
-
-    //     $tahun = $this->input->post('tahun');
-    //     $jenislap = $this->input->post('jenislap');
-    //     $unitupi = $this->input->post('unitupi');
-    //     $unitap = $this->input->post('unitap');
-    //     $unitup =$this->input->post('unitup');
-    //     if ($unitupi == '00') {
-    //         $unitupi = NULL;
-    //     }
-
-    //     if (!empty($tahun) or !empty($jenislap) or !empty($unitupi) or !empty($unitap) or !empty($unitup)) {
-    //         $data['datakomulatif'] = $this->mdashboard->get309all($tahun, $jenislap, $unitupi, $unitap, $unitup);
-    //         $data['tahun'] = $tahun;
-    //         $data['jenislap'] = $jenislap;
-    //         $data['unitupi'] = $unitupi;
-    //         $data['unitap'] = $unitap;
-    //         $data['unitup'] = $unitup;
-    //     }else{
-    //         $data['datakomulatif'] = $this->mdashboard->get309all(date('Y'), 'TOTAL', NULL, NULL, NULL);
-    //         $data['tahun'] = date('Y');
-    //         $data['jenislap'] = 'GABUNGAN';
-    //         $data['unitupi'] = NULL;
-    //         $data['unitap'] = NULL;
-    //         $data['unitup'] = NULL;
-    //     }    
-    //     // print_r($data['dataall']); exit();
-    //     $this->load->view('home', $data);
-    // }
-
-    // public function kumulatifKwh() {
-    //     $data['title'] = "Data 309 Akumulasi";
-    //     $data['konten'] = "309_rupiah/309KumulatifKwh";
-
-    //     $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
-    //     $data['total_upi'] = $this->M_309_rupiah->get_upi();
-
-    //     $tahun = $this->input->post('tahun');
-    //     $jenislap = $this->input->post('jenislap');
-    //     $unitupi = $this->input->post('unitupi');
-    //     $unitap = $this->input->post('unitap');
-    //     $unitup =$this->input->post('unitup');
-    //     if ($unitupi == '00') {
-    //         $unitupi = NULL;
-    //     }
-
-    //     if (!empty($tahun) or !empty($jenislap) or !empty($unitupi) or !empty($unitap) or !empty($unitup)) {
-    //         $data['datakomulatifkwh'] = $this->mdashboard->get309all($tahun, $jenislap, $unitupi, $unitap, $unitup);
-    //         $data['tahun'] = $tahun;
-    //         $data['jenislap'] = $jenislap;
-    //         $data['unitupi'] = $unitupi;
-    //         $data['unitap'] = $unitap;
-    //         $data['unitup'] = $unitup;
-    //     }else{
-    //         $data['datakomulatifkwh'] = $this->mdashboard->get309all(date('Y'), 'TOTAL', NULL, NULL, NULL);
-    //         $data['tahun'] = date('Y');
-    //         $data['jenislap'] = 'GABUNGAN';
-    //         $data['unitupi'] = NULL;
-    //         $data['unitap'] = NULL;
-    //         $data['unitup'] = NULL;
-    //     }    
-    //     // print_r($data['dataall']); exit();
-    //     $this->load->view('home', $data);
-    // }
 
     public function delta309($titlemenu) {
         if ($titlemenu == 'delta') {
@@ -230,6 +106,21 @@ class Rupiah_309 extends CI_Controller {
         $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
         
+        
+        // $data['datadelta'] = $this->mdashboard->get309delta(date('Y'), '2017', 'TOTAL', '52', '52100', '52101');
+        $data['datatahun'] = date('Y');
+        $data['tahun1'] = date('Y');
+        $data['jenislap'] = 'GABUNGAN';
+        $data['unitupi'] = '';
+        $data['unitap'] = '';
+        $data['unitup'] = '';
+        $data['init'] = 'awal';
+        // print_r($data['datadelta']); exit();
+        $this->load->view('home', $data);
+    }
+
+
+    public function getdelta309() {
         $tahun = $this->input->post('tahun');
         $tahun1 = $this->input->post('tahun1');
         $jenislap = $this->input->post('jenislap');
@@ -239,67 +130,26 @@ class Rupiah_309 extends CI_Controller {
 
         if ($unitupi == '00') {
             $unitupi = NULL;
+        }else if($unitap == '00') {
+            $unitap = NULL;
+        }else if($unitup == '00') {
+            $unitup = NULL;
         }
-
-        if (!empty($tahun) or !empty($tahun1) or !empty($jenislap) or !empty($unitupi) or !empty($unitap) or !empty($unitup)) {
-            $data['datadelta'] = $this->mdashboard->get309delta($tahun, $tahun1, $jenislap, $unitupi, $unitap, $unitup);
-            $data['datatahun'] = $tahun;
-            $data['tahun1'] = $tahun1;
-            $data['jenislap'] = $jenislap;
-            $data['unitupi'] = $unitupi;
-            $data['unitap'] = $unitap;
-            $data['unitup'] = $unitup;
-        }else{
-            $data['datadelta'] = $this->mdashboard->get309delta(date('Y'), '2017', 'TOTAL', NULL, NULL, NULL);
-            $data['datatahun'] = date('Y');
-            $data['tahun1'] = '2017';
-            $data['jenislap'] = 'GABUNGAN';
-            $data['unitupi'] = NULL;
-            $data['unitap'] = NULL;
-            $data['unitup'] = NULL;
-        }    
-        // print_r($data['datadelta']); exit();
-        $this->load->view('home', $data);
+        // parameter
+        $data['datadelta'] = $this->mdashboard->get309delta($tahun, $tahun1, $jenislap, $unitupi, $unitap, $unitup);
+        if (empty($data['datadelta']) || $data['datadelta'] == '') {
+            $data['status'] = 'Kosong';
+            $data['msg'] = 'Data Tidak Ditemukan';
+        }
+        $data['init'] = 'akhir';
+        $data['datatahun'] = $tahun;
+        $data['tahun1'] = $tahun1;
+        $data['jenislap'] = $jenislap;
+        $data['unitupi'] = $unitupi;
+        $data['unitap'] = $unitap;
+        $data['unitup'] = $unitup;
+        echo json_encode($data);
     }
-
-    // public function deltaKwh() {
-    //     $data['title'] = "Data 309 Delta";
-    //     $data['konten'] = "309_rupiah/309DeltaKwh";
-
-    //     $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
-    //     $data['total_upi'] = $this->M_309_rupiah->get_upi();
-
-    //     $tahun = $this->input->post('tahun');
-    //     $tahun1 = $this->input->post('tahun1');
-    //     $jenislap = $this->input->post('jenislap');
-    //     $unitupi = $this->input->post('unitupi');
-    //     $unitap = $this->input->post('unitap');
-    //     $unitup =$this->input->post('unitup');
-
-    //     if ($unitupi == '00') {
-    //         $unitupi = NULL;
-    //     }
-
-    //     if (!empty($tahun) or !empty($tahun1) or !empty($jenislap) or !empty($unitupi) or !empty($unitap) or !empty($unitup)) {
-    //         $data['datadeltakwh'] = $this->mdashboard->get309delta($tahun, $tahun1, $jenislap, $unitupi, $unitap, $unitup);
-    //         $data['datatahun'] = $tahun;
-    //         $data['tahun1'] = $tahun1;
-    //         $data['jenislap'] = $jenislap;
-    //         $data['unitupi'] = $unitupi;
-    //         $data['unitap'] = $unitap;
-    //         $data['unitup'] = $unitup;
-    //     }else{
-    //         $data['datadeltakwh'] = $this->mdashboard->get309delta(date('Y'), '2017', 'TOTAL', NULL, NULL, NULL);
-    //         $data['datatahun'] = date('Y');
-    //         $data['tahun1'] = '2017';
-    //         $data['jenislap'] = 'GABUNGAN';
-    //         $data['unitupi'] = NULL;
-    //         $data['unitap'] = NULL;
-    //         $data['unitup'] = NULL;
-    //     }    
-    //     // print_r($data['dataall']); exit();
-    //     $this->load->view('home', $data);
-    // }
 
     public function get_all_ap()
     {

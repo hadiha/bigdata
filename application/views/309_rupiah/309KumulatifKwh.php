@@ -81,7 +81,7 @@ $PESAN = $this->session->userdata('PESAN');
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <button class="btn btn-primary" id="bcari"  name="button" value="cari" onclick="cari()"><i class="fa fa-search fa-fw"></i> Cari</button>
-                                        <button class="btn btn-default" name="button" value="reset"><i class="fa  fa-refresh fa-fw" ></i> Reset</button>
+                                        <!-- <button class="btn btn-default" name="button" value="reset"><i class="fa  fa-refresh fa-fw" ></i> Reset</button> -->
                                     </div>
                                 </div>
                             </div>
@@ -93,15 +93,44 @@ $PESAN = $this->session->userdata('PESAN');
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-body">
+                    <div id="inchart"><h2 style="text-align: center">309 Kwh Komulatif - Cari Data Terlebih Dahulu!</h2></div>
                     <div id="container" style="width: 100%; padding: 0px 30px 30px 30px">
                         <canvas id="canvas"></canvas>
                     </div>  
                 </div>
             </div>
         </div>
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="loading_modal">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="margin-top: 300px; margin-left: 650px">
+                <img src="<?php echo base_url('assets/dist/img/ajax-loader.gif');?>" alt=""/>
+            </div>
+        </div>
+        <div id="notifikasi" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5><i id="font" class="fa"></i> <div style="display:inline" id="status"></div></h5>
+                    </div>
+                    <div class="modal-body">
+                        <p id="teks"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="button_close" type="button" class="btn" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>
 </section>
 <script type="text/javascript">
+    function show_failed_notification(status, pesan){
+        $('#notifikasi').modal('show');
+        $('#notifikasi').addClass('modal-warning');
+        $('#font').addClass('fa-warning fa-fw');
+        $('#button_close').addClass('btn-warning');
+        $('#status').html(status);
+        $('#teks').html(pesan);
+    }
 
     $('#unitupi').change(function () {
       var level = $(this).val();
@@ -162,24 +191,126 @@ $PESAN = $this->session->userdata('PESAN');
 
 // chart start
 
-var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-var color = Chart.helpers.color;
+var jInit = '<?php echo $init?>';
+var texttitle = '';
+if(jInit == 'akhir'){
+    var rowsall = [];
+    var rowsthbl = [];
+}else{
+    var rowsall =   [
+                        <?php foreach ($dataall as $dt_rupiah) { 
+                            echo $dt_rupiah['KWH_KOMULATIF'] . ',';
+                        }?>
+                    ];
+    var rowsthbl =  [
+                        <?php foreach ($dataall as $dt_rupiah) { 
+                            echo $dt_rupiah['THBLLAP'] . ',';
+                        }?>
+                    ];
+    texttitle = <?php if (!empty($unitupi) && !empty($unitap) && !empty($unitup)): ?>
+                    '309 Kwh Komulatif <?php echo $jenislap ?> - Tahun <?php echo $tahun ?> (<?php echo $unitup ?>)'
+                <?php elseif (!empty($unitupi) && !empty($unitap)): ?>
+                    '309 Kwh Komulatif <?php echo $jenislap ?> - Tahun <?php echo $tahun ?> (<?php echo $unitap ?>)'
+                <?php else: ?>
+                    '309 Kwh Komulatif <?php echo $jenislap ?> - Tahun <?php echo $tahun ?> (<?php echo $unitupi ?>)'
+                <?php endif ?>
+}
+
+var vunitupi='';
+var vunitap='';
+var vunitup='';
+
+$(document).ready(function(){
+    $("#bcari").click(function(){
+        var tahun=$('#tahun').val();
+        var jenislap=$('#jenislap').val();
+        vunitupi=$('#unitupi').val();
+        vunitap=$('#unitap').val();
+        vunitup=$('#unitup').val();
+
+        if (tahun == null || tahun == '') {
+            show_failed_notification('WARNING!','Tahun Tidak Boleh Kosong');
+        } else if(jenislap == null || jenislap == ''){
+            show_failed_notification('WARNING!','Jenislap Tidak Boleh Kosong');
+        }else{
+            $.ajax({
+            type: "post",
+            url: "<?php echo site_url('Rupiah_309/get309all') ?>",
+            cache: false,               
+            data:{"tahun":tahun, "jenislap":jenislap, "unitupi":vunitupi, "unitap":vunitap, "unitup":vunitup},
+            beforeSend: function () {
+                $('#bcari').attr('disabled', 'disabled');
+                $('#bcari').button('loading');
+                // loading
+                $('#loading_modal').modal({
+                    backdrop: 'static', keyboard: false
+                });
+            },
+            success: function(data){
+                $('#loading_modal').modal('hide');
+                $('#bcari').removeAttr('disabled');
+                $('#bcari').button('reset');
+                var obj = JSON.parse(data);
+                var jsonrp = obj.dataall;
+                var jtahun = obj.tahun;
+                var jjenislap = obj.jenislap;
+                var junitupi = obj.unitupi;
+                var junitap = obj.unitap;
+                var junitup = obj.unitup;
+                var msg = obj.msg;
+                var status = obj.status;
+                jInit = obj.init;
+                rowsall.splice(0, rowsall.length);
+                rowsthbl.splice(0, rowsthbl.length);
+
+                if (status == 'Kosong') {
+                    show_failed_notification(status, msg);
+                    myBar.destroy();
+                    $('#inchart').show();
+                }else{
+
+                    $('#inchart').hide();
+
+                    if (junitupi != "" && junitap != "" && junitup != "") {
+                        texttitle = '309 Rupiah '+jenislap+' - Tahun '+jtahun+' ('+junitup+')'
+                    } else if(junitupi != "" && junitap != ""){
+                        texttitle = '309 Rupiah '+jenislap+' - Tahun '+jtahun+' ('+junitap+')'
+                    } else {
+                        texttitle = '309 Rupiah '+jenislap+' - Tahun '+jtahun+' ('+junitupi+')'
+                    }
+
+                    for (var i = 0; i < obj.dataall.length; i++) {
+                        var KWH_KOMULATIF = obj.dataall[i].KWH_KOMULATIF;
+                        var THBLLAP = obj.dataall[i].THBLLAP;
+
+                        rowsall.push(
+                            parseInt(KWH_KOMULATIF)     
+                            );
+
+                        rowsthbl.push(
+                            parseInt(THBLLAP)           
+                            );
+                    };  
+                    renderchart();
+                    console.log(texttitle);
+                }   
+            }   
+
+            }); 
+            return false;
+        }
+    });
+}); 
+
+
 var barChartData = {
-    labels: [
-        <?php foreach ($dataall as $dt_kwh) { 
-            echo $dt_kwh['THBLLAP'] . ',';
-        }?>
-    ],
+    labels:rowsthbl,
     datasets: [{
         label: 'Kwh',
         backgroundColor: window.chartColors.blue,
         borderColor: window.chartColors.blue,
         borderWidth: 1,
-        data: [
-            <?php foreach ($dataall as $dt_kwh) { 
-                echo $dt_kwh['KWH_KOMULATIF'] . ',';
-            }?>
-        ]
+        data: rowsall
     }]
 
 };
@@ -187,25 +318,21 @@ var barChartData = {
 var dataY = [{
     ticks: {
         callback: function(label, index, labels) {
-            <?php if (!empty($unitap) or !empty($unitup)): ?>
+            if (vunitupi == '00') {
+                 return label/1000000000+'M';
+            }else{
                 return label/1000000+'Jt';
-            <?php else: ?>
-                return label/1000000000+'M';
-            <?php endif ?>
+            }
         },  
         min: 0
     }
 }]
 
-var texttitle = <?php if (!empty($unitupi) && !empty($unitap) && !empty($unitup)): ?>
-                    '309 Kwh Komulatif <?php echo $jenislap ?> - <?php echo $unitup ?> Tahun <?php echo $tahun ?>'
-                <?php elseif (!empty($unitupi) && !empty($unitap)): ?>
-                    '309 Kwh Komulatif <?php echo $jenislap ?> - <?php echo $unitap ?> Tahun <?php echo $tahun ?>'
-                <?php else: ?>
-                    '309 Kwh Komulatif <?php echo $jenislap ?> - <?php echo $unitupi ?> Tahun <?php echo $tahun ?>'
-                <?php endif ?>
-
 window.onload = function() {
+    // renderchart();
+};
+
+function renderchart(){
     var ctx = document.getElementById('canvas').getContext('2d');
     window.myBar = new Chart(ctx, {
         type: 'bar',
@@ -217,8 +344,8 @@ window.onload = function() {
             },
             title: {
                 display: true,
-                fontSize: 18,
-                fontStyle: 'bold',
+                fontSize: 20,
+                padding: 30,
                 text: texttitle
             },
             scales: {
@@ -226,8 +353,7 @@ window.onload = function() {
             }
         }
     });
-
-};
+}
 
 Chart.plugins.register({
     afterDatasetsDraw: function(chart) {
@@ -240,7 +366,7 @@ Chart.plugins.register({
                             // Draw the text in black, with the specified font
                             ctx.fillStyle = 'rgb(0, 0, 0)';
 
-                            var fontSize = 11;
+                            var fontSize = 10;
                             var fontStyle = 'normal';
                             var fontFamily = 'Helvetica Neue';
                             ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
@@ -260,22 +386,5 @@ Chart.plugins.register({
         });
     }
 });
-
-function cari(){
-    var tahun=$('#tahun').val();
-    var jenislap=$('#jenislap').val();
-    var unitupi=$('#unitupi').val();
-    var unitap=$('#unitap').val();
-    var unitup=$('#unitup').val();
-    $('#form_filter').ajaxForm ({
-        type: "POST",
-        url: "<?php echo base_url('Rupiah_309/data309/kumulatifkwh'); ?>",
-        data: {"tahun":tahun, "jenislap":jenislap, "unitupi":unitupi, "unitap":unitap, "unitup":unitup},
-        success: function(msg) {
-            var data = $data
-            console.log(data);
-        }
-    });
-}
 
 </script>
