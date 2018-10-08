@@ -95,7 +95,7 @@ $PESAN = $this->session->userdata('PESAN');
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-primary" id="bcari"  name="button" value="cari" onclick="cari()"><i class="fa fa-search fa-fw"></i> Cari</button>
+                                        <button class="btn btn-primary" id="bcari"  name="button" value="cari"><i class="fa fa-search fa-fw"></i> Cari</button>
                                         <!-- <button class="btn btn-default" name="button" value="reset"><i class="fa  fa-refresh fa-fw" ></i> Reset</button> -->
                                     </div>
                                 </div>
@@ -342,41 +342,6 @@ $(document).ready(function(){
     });
 }); 
 
-
-// var barChartData = {
-//     labels:rowsthbl,
-//     datasets: [{
-//         type: 'line',
-//         label: datalabel,
-//         borderColor: window.chartColors.blue,
-//         borderWidth: 2,
-//         fill: false,
-//         data: rowsall
-//     },{
-//         type: 'line',
-//         label: datalabel2,
-//         borderColor: window.chartColors.red,
-//         borderWidth: 2,
-//         fill: false,
-//         data: rowsall2
-//     },{
-//         type: 'bar',
-//         label: datalabel,
-//         backgroundColor: window.chartColors.blue,
-//         data: rowsall,
-//         borderColor: 'white',
-//         borderWidth: 2
-//     }, {
-//         type: 'bar',
-//         label: datalabel2,
-//         backgroundColor: window.chartColors.red,
-//         data: rowsall2,
-//         borderColor: 'white',
-//         borderWidth: 2
-//     }]
-
-// };
-
 var dataY = [{
     ticks: {
         callback: function(label, index, labels) {
@@ -399,45 +364,45 @@ function renderchart(){
     window.myBar = new Chart(ctx, {
         type: 'bar',
         data: {
-    labels:rowsthbl,
-    datasets: [{
-        type: 'line',
-        label: datalabel,
-        borderColor: window.chartColors.blue,
-        borderWidth: 2,
-        fill: false,
-        data: rowsall
-    },{
-        type: 'line',
-        label: datalabel2,
-        borderColor: window.chartColors.red,
-        borderWidth: 2,
-        fill: false,
-        data: rowsall2
-    },{
-        type: 'bar',
-        label: datalabel,
-        backgroundColor: window.chartColors.blue,
-        data: rowsall,
-        borderColor: 'white',
-        borderWidth: 2
-    }, {
-        type: 'bar',
-        label: datalabel2,
-        backgroundColor: window.chartColors.red,
-        data: rowsall2,
-        borderColor: 'white',
-        borderWidth: 2
-    }]
+            labels:rowsthbl,
+            datasets: [{
+                type: 'line',
+                label: datalabel,
+                borderColor: window.chartColors.blue,
+                borderWidth: 2,
+                fill: false,
+                data: rowsall
+            },{
+                type: 'line',
+                label: datalabel2,
+                borderColor: window.chartColors.red,
+                borderWidth: 2,
+                fill: false,
+                data: rowsall2
+            },{
+                type: 'bar',
+                label: datalabel,
+                backgroundColor: window.chartColors.blue,
+                data: rowsall,
+                borderColor: 'white',
+                borderWidth: 2
+            }, {
+                type: 'bar',
+                label: datalabel2,
+                backgroundColor: window.chartColors.red,
+                data: rowsall2,
+                borderColor: 'white',
+                borderWidth: 2
+            }]
 
-},
+        },
         options: {
             responsive: true,
             legend: {
                 position: 'bottom',
                 labels: {
-                            usePointStyle: true
-                        }   
+                    usePointStyle: true
+                }   
             },
             title: {
                 display: true,

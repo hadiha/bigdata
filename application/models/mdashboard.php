@@ -185,8 +185,8 @@ class mdashboard extends CI_Model {
           trigger_error(htmlentities($m['message']), E_USER_ERROR);
       }
 
-      $VTAHUN = '2017';
-      $VTAHUN1 = '2018';
+      $VTAHUN = $tahun;
+      $VTAHUN1 = $tahun1;
       $V_UNITUPI = $unitupi;
       $V_UNITAP = $unitap;
       $V_UNITUP = $unitup;
