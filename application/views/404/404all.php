@@ -361,16 +361,16 @@ $PESAN = $this->session->userdata('PESAN');
                             callback: function(label, index, labels) {
                                 if (vunitupi == '00'|| vunitupi == '') {
                                    return label/1000000000000+'T';
-                               }else{
-                                return label/1000000000+'M';
-                            }
-                        },  
-                        min: 0
-                    }
-                }]
+                                   }else{
+                                    return label/1000000000+'M';
+                                }
+                            },  
+                            min: 0
+                        }
+                    }]
+                }
             }
-        }
-    });
+        });
     }
 
     function renderchart2(){
@@ -394,17 +394,17 @@ $PESAN = $this->session->userdata('PESAN');
                         ticks: {
                             callback: function(label, index, labels) {
                                 if (vunitupi == '00' || vunitupi == '') {
-                                   return label/1000000+'Jt';
-                               }else{
-                                return label/1000+'Rb';
-                            }
-                        },  
-                        min: 0
-                    }
-                }]
+                                 return label/1000000+'Jt';
+                                }else{
+                                    return label/1000+'Rb';
+                                }
+                            },  
+                            min: 0
+                        }
+                    }]
+                }
             }
-        }
-    });
+        });
     }
 
 </script>

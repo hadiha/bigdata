@@ -144,9 +144,9 @@
          
                     <ul class="sidebar-menu">
                         <li class="header">MAIN NAVIGATION</li>
-                        <!-- <li <?php if ($konten=='309_rupiah/vdashboard') {echo "class=active";} ?>>
+                        <li <?php if ($konten=='309_rupiah/vdashboard') {echo "class=active";} ?>>
                             <a href="<?php echo base_url('Rupiah_309/main');?>"><i class="fa fa-bar-chart"></i><span> Dashboard</span></a>
-                        </li> -->
+                        </li>
                         <li class="treeview">
                           <a href="#">
                             <i class="fa fa-bar-chart"></i> <span>309 Rupiah</span>

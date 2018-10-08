@@ -18,19 +18,53 @@ class Rupiah_309 extends CI_Controller {
     // <editor-fold defaultstate="collapsed" desc="Menu Dokumen - By Arif">
 
     public function main() {
-        // $data['title'] = "Dashboard";
-        // $data['konten'] = "309_rupiah/vdashboard";
-        $data['title'] = "Data 309 Rupiah";
-        $data['konten'] = "309_rupiah/index_all";
+        $data['title'] = "Dashboard";
+        $data['konten'] = "309_rupiah/vdashboard";
 
         $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
 
-        // $data['data309all'] = $this->mdashboard->get309all(date('Y'), 'TOTAL', '52', '52100', '52101');
         $data['datatahun'] = date('Y');
         $data['datajenislap']= 'GABUNGAN';
         // print_r($data['dataall']); exit();
         $this->load->view('home', $data);
+    }
+
+    public function getdashboard() {
+        $tahun = $this->input->post('tahun');
+        $tahun1 = $this->input->post('tahun1');
+        $jenislap = $this->input->post('jenislap');
+        $unitupi = $this->input->post('unitupi');
+        $unitap = $this->input->post('unitap');
+        $unitup =$this->input->post('unitup');
+
+        if ($unitupi == '00') {
+            $unitupi = NULL;
+        }else if($unitap == '00') {
+            $unitap = NULL;
+        }else if($unitup == '00') {
+            $unitup = NULL;
+        }
+        // parameter
+        $data['dataall'] = $this->mdashboard->get309all($tahun, $jenislap, $unitupi, $unitap, $unitup);
+        $data['datadelta'] = $this->mdashboard->get309delta($tahun, $tahun1, $jenislap, $unitupi, $unitap, $unitup);
+        $data['data404saldo'] = $this->mdashboard->get404all($tahun, $unitupi, $unitap, $unitup); 
+        $data['data404lunas'] = $this->mdashboard->get404lunas($tahun, $unitupi, $unitap, $unitup); 
+        $data['data404delta'] = $this->mdashboard->get404deltasaldo($tahun, $tahun1, $unitupi, $unitap, $unitup); 
+        $data['data404deltalunas'] = $this->mdashboard->get404deltalunas($tahun, $tahun1, $unitupi, $unitap, $unitup);  
+        if (empty($data['dataall']) || empty($data['datadelta']) || empty($data['data404saldo']) || empty($data['data404lunas']) || empty($data['data404delta']) || empty($data['data404deltalunas'])) {
+            $data['status'] = 'Kosong';
+            $data['msg'] = 'Data Tidak Ditemukan';
+        }
+        
+        $data['init'] = 'akhir';
+        $data['datatahun'] = $tahun;
+        $data['tahun1'] = $tahun1;
+        $data['jenislap'] = $jenislap;
+        $data['unitupi'] = $unitupi;
+        $data['unitap'] = $unitap;
+        $data['unitup'] = $unitup;
+        echo json_encode($data);
     }
 
     public function data309($titlemenu) {
