@@ -24,6 +24,16 @@ class Rupiah_309 extends CI_Controller {
         $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
 
+        $data['dataall'] = $this->mdashboard->get309all(date('Y'), 'TOTAL', NULL, NULL, NULL);
+        $data['datadelta'] = $this->mdashboard->get309delta(date('Y'), date('Y')-1, 'TOTAL', NULL, NULL, NULL);
+        $data['data404saldo'] = $this->mdashboard->get404all(date('Y'), NULL, NULL, NULL); 
+        $data['data404lunas'] = $this->mdashboard->get404lunas(date('Y'), NULL, NULL, NULL); 
+        $data['data404delta'] = $this->mdashboard->get404deltasaldo(date('Y'), date('Y')-1, NULL, NULL, NULL); 
+        $data['data404deltalunas'] = $this->mdashboard->get404deltalunas(date('Y'), date('Y')-1, NULL, NULL, NULL);  
+        if (empty($data['dataall']) || empty($data['datadelta']) || empty($data['data404saldo']) || empty($data['data404lunas']) || empty($data['data404delta']) || empty($data['data404deltalunas'])) {
+            $data['status'] = 'Kosong';
+            $data['msg'] = 'Data Tidak Ditemukan';
+        }
         $data['datatahun'] = date('Y');
         $data['datajenislap']= 'GABUNGAN';
         // print_r($data['dataall']); exit();

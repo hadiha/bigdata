@@ -46,7 +46,7 @@ $PESAN = $this->session->userdata('PESAN');
                         </div>
                         <div class="row">
                             <div class="col-md-1">
-                                <div class="form-group">                                </div>
+                                <div class="form-group"></div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -54,7 +54,7 @@ $PESAN = $this->session->userdata('PESAN');
                                         <select name="tahun" id="tahun" class="form-control">
                                             <option value="">--- Pilih Tahun ---</option>
                                             <?php foreach ($rs_tahun as $index => $tahun) { ?>
-                                                <option value="<?php echo $tahun; ?>" <?php if ($filterTahun == $tahun) {
+                                                <option value="<?php echo $tahun; ?>" <?php if (date('Y') == $tahun) {
                                                     echo " selected";
                                                 } ?>><?php echo $tahun; ?></option>   
                                             <?php } ?>
@@ -66,11 +66,11 @@ $PESAN = $this->session->userdata('PESAN');
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <select name="tahun1" id="tahun1" class="form-control">
-                                            <option value="">--- Pilih Tahun Pembanding---</option>
-                                            <?php foreach ($rs_tahun as $index => $tahun) { ?>
-                                                <option value="<?php echo $tahun; ?>" <?php if ($filtertahun1 == $tahun) {
+                                            <option value="">--- Pilih Tahun ---</option>
+                                            <?php foreach ($rs_tahun as $index => $tahun1) { ?>
+                                                <option value="<?php echo $tahun1; ?>" <?php if (date('Y')-1 == $tahun1) {
                                                     echo " selected";
-                                                } ?>><?php echo $tahun; ?></option>   
+                                                } ?>><?php echo $tahun1; ?></option>   
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -80,10 +80,9 @@ $PESAN = $this->session->userdata('PESAN');
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <select name="jenislap" id="jenislap" class="form-control" required="true">
-                                            <option value="">--- Pilih Jenis Laporan ---</option>
+                                            <option value="TOTAL">GABUNGAN</option>
                                             <option value="LPB">PRABAYAR</option>
                                             <option value="NORMAL">PASCA</option>
-                                            <option value="TOTAL">GABUNGAN</option>   
                                         </select>
                                     </div>
                                 </div>
@@ -236,72 +235,72 @@ $PESAN = $this->session->userdata('PESAN');
 
 // chart start
 
-    function show_failed_notification(status, pesan){
-        $('#notifikasi').modal('show');
-        $('#notifikasi').addClass('modal-warning');
-        $('#font').addClass('fa-warning fa-fw');
-        $('#button_close').addClass('btn-warning');
-        $('#status').html(status);
-        $('#teks').html(pesan);
+function show_failed_notification(status, pesan){
+    $('#notifikasi').modal('show');
+    $('#notifikasi').addClass('modal-warning');
+    $('#font').addClass('fa-warning fa-fw');
+    $('#button_close').addClass('btn-warning');
+    $('#status').html(status);
+    $('#teks').html(pesan);
+}
+
+$('#unitupi').change(function () {
+    var level = $(this).val();
+    if(level){
+        $.ajax ({
+            type: "POST",
+            url: "<?php echo site_url('Rupiah_309/get_all_ap') ?>",
+            data: {'level': level},
+            success : function(response) {
+                var output = $.parseJSON(response);
+                $("#unitap").find('option').remove();
+                $("#unitup").find('option').remove();
+                $("#unitap").append('<option value="">SEMUA</option>');
+                $("#unitup").append('<option value="">-- Pilih UP --</option>');
+                $('#unitup').prop('disabled', true);
+                $.each(output,function(key, value)
+                {
+                    $("#unitap").append('<option value=' + value.UNIT_AP + '>' + value.UNITAP+ '</option>');
+                });
+            }
+        });
     }
 
-    $('#unitupi').change(function () {
-        var level = $(this).val();
-        if(level){
-            $.ajax ({
-                type: "POST",
-                url: "<?php echo site_url('Rupiah_309/get_all_ap') ?>",
-                data: {'level': level},
-                success : function(response) {
-                    var output = $.parseJSON(response);
-                    $("#unitap").find('option').remove();
-                    $("#unitup").find('option').remove();
-                    $("#unitap").append('<option value="">SEMUA</option>');
-                    $("#unitup").append('<option value="">-- Pilih UP --</option>');
-                    $('#unitup').prop('disabled', true);
-                    $.each(output,function(key, value)
-                    {
-                        $("#unitap").append('<option value=' + value.UNIT_AP + '>' + value.UNITAP+ '</option>');
-                    });
-                }
-            });
-        }
+    if (level != '') {
+        $('#unitap').prop('disabled', false);
+    } else {
+        $('#unitap').prop('disabled', true);
+        $('#unitup').prop('disabled', true);
+    }
+    ;
+})
 
-        if (level != '') {
-            $('#unitap').prop('disabled', false);
-        } else {
-            $('#unitap').prop('disabled', true);
-            $('#unitup').prop('disabled', true);
-        }
-        ;
-    })
+$('#unitap').change(function () {
+    var level_ap = $(this).val();
+    if(level_ap){
+        $.ajax ({
+            type: "POST",
+            url: "<?php echo site_url('Rupiah_309/get_all_up') ?>",
+            data: {'level_ap': level_ap},
+            success : function(response) {
+                var rs = $.parseJSON(response);
+                $("#unitup").find('option').remove();
+                $("#unitup").append('<option value="">SEMUA</option>');
+                $.each(rs,function(key, value)
+                {
+                    $("#unitup").append('<option value=' + value.UNIT_UP + '>' + value.UNITUP+ '</option>');
+                });
+            }
+        });
+    }
 
-    $('#unitap').change(function () {
-        var level_ap = $(this).val();
-        if(level_ap){
-            $.ajax ({
-                type: "POST",
-                url: "<?php echo site_url('Rupiah_309/get_all_up') ?>",
-                data: {'level_ap': level_ap},
-                success : function(response) {
-                    var rs = $.parseJSON(response);
-                    $("#unitup").find('option').remove();
-                    $("#unitup").append('<option value="">SEMUA</option>');
-                    $.each(rs,function(key, value)
-                    {
-                        $("#unitup").append('<option value=' + value.UNIT_UP + '>' + value.UNITUP+ '</option>');
-                    });
-                }
-            });
-        }
-
-        if (level_ap != '') {
-            $('#unitup').prop('disabled', false);
-        } else {
-            $('#unitup').prop('disabled', true);
-        }
-        ;
-    })
+    if (level_ap != '') {
+        $('#unitup').prop('disabled', false);
+    } else {
+        $('#unitup').prop('disabled', true);
+    }
+    ;
+})
 
     //chart start
 
@@ -350,6 +349,7 @@ $PESAN = $this->session->userdata('PESAN');
     var vunitupi='';
     var vunitap='';
     var vunitup='';
+    var tahunini=<?php date('Y') ?>
 
     $(document).ready(function(){
         $("#bcari").click(function(){
@@ -364,6 +364,8 @@ $PESAN = $this->session->userdata('PESAN');
                 show_failed_notification('WARNING!','Tahun Tidak Boleh Kosong');
             }else if(tahun1 == null || tahun1 == ''){
                 show_failed_notification('WARNING!','Tahun Pembanding Tidak Boleh Kosong');
+            }else if(tahun > tahunini){
+                show_failed_notification('WARNING!','Tahun Tidak Boleh Lebih Dari Tahun Ini');
             }else{
                 $.ajax({
                     type: "post",
@@ -408,6 +410,19 @@ $PESAN = $this->session->userdata('PESAN');
                         rowslbr.splice(0, rowslbr.length);
                         rowslbr2.splice(0, rowslbr2.length);
                         rowsthbl.splice(0, rowsthbl.length);
+                        rowsdelta.splice(0, rowsdelta.length);
+                        rowsdelta2.splice(0, rowsdelta2.length);
+                        rowsdeltakwh.splice(0, rowsdeltakwh.length);
+                        rowsdeltakwh2.splice(0, rowsdeltakwh2.length);
+                        rowsthbl2.splice(0, rowsthbl2.length);
+                        rowsrrp.splice(0, rowsrrp.length);
+                        rowsthbl3.splice(0, rowsthbl3.length);
+                        rowsrrp2.splice(0, rowsrrp2.length);
+                        rowsthbl4.splice(0, rowsthbl4.length);
+                        rowsdsaldo1.splice(0, rowsdsaldo1.length);
+                        rowsdsaldo2.splice(0, rowsdsaldo2.length);
+                        rowsdsaldoL1.splice(0, rowsdsaldoL1.length);
+                        rowsdsaldoL2.splice(0, rowsdsaldoL2.length);
 
                         if (status == 'Kosong') {
                             show_failed_notification(status, msg);
@@ -467,19 +482,19 @@ $PESAN = $this->session->userdata('PESAN');
 
                                 rowsrp.push(
                                     parseInt(RPPTL)     
-                                );
+                                    );
                                 rowskwh.push(
                                     parseInt(JMLKWH)     
-                                );
+                                    );
                                 rowsrpkom.push(
                                     parseInt(RP_KOMULATIF)     
-                                );
+                                    );
                                 rowskwhkom.push(
                                     parseInt(KWH_KOMULATIF)     
-                                );
+                                    );
                                 rowsthbl.push(
                                     parseInt(THBLLAP)           
-                                );
+                                    );
                             };  
 
                             for (var i = 0; i < obj.datadelta.length; i++) {
@@ -491,19 +506,19 @@ $PESAN = $this->session->userdata('PESAN');
                                 
                                 rowsdelta.push(
                                     parseInt(RPPTL)     
-                                );
+                                    );
                                 rowsdelta2.push(
                                     parseInt(RPPTL_2)     
-                                );
+                                    );
                                 rowsdeltakwh.push(
                                     parseInt(JMLKWH)     
-                                );
+                                    );
                                 rowsdeltakwh2.push(
                                     parseInt(JMLKWH_2)     
-                                );
+                                    );
                                 rowsthbl2.push(
                                     parseInt(THBLLAP)           
-                                );
+                                    );
                             };      
 
                             for (var i = 0; i < obj.data404saldo.length; i++) {
@@ -513,15 +528,15 @@ $PESAN = $this->session->userdata('PESAN');
 
                                 rowsrrp.push(
                                     parseInt(RUPIAH_TOTAL)     
-                                );
+                                    );
 
                                 rowslbr.push(
                                     parseInt(LBR_TOTAL)     
-                                );
+                                    );
 
                                 rowsthbl3.push(
                                     parseInt(THBLLAP)           
-                                );
+                                    );
                             }; 
 
                             for (var i = 0; i < obj.data404lunas.length; i++) {
@@ -550,20 +565,20 @@ $PESAN = $this->session->userdata('PESAN');
 
                                     rowsdsaldo1.push(
                                         parseInt(RUPIAH_TOTAL)     
-                                    );
+                                        );
                                     rowsdsaldoL1.push(
                                         parseInt(LBR_TOTAL)     
-                                    );
+                                        );
                                 } else if(obj.data404delta[i].KET == 'GRAFIK2'){
                                     var RUPIAH_TOTAL2 = obj.data404delta[i].RUPIAH_TOTAL;
                                     var LBR_TOTAL2 = obj.data404delta[i].LBR_TOTAL;
 
                                     rowsdsaldo2.push(
                                         parseInt(RUPIAH_TOTAL2)     
-                                    );
+                                        );
                                     rowsdsaldoL2.push(
                                         parseInt(LBR_TOTAL2)     
-                                    );
+                                        );
                                 }
                             };
 
@@ -581,597 +596,596 @@ $PESAN = $this->session->userdata('PESAN');
                             renderchart12();
                         }
                     }   
-
                 });
                 return false;
             }
         });
     });
 
-    var barChartData = {
-        labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-        datasets: [{
-            label: 'Rupiah',
-            backgroundColor: window.chartColors.blue,
-            borderColor: window.chartColors.blue,
-            borderWidth: 1,
-            data: rowsrp
-        }]
-    };
-
-    var barChartDataKwh = {
-        labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-        datasets: [{
-            label: 'Kwh',
-            backgroundColor: window.chartColors.red,
-            borderColor: window.chartColors.red,
-            borderWidth: 1,
-            data: rowskwh
-        }]
-    };
-
-    var barChartDataKomulatif = {
-        labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-        datasets: [{
-            label: 'Rupiah',
-            backgroundColor: window.chartColors.blue,
-            borderColor: window.chartColors.blue,
-            borderWidth: 1,
-            data: rowsrpkom
-        }]
-    };
-
-    var barChartDataKomulatifKwh = {
-        labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-        datasets: [{
-            label: 'Kwh',
-            backgroundColor: window.chartColors.red,
-            borderColor: window.chartColors.red,
-            borderWidth: 1,
-            data: rowskwhkom
-        }]
-    };
-
-    var barChartDataLembar = {
-        labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-        datasets: [{
-            label: 'Lembar',
-            backgroundColor: window.chartColors.red,
-            borderColor: window.chartColors.red,
-            borderWidth: 1,
-            data: rowslbr
-        }]
-    };
-
-    var barChartDataSaldo = {
-        labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-        datasets: [{
-            label: 'Rupiah',
-            backgroundColor: window.chartColors.blue,
-            borderColor: window.chartColors.blue,
-            borderWidth: 1,
-            data: rowsrrp
-        }]
-    };
-
-    var barChartDataLembar2 = {
-        labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-        datasets: [{
-            label: 'Lembar',
-            backgroundColor: window.chartColors.red,
-            borderColor: window.chartColors.red,
-            borderWidth: 1,
-            data: rowslbr2
-        }]
-    };
-
-    var barChartDataSaldo2 = {
-        labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-        datasets: [{
-            label: 'Rupiah',
-            backgroundColor: window.chartColors.blue,
-            borderColor: window.chartColors.blue,
-            borderWidth: 1,
-            data: rowsrrp2
-        }]
-    };
-
-    var dataY = [{
-        ticks: {
-            callback: function(label, index, labels) {
-                if (vunitupi == '00') {
-                     return label/1000000000000+'T';
-                }else{
-                    return label/1000000000+'M';
-                }
-            },  
-            min: 0
-        }
+var barChartData = {
+    labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+    datasets: [{
+        label: 'Rupiah',
+        backgroundColor: window.chartColors.blue,
+        borderColor: window.chartColors.blue,
+        borderWidth: 1,
+        data: rowsrp
     }]
+};
 
-    var dataY2 = [{
-        ticks: {
-            callback: function(label, index, labels) {
-                if (vunitupi == '00') {
-                     return label/1000000000+'M';
-                }else{
-                    return label/1000000+'Jt';
-                }
-            },  
-            min: 0
-        }
+var barChartDataKwh = {
+    labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+    datasets: [{
+        label: 'Kwh',
+        backgroundColor: window.chartColors.red,
+        borderColor: window.chartColors.red,
+        borderWidth: 1,
+        data: rowskwh
     }]
+};
 
-    var dataY3 = [{
-        ticks: {
-            callback: function(label, index, labels) {
-                if (vunitupi == '00') {
-                     return label/1000000+'Jt';
-                }else{
-                    return label/1000+'Rb';
-                }
-            },  
-            min: 0
-        }
+var barChartDataKomulatif = {
+    labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+    datasets: [{
+        label: 'Rupiah',
+        backgroundColor: window.chartColors.blue,
+        borderColor: window.chartColors.blue,
+        borderWidth: 1,
+        data: rowsrpkom
     }]
+};
 
-    function renderchart(){
-        var ctx = document.getElementById('canvas').getContext('2d');
-        window.myBar = new Chart(ctx, {
-            type: 'bar',
-            data: barChartData,
-            options: {
-                responsive: true,
-                legend: {
-                    position: 'bottom',
-                },
-                title: {
-                    display: true,
-                    fontSize: 20,
-                    padding: 30,
-                    text: texttitleall
-                },
-                scales: {
-                    yAxes: dataY
-                }
-            }
-        });
-    }
+var barChartDataKomulatifKwh = {
+    labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+    datasets: [{
+        label: 'Kwh',
+        backgroundColor: window.chartColors.red,
+        borderColor: window.chartColors.red,
+        borderWidth: 1,
+        data: rowskwhkom
+    }]
+};
 
-    function renderchart2(){
-        var ctx = document.getElementById('canvas2').getContext('2d');
-        window.myBar = new Chart(ctx, {
-            type: 'bar',
-            data: barChartDataKwh,
-            options: {
-                responsive: true,
-                legend: {
-                    position: 'bottom',
-                },
-                title: {
-                    display: true,
-                    fontSize: 20,
-                    padding: 30,
-                    text: texttitlekwh
-                },
-                scales: {
-                    yAxes: dataY2
-                }
-            }
-        });
-    }
+var barChartDataLembar = {
+    labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+    datasets: [{
+        label: 'Lembar',
+        backgroundColor: window.chartColors.red,
+        borderColor: window.chartColors.red,
+        borderWidth: 1,
+        data: rowslbr
+    }]
+};
 
-    function renderchart3(){
-        var ctx = document.getElementById('canvas3').getContext('2d');
-        window.myBar = new Chart(ctx, {
-            type: 'bar',
-            data: barChartDataKomulatif,
-            options: {
-                responsive: true,
-                legend: {
-                    position: 'bottom',
-                },
-                title: {
-                    display: true,
-                    fontSize: 20,
-                    padding: 30,
-                    text: texttitlekom
-                },
-                scales: {
-                    yAxes: dataY
-                }
-            }
-        });
-    }
+var barChartDataSaldo = {
+    labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+    datasets: [{
+        label: 'Rupiah',
+        backgroundColor: window.chartColors.blue,
+        borderColor: window.chartColors.blue,
+        borderWidth: 1,
+        data: rowsrrp
+    }]
+};
 
-    function renderchart4(){
-        var ctx = document.getElementById('canvas4').getContext('2d');
-        window.myBar = new Chart(ctx, {
-            type: 'bar',
-            data: barChartDataKomulatifKwh,
-            options: {
-                responsive: true,
-                legend: {
-                    position: 'bottom',
-                },
-                title: {
-                    display: true,
-                    fontSize: 20,
-                    padding: 30,
-                    text: texttitlekomkwh
-                },
-                scales: {
-                    yAxes: dataY2
-                }
-            }
-        });
-    }
+var barChartDataLembar2 = {
+    labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+    datasets: [{
+        label: 'Lembar',
+        backgroundColor: window.chartColors.red,
+        borderColor: window.chartColors.red,
+        borderWidth: 1,
+        data: rowslbr2
+    }]
+};
 
-    function renderchart5(){
-        var ctx = document.getElementById('canvas5').getContext('2d');
-        window.myBar = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-                datasets: [{
-                    type: 'line',
-                    label: datalabel,
-                    borderColor: window.chartColors.blue,
-                    borderWidth: 2,
-                    fill: false,
-                    data: rowsdelta
-                },{
-                    type: 'line',
-                    label: datalabel2,
-                    borderColor: window.chartColors.red,
-                    borderWidth: 2,
-                    fill: false,
-                    data: rowsdelta2
-                },{
-                    type: 'bar',
-                    label: datalabel,
-                    backgroundColor: window.chartColors.blue,
-                    data: rowsdelta,
-                    borderColor: 'white',
-                    borderWidth: 2
-                }, {
-                    type: 'bar',
-                    label: datalabel2,
-                    backgroundColor: window.chartColors.red,
-                    data: rowsdelta2,
-                    borderColor: 'white',
-                    borderWidth: 2
-                }]
+var barChartDataSaldo2 = {
+    labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+    datasets: [{
+        label: 'Rupiah',
+        backgroundColor: window.chartColors.blue,
+        borderColor: window.chartColors.blue,
+        borderWidth: 1,
+        data: rowsrrp2
+    }]
+};
+
+var dataY = [{
+    ticks: {
+        callback: function(label, index, labels) {
+            if (vunitupi == '00'|| vunitupi == '') {
+             return label/1000000000000+'T';
+         }else{
+            return label/1000000000+'M';
+        }
+    },  
+    min: 0
+}
+}]
+
+var dataY2 = [{
+    ticks: {
+        callback: function(label, index, labels) {
+            if (vunitupi == '00'|| vunitupi == '') {
+             return label/1000000000+'M';
+         }else{
+            return label/1000000+'Jt';
+        }
+    },  
+    min: 0
+}
+}]
+
+var dataY3 = [{
+    ticks: {
+        callback: function(label, index, labels) {
+            if (vunitupi == '00'|| vunitupi == '') {
+             return label/1000000+'Jt';
+         }else{
+            return label/1000+'Rb';
+        }
+    },  
+    min: 0
+}
+}]
+
+function renderchart(){
+    var ctx = document.getElementById('canvas').getContext('2d');
+    window.myBar = new Chart(ctx, {
+        type: 'bar',
+        data: barChartData,
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
             },
-            options: {
-                responsive: true,
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        usePointStyle: true
-                    }   
-                },
-                title: {
-                    display: true,
-                    fontSize: 20,
-                    padding: 30,
-                    text: texttitledelta
-                },
-                scales: {
-                    yAxes: dataY
-                }
-            }
-        });
-    }
-
-    function renderchart6(){
-        var ctx = document.getElementById('canvas6').getContext('2d');
-        window.myBar = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-                datasets: [{
-                    type: 'line',
-                    label: datalabel,
-                    borderColor: window.chartColors.blue,
-                    borderWidth: 2,
-                    fill: false,
-                    data: rowsdeltakwh
-                },{
-                    type: 'line',
-                    label: datalabel2,
-                    borderColor: window.chartColors.red,
-                    borderWidth: 2,
-                    fill: false,
-                    data: rowsdeltakwh2
-                },{
-                    type: 'bar',
-                    label: datalabel,
-                    backgroundColor: window.chartColors.blue,
-                    data: rowsdeltakwh,
-                    borderColor: 'white',
-                    borderWidth: 2
-                }, {
-                    type: 'bar',
-                    label: datalabel2,
-                    backgroundColor: window.chartColors.red,
-                    data: rowsdeltakwh2,
-                    borderColor: 'white',
-                    borderWidth: 2
-                }]
+            title: {
+                display: true,
+                fontSize: 20,
+                padding: 30,
+                text: texttitleall
             },
-            options: {
-                responsive: true,
-                legend: {
-                    position: 'bottom', 
-                    labels: {
-                        usePointStyle: true
-                    }  
-                },
-                title: {
-                    display: true,
-                    fontSize: 20,
-                    padding: 30,
-                    text: texttitledeltakwh
-                },
-                scales: {
-                    yAxes: dataY2
-                }
+            scales: {
+                yAxes: dataY
             }
-        });
-    }
+        }
+    });
+}
 
-    function renderchart7(){
-        var ctx = document.getElementById('canvas7').getContext('2d');
-        window.myBar = new Chart(ctx, {
-            type: 'bar',
-            data: barChartDataSaldo,
-            options: {
-                responsive: true,
-                legend: {
-                    position: 'bottom',
-                },
-                title: {
-                    display: true,
-                    fontSize: 20,
-                    padding: 30,
-                    text: texttitlesaldor
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            callback: function(label, index, labels) {
-                                if (vunitupi == '00'|| vunitupi == '') {
-                                   return label/1000000000000+'T';
-                                   }else{
-                                    return label/1000000000+'M';
-                                }
-                            },  
-                            min: 0
-                        }
-                    }]
-                }
-            }
-        });
-    }
-
-    function renderchart8(){
-        var ctx = document.getElementById('canvas8').getContext('2d');
-        window.myBar = new Chart(ctx, {
-            type: 'bar',
-            data: barChartDataLembar,
-            options: {
-                responsive: true,
-                legend: {
-                    position: 'bottom',
-                },
-                title: {
-                    display: true,
-                    fontSize: 20,
-                    padding: 30,
-                    text: texttitlesaldol
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            callback: function(label, index, labels) {
-                                if (vunitupi == '00' || vunitupi == '') {
-                                 return label/1000000+'Jt';
-                                }else{
-                                    return label/1000+'Rb';
-                                }
-                            },  
-                            min: 0
-                        }
-                    }]
-                }
-            }
-        });
-    }
-
-    function renderchart9(){
-        var ctx = document.getElementById('canvas9').getContext('2d');
-        window.myBar = new Chart(ctx, {
-            type: 'bar',
-            data: barChartDataSaldo2,
-            options: {
-                responsive: true,
-                legend: {
-                    position: 'bottom',
-                },
-                title: {
-                    display: true,
-                    fontSize: 20,
-                    padding: 30,
-                    text: texttitlelunas
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            callback: function(label, index, labels) {
-                                if (vunitupi == '00'|| vunitupi == '') {
-                                   return label/1000000000000+'T';
-                                   }else{
-                                    return label/1000000000+'M';
-                                }
-                            },  
-                            min: 0
-                        }
-                    }]
-                }
-            }
-        });
-    }
-
-    function renderchart10(){
-        var ctx = document.getElementById('canvas10').getContext('2d');
-        window.myBar = new Chart(ctx, {
-            type: 'bar',
-            data: barChartDataLembar2,
-            options: {
-                responsive: true,
-                legend: {
-                    position: 'bottom',
-                },
-                title: {
-                    display: true,
-                    fontSize: 20,
-                    padding: 30,
-                    text: texttitlelunasl
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            callback: function(label, index, labels) {
-                                if (vunitupi == '00' || vunitupi == '') {
-                                 return label/1000000+'Jt';
-                                }else{
-                                    return label/1000+'Rb';
-                                }
-                            },  
-                            min: 0
-                        }
-                    }]
-                }
-            }
-        });
-    }
-
-    function renderchart11(){
-        var ctx = document.getElementById('canvas11').getContext('2d');
-        window.myBar = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-                datasets: [{
-                    type: 'line',
-                    label: datalabel,
-                    borderColor: window.chartColors.blue,
-                    borderWidth: 2,
-                    fill: false,
-                    data: rowsdsaldo1
-                },{
-                    type: 'line',
-                    label: datalabel2,
-                    borderColor: window.chartColors.red,
-                    borderWidth: 2,
-                    fill: false,
-                    data: rowsdsaldo2
-                },{
-                    type: 'bar',
-                    label: datalabel,
-                    backgroundColor: window.chartColors.blue,
-                    data: rowsdsaldo1,
-                    borderColor: 'white',
-                    borderWidth: 2
-                }, {
-                    type: 'bar',
-                    label: datalabel2,
-                    backgroundColor: window.chartColors.red,
-                    data: rowsdsaldo2,
-                    borderColor: 'white',
-                    borderWidth: 2
-                }]
-
+function renderchart2(){
+    var ctx = document.getElementById('canvas2').getContext('2d');
+    window.myBar = new Chart(ctx, {
+        type: 'bar',
+        data: barChartDataKwh,
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
             },
-            options: {
-                responsive: true,
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        usePointStyle: true
-                    }   
-                },
-                title: {
-                    display: true,
-                    fontSize: 20,
-                    padding: 30,
-                    text: texttitledsaldo
-                },
-                scales: {
-                    yAxes: dataY
-                }
-            }
-        });
-    }
-
-    function renderchart12(){
-        var ctx = document.getElementById('canvas12').getContext('2d');
-        window.myBar = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-                datasets: [{
-                    type: 'line',
-                    label: datalabel,
-                    borderColor: window.chartColors.blue,
-                    borderWidth: 2,
-                    fill: false,
-                    data: rowsdsaldoL1
-                },{
-                    type: 'line',
-                    label: datalabel2,
-                    borderColor: window.chartColors.red,
-                    borderWidth: 2,
-                    fill: false,
-                    data: rowsdsaldoL2
-                },{
-                    type: 'bar',
-                    label: datalabel,
-                    backgroundColor: window.chartColors.blue,
-                    data: rowsdsaldoL1,
-                    borderColor: 'white',
-                    borderWidth: 2
-                }, {
-                    type: 'bar',
-                    label: datalabel2,
-                    backgroundColor: window.chartColors.red,
-                    data: rowsdsaldoL2,
-                    borderColor: 'white',
-                    borderWidth: 2
-                }]
-
+            title: {
+                display: true,
+                fontSize: 20,
+                padding: 30,
+                text: texttitlekwh
             },
-            options: {
-                responsive: true,
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        usePointStyle: true
-                    }   
-                },
-                title: {
-                    display: true,
-                    fontSize: 20,
-                    padding: 30,
-                    text: texttitledsaldol
-                },
-                scales: {
-                    yAxes: dataY3
-                }
+            scales: {
+                yAxes: dataY2
             }
-        });
+        }
+    });
+}
+
+function renderchart3(){
+    var ctx = document.getElementById('canvas3').getContext('2d');
+    window.myBar = new Chart(ctx, {
+        type: 'bar',
+        data: barChartDataKomulatif,
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: true,
+                fontSize: 20,
+                padding: 30,
+                text: texttitlekom
+            },
+            scales: {
+                yAxes: dataY
+            }
+        }
+    });
+}
+
+function renderchart4(){
+    var ctx = document.getElementById('canvas4').getContext('2d');
+    window.myBar = new Chart(ctx, {
+        type: 'bar',
+        data: barChartDataKomulatifKwh,
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: true,
+                fontSize: 20,
+                padding: 30,
+                text: texttitlekomkwh
+            },
+            scales: {
+                yAxes: dataY2
+            }
+        }
+    });
+}
+
+function renderchart5(){
+    var ctx = document.getElementById('canvas5').getContext('2d');
+    window.myBar = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+            datasets: [{
+                type: 'line',
+                label: datalabel,
+                borderColor: window.chartColors.blue,
+                borderWidth: 2,
+                fill: false,
+                data: rowsdelta
+            },{
+                type: 'line',
+                label: datalabel2,
+                borderColor: window.chartColors.red,
+                borderWidth: 2,
+                fill: false,
+                data: rowsdelta2
+            },{
+                type: 'bar',
+                label: datalabel,
+                backgroundColor: window.chartColors.blue,
+                data: rowsdelta,
+                borderColor: 'white',
+                borderWidth: 2
+            }, {
+                type: 'bar',
+                label: datalabel2,
+                backgroundColor: window.chartColors.red,
+                data: rowsdelta2,
+                borderColor: 'white',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+                labels: {
+                    usePointStyle: true
+                }   
+            },
+            title: {
+                display: true,
+                fontSize: 20,
+                padding: 30,
+                text: texttitledelta
+            },
+            scales: {
+                yAxes: dataY
+            }
+        }
+    });
+}
+
+function renderchart6(){
+    var ctx = document.getElementById('canvas6').getContext('2d');
+    window.myBar = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+            datasets: [{
+                type: 'line',
+                label: datalabel,
+                borderColor: window.chartColors.blue,
+                borderWidth: 2,
+                fill: false,
+                data: rowsdeltakwh
+            },{
+                type: 'line',
+                label: datalabel2,
+                borderColor: window.chartColors.red,
+                borderWidth: 2,
+                fill: false,
+                data: rowsdeltakwh2
+            },{
+                type: 'bar',
+                label: datalabel,
+                backgroundColor: window.chartColors.blue,
+                data: rowsdeltakwh,
+                borderColor: 'white',
+                borderWidth: 2
+            }, {
+                type: 'bar',
+                label: datalabel2,
+                backgroundColor: window.chartColors.red,
+                data: rowsdeltakwh2,
+                borderColor: 'white',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom', 
+                labels: {
+                    usePointStyle: true
+                }  
+            },
+            title: {
+                display: true,
+                fontSize: 20,
+                padding: 30,
+                text: texttitledeltakwh
+            },
+            scales: {
+                yAxes: dataY2
+            }
+        }
+    });
+}
+
+function renderchart7(){
+    var ctx = document.getElementById('canvas7').getContext('2d');
+    window.myBar = new Chart(ctx, {
+        type: 'bar',
+        data: barChartDataSaldo,
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: true,
+                fontSize: 20,
+                padding: 30,
+                text: texttitlesaldor
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        callback: function(label, index, labels) {
+                            if (vunitupi == '00'|| vunitupi == '') {
+                               return label/1000000000000+'T';
+                           }else{
+                            return label/1000000000+'M';
+                        }
+                    },  
+                    min: 0
+                }
+            }]
+        }
     }
+});
+}
+
+function renderchart8(){
+    var ctx = document.getElementById('canvas8').getContext('2d');
+    window.myBar = new Chart(ctx, {
+        type: 'bar',
+        data: barChartDataLembar,
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: true,
+                fontSize: 20,
+                padding: 30,
+                text: texttitlesaldol
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        callback: function(label, index, labels) {
+                            if (vunitupi == '00' || vunitupi == '') {
+                             return label/1000000+'Jt';
+                         }else{
+                            return label/1000+'Rb';
+                        }
+                    },  
+                    min: 0
+                }
+            }]
+        }
+    }
+});
+}
+
+function renderchart9(){
+    var ctx = document.getElementById('canvas9').getContext('2d');
+    window.myBar = new Chart(ctx, {
+        type: 'bar',
+        data: barChartDataSaldo2,
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: true,
+                fontSize: 20,
+                padding: 30,
+                text: texttitlelunas
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        callback: function(label, index, labels) {
+                            if (vunitupi == '00'|| vunitupi == '') {
+                               return label/1000000000000+'T';
+                           }else{
+                            return label/1000000000+'M';
+                        }
+                    },  
+                    min: 0
+                }
+            }]
+        }
+    }
+});
+}
+
+function renderchart10(){
+    var ctx = document.getElementById('canvas10').getContext('2d');
+    window.myBar = new Chart(ctx, {
+        type: 'bar',
+        data: barChartDataLembar2,
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: true,
+                fontSize: 20,
+                padding: 30,
+                text: texttitlelunasl
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        callback: function(label, index, labels) {
+                            if (vunitupi == '00' || vunitupi == '') {
+                             return label/1000000+'Jt';
+                         }else{
+                            return label/1000+'Rb';
+                        }
+                    },  
+                    min: 0
+                }
+            }]
+        }
+    }
+});
+}
+
+function renderchart11(){
+    var ctx = document.getElementById('canvas11').getContext('2d');
+    window.myBar = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+            datasets: [{
+                type: 'line',
+                label: datalabel,
+                borderColor: window.chartColors.blue,
+                borderWidth: 2,
+                fill: false,
+                data: rowsdsaldo1
+            },{
+                type: 'line',
+                label: datalabel2,
+                borderColor: window.chartColors.red,
+                borderWidth: 2,
+                fill: false,
+                data: rowsdsaldo2
+            },{
+                type: 'bar',
+                label: datalabel,
+                backgroundColor: window.chartColors.blue,
+                data: rowsdsaldo1,
+                borderColor: 'white',
+                borderWidth: 2
+            }, {
+                type: 'bar',
+                label: datalabel2,
+                backgroundColor: window.chartColors.red,
+                data: rowsdsaldo2,
+                borderColor: 'white',
+                borderWidth: 2
+            }]
+
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+                labels: {
+                    usePointStyle: true
+                }   
+            },
+            title: {
+                display: true,
+                fontSize: 20,
+                padding: 30,
+                text: texttitledsaldo
+            },
+            scales: {
+                yAxes: dataY
+            }
+        }
+    });
+}
+
+function renderchart12(){
+    var ctx = document.getElementById('canvas12').getContext('2d');
+    window.myBar = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+            datasets: [{
+                type: 'line',
+                label: datalabel,
+                borderColor: window.chartColors.blue,
+                borderWidth: 2,
+                fill: false,
+                data: rowsdsaldoL1
+            },{
+                type: 'line',
+                label: datalabel2,
+                borderColor: window.chartColors.red,
+                borderWidth: 2,
+                fill: false,
+                data: rowsdsaldoL2
+            },{
+                type: 'bar',
+                label: datalabel,
+                backgroundColor: window.chartColors.blue,
+                data: rowsdsaldoL1,
+                borderColor: 'white',
+                borderWidth: 2
+            }, {
+                type: 'bar',
+                label: datalabel2,
+                backgroundColor: window.chartColors.red,
+                data: rowsdsaldoL2,
+                borderColor: 'white',
+                borderWidth: 2
+            }]
+
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+                labels: {
+                    usePointStyle: true
+                }   
+            },
+            title: {
+                display: true,
+                fontSize: 20,
+                padding: 30,
+                text: texttitledsaldol
+            },
+            scales: {
+                yAxes: dataY3
+            }
+        }
+    });
+}
 
     // window.onload = function() {
     //     var container = document.querySelector('.container');
