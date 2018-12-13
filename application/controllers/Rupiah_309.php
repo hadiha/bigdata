@@ -24,6 +24,7 @@ class Rupiah_309 extends CI_Controller {
         $data['rs_tahun'] = $this->M_309_rupiah->get_list_tahun();
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
 
+        $data['initial'] = 'awal';
         $data['dataall'] = $this->mdashboard->get309all(date('Y'), 'TOTAL', NULL, NULL, NULL);
         $data['datadelta'] = $this->mdashboard->get309delta(date('Y'), date('Y')-1, 'TOTAL', NULL, NULL, NULL);
         $data['data404saldo'] = $this->mdashboard->get404all(date('Y'), NULL, NULL, NULL); 
@@ -36,7 +37,6 @@ class Rupiah_309 extends CI_Controller {
         }
         $data['datatahun'] = date('Y');
         $data['datajenislap']= 'GABUNGAN';
-        // print_r($data['dataall']); exit();
         $this->load->view('home', $data);
     }
 
@@ -47,6 +47,9 @@ class Rupiah_309 extends CI_Controller {
         $unitupi = $this->input->post('unitupi');
         $unitap = $this->input->post('unitap');
         $unitup =$this->input->post('unitup');
+        $nunitupi = $this->input->post('nunitupi');
+        $nunitap = $this->input->post('nunitap');
+        $nunitup =$this->input->post('nunitup');
 
         if ($unitupi == '00') {
             $unitupi = NULL;
@@ -67,13 +70,16 @@ class Rupiah_309 extends CI_Controller {
             $data['msg'] = 'Data Tidak Ditemukan';
         }
         
-        $data['init'] = 'akhir';
+        $data['initial'] = 'akhir';
         $data['datatahun'] = $tahun;
         $data['tahun1'] = $tahun1;
         $data['jenislap'] = $jenislap;
         $data['unitupi'] = $unitupi;
         $data['unitap'] = $unitap;
         $data['unitup'] = $unitup;
+        $data['nunitupi'] = $nunitupi;
+        $data['nunitap'] = $nunitap;
+        $data['nunitup'] = $nunitup;
         echo json_encode($data);
     }
 
@@ -97,7 +103,7 @@ class Rupiah_309 extends CI_Controller {
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
 
         
-        // $data['dataall'] = $this->mdashboard->get309all(date('Y'), 'TOTAL', '52', '52100', '52101');
+        $data['dataall'] = $this->mdashboard->get309all(date('Y'), 'TOTAL', NULL, NULL, NULL);
         $data['tahun'] = date('Y');
         $data['jenislap'] = 'GABUNGAN';
         $data['unitupi'] = '';
@@ -113,6 +119,9 @@ class Rupiah_309 extends CI_Controller {
         $unitupi = $this->input->post('unitupi');
         $unitap = $this->input->post('unitap');
         $unitup =$this->input->post('unitup');
+        $nunitupi = $this->input->post('nunitupi');
+        $nunitap = $this->input->post('nunitap');
+        $nunitup =$this->input->post('nunitup');
 
         if ($unitupi == '00') {
             $unitupi = NULL;
@@ -133,6 +142,9 @@ class Rupiah_309 extends CI_Controller {
         $data['unitupi'] = $unitupi;
         $data['unitap'] = $unitap;
         $data['unitup'] = $unitup;
+        $data['nunitupi'] = $nunitupi;
+        $data['nunitap'] = $nunitap;
+        $data['nunitup'] = $nunitup;
         echo json_encode($data);
     }
 
@@ -151,9 +163,9 @@ class Rupiah_309 extends CI_Controller {
         $data['total_upi'] = $this->M_309_rupiah->get_upi();
         
         
-        // $data['datadelta'] = $this->mdashboard->get309delta(date('Y'), '2017', 'TOTAL', '52', '52100', '52101');
-        $data['datatahun'] = date('Y');
-        $data['tahun1'] = date('Y');
+        $data['datadelta'] = $this->mdashboard->get309delta(date('Y'), date('Y')-1, 'TOTAL', NULL, NULL, NULL);
+        $data['tahun'] = date('Y');
+        $data['tahun1'] = date('Y')-1;
         $data['jenislap'] = 'GABUNGAN';
         $data['unitupi'] = '';
         $data['unitap'] = '';

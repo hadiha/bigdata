@@ -5,7 +5,8 @@ $PESAN = $this->session->userdata('PESAN');
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary">
-                <form id="form_filter" class="form-horizontal" method="POST" enctype="multipart/form-data" >
+                <div align="center"><a href="#" id="klik">KLIK UNTUK FILTER</a></div>
+                <form id="form_filter" class="form-horizontal" method="POST" enctype="multipart/form-data" hidden="">
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-1">
@@ -56,7 +57,7 @@ $PESAN = $this->session->userdata('PESAN');
                                     <select name="tahun" id="tahun" class="form-control" required="true">
                                         <option value="">--- Pilih Tahun ---</option>
                                         <?php foreach ($rs_tahun as $index => $tahun) { ?>
-                                            <option value="<?php echo $tahun; ?>" <?php if ($search['tahun'] == $tahun) {
+                                            <option value="<?php echo $tahun; ?>" <?php if (date('Y') == $tahun) {
                                                 echo " selected";
                                             } ?>><?php echo $tahun; ?></option>   
                                         <?php } ?>
@@ -69,11 +70,11 @@ $PESAN = $this->session->userdata('PESAN');
                         <div class="form-group">
                             <div class="col-sm-12">
                                 <select name="tahun1" id="tahun1" class="form-control" required="true">
-                                    <option value="">--- Pilih Tahun Pembanding ---</option>
-                                    <?php foreach ($rs_tahun as $index => $tahun) { ?>
-                                        <option value="<?php echo $tahun; ?>" <?php if ($search['tahun'] == $tahun) {
+                                    <option value="">--- Pilih Tahun ---</option>
+                                    <?php foreach ($rs_tahun as $index => $tahun1) { ?>
+                                        <option value="<?php echo $tahun1; ?>" <?php if (date('Y')-1 == $tahun1) {
                                             echo " selected";
-                                        } ?>><?php echo $tahun; ?></option>   
+                                        } ?>><?php echo $tahun1; ?></option>   
                                     <?php } ?>
                                 </select>
                             </select>
@@ -87,7 +88,7 @@ $PESAN = $this->session->userdata('PESAN');
                                 <option value="">--- Pilih Jenis Laporan ---</option>
                                 <option value="LPB">PRABAYAR</option>
                                 <option value="NORMAL">PASCA</option>
-                                <option value="TOTAL">GABUNGAN</option>   
+                                <option value="TOTAL" selected="">GABUNGAN</option>   
                             </select>
                         </div>
                     </div>
@@ -108,7 +109,7 @@ $PESAN = $this->session->userdata('PESAN');
 <div class="col-md-12">
     <div class="box box-primary">
         <div class="box-body">
-            <div id="inchart"><h2 style="text-align: center">309 Rupiah Delta - Cari Data Terlebih Dahulu!</h2></div>
+            <!-- <div id="inchart"><h2 style="text-align: center">309 Rupiah Delta - Cari Data Terlebih Dahulu!</h2></div> -->
             <div id="container" style="width: 100%; padding: 0px 30px 30px 30px">
                 <canvas id="canvas"></canvas>
             </div>  
@@ -137,6 +138,7 @@ $PESAN = $this->session->userdata('PESAN');
 </div>
 </div>
 </section>
+
 <script type="text/javascript">
     function show_failed_notification(status, pesan){
         $('#notifikasi').modal('show');
@@ -167,12 +169,15 @@ $PESAN = $this->session->userdata('PESAN');
       }
 
       if (level != 00) {
-          $('#unitap').prop('disabled', false);
-      } else {
-          $('#unitap').prop('disabled', true);
-          $('#unitup').prop('disabled', true);
-      }
-      ;
+            $('#unitap').prop('disabled', false);
+        } else {
+            $("#unitup").find('option').remove();
+            $("#unitap").find('option').remove();
+            $("#unitap").append('<option value="">SEMUA</option>');
+            $("#unitup").append('<option value="">SEMUA</option>');
+            $('#unitap').prop('disabled', true);
+            $('#unitup').prop('disabled', true);
+        };
   })
 
 
@@ -196,11 +201,12 @@ $PESAN = $this->session->userdata('PESAN');
       }
 
       if (level_ap != 00) {
-          $('#unitup').prop('disabled', false);
-      } else {
-          $('#unitup').prop('disabled', true);
-      }
-      ;
+            $('#unitup').prop('disabled', false);
+        } else {
+            $("#unitup").find('option').remove();
+            $("#unitup").append('<option value="">SEMUA</option>');  
+            $('#unitup').prop('disabled', true);
+        };
   })
 
 // chart start
@@ -209,32 +215,24 @@ var jInit = '<?php echo $init?>';
 var texttitle = '';
 var datalabel = '';
 var datalabel2 = '';
-if(jInit == 'akhir'){
-    var rowsall = [];
-    var rowsall2 = [];
-    var rowsthbl = [];
-}else{
-    var rowsall =   [
-    <?php foreach ($datadelta as $dt_rupiah) { 
-        echo $dt_rupiah['RPPTL'] . ',';
-    }?>
-    ];
-    var rowsall2 =   [
-    <?php foreach ($datadelta as $dt_rupiah) { 
-        echo $dt_rupiah['RPPTL_2'] . ',';
-    }?>
-    ];
-    var rowsthbl =  [
-    <?php foreach ($datadelta as $dt_rupiah) { 
-        echo $dt_rupiah['THBLLAP'] . ',';
-    }?>
-    ];
-
+if (jInit == 'awal') {
+    datalabel = '<?php echo date('Y')?>';
+    datalabel2 = '<?php echo date('Y')-1?>';
+    texttitle = '309 Rupiah Delta Gabungan - Tahun '+<?php echo date('Y')?>+'/'+<?php echo date('Y')-1?>+' (NASIONAL)';
+    rowsall = [ <?php foreach ($datadelta as $dt_309) { 
+        echo $dt_309['RPPTL'] . ',';
+    }?>];
+    rowsall2 = [ <?php foreach ($datadelta as $dt_309) { 
+        echo $dt_309['RPPTL_2'] . ',';
+    }?>];
 }
 
 var vunitupi='';
 var vunitap='';
 var vunitup='';
+var nunitupi='';
+var nunitap='';
+var nunitup='';
 
 $(document).ready(function(){
     $("#bcari").click(function(){
@@ -244,6 +242,9 @@ $(document).ready(function(){
         vunitupi=$('#unitupi').val();
         vunitap=$('#unitap').val();
         vunitup=$('#unitup').val();
+        vnunitupi=$("#unitupi option:selected").text();
+        vnunitap=$("#unitap option:selected").text();
+        vnunitup=$("#unitup option:selected").text();
 
         if (tahun == null || tahun == '') {
             show_failed_notification('WARNING!','Tahun Tidak Boleh Kosong');
@@ -256,7 +257,7 @@ $(document).ready(function(){
                 type: "post",
                 url: "<?php echo site_url('Rupiah_309/getdelta309') ?>",
                 cache: false,               
-                data:{"tahun":tahun, "tahun1":tahun1, "jenislap":jenislap, "unitupi":vunitupi, "unitap":vunitap, "unitup":vunitup},
+                data:{"tahun":tahun, "tahun1":tahun1, "jenislap":jenislap, "unitupi":vunitupi, "unitap":vunitap, "unitup":vunitup, "nunitupi":vnunitupi, "nunitap":vnunitap, "nunitup":vnunitup},
                 beforeSend: function () {
                     $('#bcari').attr('disabled', 'disabled');
                     $('#bcari').button('loading');
@@ -269,9 +270,11 @@ $(document).ready(function(){
                     $('#loading_modal').modal('hide');
                     $('#bcari').removeAttr('disabled');
                     $('#bcari').button('reset');
+                    $('#form_filter').hide();
+                    $('#klik').show();
                     var obj = JSON.parse(data);
                     var jsonrp = obj.datadelta;
-                    var jtahun = obj.datatahun;
+                    var jtahun = obj.tahun;
                     var jtahun1 = obj.tahun1;
                     var jjenislap = obj.jenislap;
                     var junitupi = obj.unitupi;
@@ -279,10 +282,10 @@ $(document).ready(function(){
                     var junitup = obj.unitup;
                     var msg = obj.msg;
                     var status = obj.status;
-                    jInit = obj.init;
+                    texttitle = '';
+                    jInit = 'akhir';
                     rowsall.splice(0, rowsall.length);
                     rowsall2.splice(0, rowsall2.length);
-                    rowsthbl.splice(0, rowsthbl.length);
 
                     if (status == 'Kosong') {
                         show_failed_notification(status, msg);
@@ -315,10 +318,6 @@ $(document).ready(function(){
                             rowsall2.push(
                                 parseInt(RPPTL_2)     
                                 );
-
-                            rowsthbl.push(
-                                parseInt(THBLLAP)           
-                                );
                         };  
                         renderchart();
                     }
@@ -328,12 +327,16 @@ $(document).ready(function(){
             return false;
         }
     });
+    $("#klik").click(function(){
+        $('#form_filter').show();
+        $('#klik').hide();
+    });
 }); 
 
 var dataY = [{
     ticks: {
         callback: function(label, index, labels) {
-            if (vunitupi == '00') {
+            if (vunitupi == '00' || vunitupi == '') {
                return label/1000000000000+'T';
            }else{
             return label/1000000000+'M';
@@ -344,7 +347,7 @@ var dataY = [{
 }]
 
 window.onload = function() {
-    // renderchart();
+    renderchart();
 };
 
 function renderchart(){
@@ -352,7 +355,7 @@ function renderchart(){
     window.myBar = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels:rowsthbl,
+            labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
             datasets: [{
                 type: 'line',
                 label: datalabel,
@@ -397,7 +400,19 @@ function renderchart(){
             },
             scales: {
                 yAxes: dataY
-            }
+            },
+            tooltips: {
+              callbacks: {
+                label: function(tooltipItem, data) {
+                    var value = data.datasets[0].data[tooltipItem.index];
+                    value = value.toString();
+                    value = value.split(/(?=(?:...)*$)/);
+                    value = value.join('.');
+                    value = 'Rp '+value;
+                    return value;
+                }
+                  } // end callbacks:
+              }
         }
     });
 }

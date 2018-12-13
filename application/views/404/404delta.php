@@ -5,7 +5,8 @@ $PESAN = $this->session->userdata('PESAN');
 	<div class="row">
 		<div class="col-md-12">
 			<div class="box box-primary">
-				<form id="form_filter" class="form-horizontal" method="POST" enctype="multipart/form-data" >
+				<div align="center"><a href="#" id="klik">KLIK UNTUK FILTER</a></div>
+				<form id="form_filter" class="form-horizontal" method="POST" enctype="multipart/form-data" hidden="">
 					<div class="box-body">
 						<div class="row">
 							<div class="col-md-1">
@@ -56,10 +57,10 @@ $PESAN = $this->session->userdata('PESAN');
 										<select name="tahun" id="tahun" class="form-control">
 											<option value="">--- Pilih Tahun ---</option>
 											<?php foreach ($rs_tahun as $index => $tahun) { ?>
-												<option value="<?php echo $tahun; ?>" <?php if ($filterTahun == $tahun) {
-													echo " selected";
-												} ?>><?php echo $tahun; ?></option>   
-											<?php } ?>
+	                                            <option value="<?php echo $tahun; ?>" <?php if (date('Y') == $tahun) {
+	                                                echo " selected";
+	                                            } ?>><?php echo $tahun; ?></option>   
+	                                        <?php } ?>
 										</select>
 									</div>
 								</div>
@@ -69,11 +70,11 @@ $PESAN = $this->session->userdata('PESAN');
 									<div class="col-sm-12">
 										<select name="tahun1" id="tahun1" class="form-control">
 											<option value="">--- Pilih Tahun Pembanding---</option>
-											<?php foreach ($rs_tahun as $index => $tahun) { ?>
-												<option value="<?php echo $tahun; ?>" <?php if ($filtertahun1 == $tahun) {
-													echo " selected";
-												} ?>><?php echo $tahun; ?></option>   
-											<?php } ?>
+											<?php foreach ($rs_tahun as $index => $tahun1) { ?>
+	                                            <option value="<?php echo $tahun1; ?>" <?php if (date('Y')-1 == $tahun1) {
+	                                                echo " selected";
+	                                            } ?>><?php echo $tahun1; ?></option>   
+	                                        <?php } ?>
 										</select>
 									</div>
 								</div>
@@ -94,7 +95,7 @@ $PESAN = $this->session->userdata('PESAN');
 		<div class="col-md-12">
 			<div class="box box-primary">
 				<div class="box-body">
-					<div id="inchart"><h2 style="text-align: center">404 Saldo Delta - Cari Data Terlebih Dahulu!</h2></div>
+					<!-- <div id="inchart"><h2 style="text-align: center">404 Saldo Delta - Cari Data Terlebih Dahulu!</h2></div> -->
 					<div id="container" style="width: 100%; padding: 0px 30px 30px 30px">
 						<canvas id="canvas"></canvas>
 					</div>  
@@ -132,8 +133,8 @@ $PESAN = $this->session->userdata('PESAN');
 		</div>
 	</div>
 </section>
-<script type="text/javascript">
 
+<script type="text/javascript">
 	function show_failed_notification(status, pesan){
 		$('#notifikasi').modal('show');
 		$('#notifikasi').addClass('modal-warning');
@@ -165,13 +166,16 @@ $PESAN = $this->session->userdata('PESAN');
 			});
 		}
 
-		if (level != '') {
-			$('#unitap').prop('disabled', false);
-		} else {
-			$('#unitap').prop('disabled', true);
-			$('#unitup').prop('disabled', true);
-		}
-		;
+		if (level != 00) {
+        $	('#unitap').prop('disabled', false);
+	    } else {
+	        $("#unitup").find('option').remove();
+	        $("#unitap").find('option').remove();
+	        $("#unitap").append('<option value="">SEMUA</option>');
+	        $("#unitup").append('<option value="">SEMUA</option>');
+	        $('#unitap').prop('disabled', true);
+	        $('#unitup').prop('disabled', true);
+	    };
 	})
 
 	$('#unitap').change(function () {
@@ -193,12 +197,13 @@ $PESAN = $this->session->userdata('PESAN');
 			});
 		}
 
-		if (level_ap != '') {
-			$('#unitup').prop('disabled', false);
-		} else {
-			$('#unitup').prop('disabled', true);
-		}
-		;
+		if (level_ap != 00) {
+            $('#unitup').prop('disabled', false);
+        } else {
+            $("#unitup").find('option').remove();
+            $("#unitup").append('<option value="">SEMUA</option>');  
+            $('#unitup').prop('disabled', true);
+        };
 	})
 
 	// chart start
@@ -214,6 +219,33 @@ $PESAN = $this->session->userdata('PESAN');
 	var vunitupi='';
 	var vunitap='';
 	var vunitup='';
+	var jInit = '<?php echo $init?>';
+    if (jInit == 'awal') {
+    	datalabel = '<?php echo date('Y')?>';
+    	datalabel2 = '<?php echo date('Y')-1?>';
+        texttitle = '404 Saldo Delta Rupiah - Tahun '+<?php echo date('Y')?>+'/'+<?php echo date('Y')-1?>+' (NASIONAL)';
+        texttitle2 = '404 Saldo Delta Lembar - Tahun '+<?php echo date('Y')?>+'/'+<?php echo date('Y')-1?>+' (NASIONAL)';
+        rowsrp = [ <?php foreach ($data404delta as $dt_delta404) { 
+            if ($dt_delta404['KET'] == 'GRAFIK1') {
+                echo $dt_delta404['RUPIAH_TOTAL'] . ',';
+            }
+        }?>];
+        rowslbr = [ <?php foreach ($data404delta as $dt_delta404) { 
+            if ($dt_delta404['KET'] == 'GRAFIK1') {
+                echo $dt_delta404['LBR_TOTAL'] . ',';
+            }
+        }?>];
+        rowsrp2 = [ <?php foreach ($data404delta as $dt_delta404) { 
+            if ($dt_delta404['KET'] == 'GRAFIK2') {
+                echo $dt_delta404['RUPIAH_TOTAL'] . ',';
+            }
+        }?>];
+        rowslbr2 = [ <?php foreach ($data404delta as $dt_delta404) { 
+            if ($dt_delta404['KET'] == 'GRAFIK2') {
+                echo $dt_delta404['LBR_TOTAL'] . ',';
+            }
+        }?>];
+    }
 
 	$(document).ready(function(){
 		$("#bcari").click(function(){
@@ -222,6 +254,9 @@ $PESAN = $this->session->userdata('PESAN');
 			vunitupi=$('#unitupi').val();
 			vunitap=$('#unitap').val();
 			vunitup=$('#unitup').val();
+			vnunitupi=$("#unitupi option:selected").text();
+            vnunitap=$("#unitap option:selected").text();
+            vnunitup=$("#unitup option:selected").text();
 
 			if (tahun == null || tahun == '') {
 				show_failed_notification('WARNING!','Tahun Tidak Boleh Kosong');
@@ -232,7 +267,7 @@ $PESAN = $this->session->userdata('PESAN');
 					type: "post",
 					url: "<?php echo site_url('data_404/getdata404delta/saldodelta') ?>",
 					cache: false,               
-					data:{"tahun":tahun, "tahun1":tahun1, "unitupi":vunitupi, "unitap":vunitap, "unitup":vunitup},
+					data:{"tahun":tahun, "tahun1":tahun1, "unitupi":vunitupi, "unitap":vunitap, "unitup":vunitup, "nunitupi":vnunitupi, "nunitap":vnunitap, "nunitup":vnunitup},
 					beforeSend: function () {
 						$('#bcari').attr('disabled', 'disabled');
 						$('#bcari').button('loading');
@@ -245,26 +280,29 @@ $PESAN = $this->session->userdata('PESAN');
 	                	$('#loading_modal').modal('hide');
 	                	$('#bcari').removeAttr('disabled');
 	                	$('#bcari').button('reset');
+	                	$('#form_filter').hide();
+                    	$('#klik').show();
 	                	var obj = JSON.parse(data);
 	                	var jsonrp = obj.data404delta;
-	                	var jtahun = obj.datatahun;
+	                	var jtahun = obj.tahun;
 	                	var jtahun1 = obj.tahun1;
 	                	var junitupi = obj.unitupi;
 	                	var junitap = obj.unitap;
 	                	var junitup = obj.unitup;
+	                	var jnunitupi = obj.nunitupi;
+	                    var jnunitap = obj.nunitap;
+	                    var jnunitup = obj.nunitup;
 	                	var msg = obj.msg;
 	                	var status = obj.status;
 	                	var RUPIAH_TOTAL = [];
 	                	var LBR_TOTAL = [];
 	                	var RUPIAH_TOTAL2 = [];
 	               		var LBR_TOTAL2 = [];
-	               		var THBLLAP = [];
-	                	jInit = obj.init;
+	                	jInit == 'akhir';
 	                	rowsrp.splice(0, rowsrp.length);
 	                	rowsrp2.splice(0, rowsrp2.length);
 	                	rowslbr.splice(0, rowslbr.length);
 	                	rowslbr2.splice(0, rowslbr2.length);
-	                	rowsthbl.splice(0, rowsthbl.length);
 
 	                	if (status == 'Kosong') {
 	                		show_failed_notification(status, msg);
@@ -272,18 +310,18 @@ $PESAN = $this->session->userdata('PESAN');
 	                	}else{
 	                		$('#inchart').hide();
 	                		if (junitupi != "" && junitap != "" && junitup != "") {
-	                			texttitle = '404 Saldo Delta Rupiah - Tahun '+tahun+'/'+tahun1+' ('+junitup+')'
-	                			texttitle2 = '404 Saldo Delta Lembar - Tahun '+tahun+'/'+tahun1+' ('+junitup+')'
+	                			texttitle = '404 Saldo Delta Rupiah - Tahun '+jtahun+'/'+jtahun1+' ('+jnunitup+')'
+	                			texttitle2 = '404 Saldo Delta Lembar - Tahun '+jtahun+'/'+jtahun1+' ('+jnunitup+')'
 	                		} else if(junitupi != "" && junitap != ""){
-	                			texttitle = '404 Saldo Delta Rupiah - Tahun '+tahun+'/'+tahun1+' ('+junitap+')'
-	                			texttitle2 = '404 Saldo Delta Lembar - Tahun '+tahun+'/'+tahun1+' ('+junitap+')'
+	                			texttitle = '404 Saldo Delta Rupiah - Tahun '+jtahun+'/'+jtahun1+' ('+jnunitap+')'
+	                			texttitle2 = '404 Saldo Delta Lembar - Tahun '+jtahun+'/'+jtahun1+' ('+jnunitap+')'
 	                		} else {
-	                			texttitle = '404 Saldo Delta Rupiah - Tahun '+tahun+'/'+tahun1+' ('+junitupi+')'
-	                			texttitle2 = '404 Saldo Delta Lembar - Tahun '+tahun+'/'+tahun1+' ('+junitupi+')'
+	                			texttitle = '404 Saldo Delta Rupiah - Tahun '+jtahun+'/'+jtahun1+' ('+jnunitupi+')'
+	                			texttitle2 = '404 Saldo Delta Lembar - Tahun '+jtahun+'/'+jtahun1+' ('+jnunitupi+')'
 	                		}
 
-	                		datalabel = tahun
-	                		datalabel2 = tahun1
+	                		datalabel = jtahun
+	                		datalabel2 = jtahun1
 
 	                		for (var i = 0; i < obj.data404delta.length; i++) {
 	                			if (obj.data404delta[i].KET == 'GRAFIK1') {
@@ -306,11 +344,7 @@ $PESAN = $this->session->userdata('PESAN');
 	                				rowslbr2.push(
 	                					parseInt(LBR_TOTAL2)     
 	                				);
-	                			}
-
-	                			rowsthbl.push(
-	                				parseInt(THBLLAP)           
-	                			);
+	                			}	                		
 	                		};  
 	                		renderchart();
 	                		renderchart2();
@@ -321,12 +355,16 @@ $PESAN = $this->session->userdata('PESAN');
 				return false;
 			}
 		});
+		$("#klik").click(function(){
+            $('#form_filter').show();
+            $('#klik').hide();
+        });
 	});
 
 	var dataY = [{
 	    ticks: {
 	        callback: function(label, index, labels) {
-	            if (vunitupi == '00') {
+	            if (vunitupi == '00' || vunitupi == '') {
 	                 return label/1000000000000+'T';
 	            }else{
 	                return label/1000000000+'M';
@@ -339,7 +377,7 @@ $PESAN = $this->session->userdata('PESAN');
 	var dataY2 = [{
 	    ticks: {
 	        callback: function(label, index, labels) {
-	            if (vunitupi == '00') {
+	            if (vunitap == '00' || vunitap == '') {
 	                 return label/1000000+'Jt';
 	            }else{
 	                return label/1000+'Rb';
@@ -402,7 +440,19 @@ $PESAN = $this->session->userdata('PESAN');
 	            },
 	            scales: {
 	                yAxes: dataY
-	            }
+	            },
+	            tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            var value = data.datasets[0].data[tooltipItem.index];
+                            value = value.toString();
+                            value = value.split(/(?=(?:...)*$)/);
+                            value = value.join('.');
+                            value = 'Rp '+value;
+                            return value;
+                        }
+                    } // end callbacks:
+                }
 	        }
 	    });
 	}
@@ -460,9 +510,26 @@ $PESAN = $this->session->userdata('PESAN');
 	            },
 	            scales: {
 	                yAxes: dataY2
-	            }
+	            },
+	            tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            var value = data.datasets[0].data[tooltipItem.index];
+                            value = value.toString();
+                            value = value.split(/(?=(?:...)*$)/);
+                            value = value.join('.');
+                            value = value+'(Lembar)';
+                            return value;
+                        }
+                    } // end callbacks:
+                }
 	        }
 	    });
 	}
+
+	window.onload = function() {
+        renderchart();
+        renderchart2();
+    };
 
 </script>

@@ -100,7 +100,7 @@ $PESAN = $this->session->userdata('PESAN');
                 </form>
             </div>
         </div>
-        <div id="inchart"><h2 style="text-align: center;padding-bottom: 20px">Dashboard Utama - Cari Data Terlebih Dahulu!</h2></div>
+        <div id="inchart" hidden=""><h2 style="text-align: center;padding-bottom: 20px">Dashboard Utama - Cari Data Terlebih Dahulu!</h2></div>
         <div class="col-md-6">
             <div class="box box-primary">
                 <div class="box-body">
@@ -209,6 +209,24 @@ $PESAN = $this->session->userdata('PESAN');
                 </div>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <div id="container" style="width: 100%; padding: 0px 30px 30px 30px">
+                        <canvas id="canvas13"></canvas>
+                    </div>  
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <div id="container" style="width: 100%; padding: 0px 30px 30px 30px">
+                        <canvas id="canvas14"></canvas>
+                    </div>  
+                </div>
+            </div>
+        </div>
         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="loading_modal">
             <div class="modal-dialog modal-dialog-centered" role="document" style="margin-top: 300px; margin-left: 650px">
                 <img src="<?php echo base_url('assets/dist/img/ajax-loader.gif');?>" alt=""/>
@@ -234,6 +252,22 @@ $PESAN = $this->session->userdata('PESAN');
 <script type="text/javascript">
 
 // chart start
+window.onload = function(){
+    renderchart();
+    renderchart2();
+    renderchart3();
+    renderchart4();
+    renderchart5();
+    renderchart6();
+    renderchart7();
+    renderchart8();
+    renderchart9();
+    renderchart10();
+    renderchart11();
+    renderchart12();
+    renderchart13();
+    renderchart14();
+};
 
 function show_failed_notification(status, pesan){
     $('#notifikasi').modal('show');
@@ -266,13 +300,16 @@ $('#unitupi').change(function () {
         });
     }
 
-    if (level != '') {
-        $('#unitap').prop('disabled', false);
-    } else {
-        $('#unitap').prop('disabled', true);
-        $('#unitup').prop('disabled', true);
-    }
-    ;
+    if (level != 00) {
+            $('#unitap').prop('disabled', false);
+        } else {
+            $("#unitup").find('option').remove();
+            $("#unitap").find('option').remove();
+            $("#unitap").append('<option value="">SEMUA</option>');
+            $("#unitup").append('<option value="">SEMUA</option>');
+            $('#unitap').prop('disabled', true);
+            $('#unitup').prop('disabled', true);
+        };
 })
 
 $('#unitap').change(function () {
@@ -294,12 +331,13 @@ $('#unitap').change(function () {
         });
     }
 
-    if (level_ap != '') {
-        $('#unitup').prop('disabled', false);
-    } else {
-        $('#unitup').prop('disabled', true);
-    }
-    ;
+    if (level_ap != 00) {
+            $('#unitup').prop('disabled', false);
+        } else {
+            $("#unitup").find('option').remove();
+            $("#unitup").append('<option value="">SEMUA</option>');  
+            $('#unitup').prop('disabled', true);
+        };
 })
 
     //chart start
@@ -332,6 +370,8 @@ $('#unitap').change(function () {
     var rowsdsaldoL2 = [];
     var rowsdlunas1 = [];
     var rowsdlunas2 = [];
+    var rowsdlunasL1 = [];
+    var rowsdlunasL2 = [];
     var rowsdeltakwh = [];
     var rowsdelta2 = [];
     var rowsdeltakwh2 = [];
@@ -349,6 +389,105 @@ $('#unitap').change(function () {
     var vunitupi='';
     var vunitap='';
     var vunitup='';
+    var nunitupi='';
+    var nunitap='';
+    var nunitup='';
+    var inisial = '<?php echo $initial?>';
+
+    if (inisial == 'awal') {
+        texttitleall = '309 Rupiah Gabungan - Tahun '+<?php echo date('Y')?>+' (NASIONAL)';
+        texttitlekwh = '309 Kwh Gabungan - Tahun '+<?php echo date('Y')?>+' (NASIONAL)';
+        texttitlekom = '309 Rupiah Komulatif Gabungan - Tahun '+<?php echo date('Y')?>+' (NASIONAL)';
+        texttitlekomkwh = '309 Kwh Komulatif Gabungan - Tahun '+<?php echo date('Y')?>+' (NASIONAL)';
+        texttitledelta = '309 Rupiah Delta Gabungan - Tahun '+<?php echo date('Y')?>+'/'+<?php echo date('Y')-1?>+' (NASIONAL)';
+        texttitledeltakwh = '309 Kwh Delta Gabungan - Tahun '+<?php echo date('Y')?>+'/'+<?php echo date('Y')-1?>+' (NASIONAL)';
+        texttitlesaldor = '404 Saldo Rupiah - Tahun '+<?php echo date('Y')?>+' (NASIONAL)';
+        texttitlesaldol = '404 Saldo Lembar - Tahun '+<?php echo date('Y')?>+' (NASIONAL)';
+        texttitlelunas = '404 Lunas Rupiah - Tahun '+<?php echo date('Y')?>+' (NASIONAL)';
+        texttitlelunasl = '404 Lunas Lembar - Tahun '+<?php echo date('Y')?>+' (NASIONAL)';
+        texttitledsaldo = '404 Saldo Delta Rupiah - Tahun '+<?php echo date('Y')?>+'/'+<?php echo date('Y')-1?>+' (NASIONAL)';
+        texttitledsaldol = '404 Saldo Delta Lembar - Tahun '+<?php echo date('Y')?>+'/'+<?php echo date('Y')-1?>+' (NASIONAL)';
+        texttitledlunasd = '404 Lunas Delta Rupiah - Tahun '+<?php echo date('Y')?>+'/'+<?php echo date('Y')-1?>+' (NASIONAL)';
+        texttitledlunasdl = '404 Lunas Delta Lembar - Tahun '+<?php echo date('Y')?>+'/'+<?php echo date('Y')-1?>+' (NASIONAL)';
+        
+        rowsrp = [ <?php foreach ($dataall as $dt_309) { 
+            echo $dt_309['RPPTL'] . ',';
+        }?>];
+        rowskwh = [ <?php foreach ($dataall as $dt_309) { 
+            echo $dt_309['JMLKWH'] . ',';
+        }?>];
+        rowsrpkom = [ <?php foreach ($dataall as $dt_309) { 
+            echo $dt_309['RP_KOMULATIF'] . ',';
+        }?>];
+        rowskwhkom = [ <?php foreach ($dataall as $dt_309) { 
+            echo $dt_309['KWH_KOMULATIF'] . ',';
+        }?>];
+        rowslbr = [ <?php foreach ($data404saldo as $dt_404) { 
+            echo $dt_404['LBR_TOTAL'] . ',';
+        }?>];
+        rowsrrp = [ <?php foreach ($data404saldo as $dt_404) { 
+            echo $dt_404['RUPIAH_TOTAL'] . ',';
+        }?>];
+        rowslbr2 = [ <?php foreach ($data404lunas as $dt_404) { 
+            echo $dt_404['LBR_TOTAL'] . ',';
+        }?>];
+        rowsrrp2 = [ <?php foreach ($data404lunas as $dt_404) { 
+            echo $dt_404['RUPIAH_TOTAL'] . ',';
+        }?>];
+        rowsdelta = [ <?php foreach ($datadelta as $dt_delta) { 
+            echo $dt_delta['RPPTL'] . ',';
+        }?>];
+        rowsdelta2 = [ <?php foreach ($datadelta as $dt_delta) { 
+            echo $dt_delta['RPPTL_2'] . ',';
+        }?>];
+        rowsdeltakwh = [ <?php foreach ($datadelta as $dt_delta) { 
+            echo $dt_delta['JMLKWH'] . ',';
+        }?>];
+        rowsdeltakwh2 = [ <?php foreach ($datadelta as $dt_delta) { 
+            echo $dt_delta['JMLKWH_2'] . ',';
+        }?>];
+        rowsdsaldo1 = [ <?php foreach ($data404delta as $dt_delta404) { 
+            if ($dt_delta404['KET'] == 'GRAFIK1') {
+                echo $dt_delta404['RUPIAH_TOTAL'] . ',';
+            }
+        }?>];
+        rowsdsaldoL1 = [ <?php foreach ($data404delta as $dt_delta404) { 
+            if ($dt_delta404['KET'] == 'GRAFIK1') {
+                echo $dt_delta404['LBR_TOTAL'] . ',';
+            }
+        }?>];
+        rowsdsaldo2 = [ <?php foreach ($data404delta as $dt_delta404) { 
+            if ($dt_delta404['KET'] == 'GRAFIK2') {
+                echo $dt_delta404['RUPIAH_TOTAL'] . ',';
+            }
+        }?>];
+        rowsdsaldoL2 = [ <?php foreach ($data404delta as $dt_delta404) { 
+            if ($dt_delta404['KET'] == 'GRAFIK2') {
+                echo $dt_delta404['LBR_TOTAL'] . ',';
+            }
+        }?>];
+        rowsdlunas1 = [ <?php foreach ($data404deltalunas as $dt_delta404) { 
+            if ($dt_delta404['KET'] == 'GRAFIK1') {
+                echo $dt_delta404['RUPIAH_TOTAL'] . ',';
+            }
+        }?>];
+        rowsdlunasL1 = [ <?php foreach ($data404deltalunas as $dt_delta404) { 
+            if ($dt_delta404['KET'] == 'GRAFIK1') {
+                echo $dt_delta404['LBR_TOTAL'] . ',';
+            }
+        }?>];
+        rowsdlunas2 = [ <?php foreach ($data404deltalunas as $dt_delta404) { 
+            if ($dt_delta404['KET'] == 'GRAFIK2') {
+                echo $dt_delta404['RUPIAH_TOTAL'] . ',';
+            }
+        }?>];
+        rowsdlunasL2 = [ <?php foreach ($data404deltalunas as $dt_delta404) { 
+            if ($dt_delta404['KET'] == 'GRAFIK2') {
+                echo $dt_delta404['LBR_TOTAL'] . ',';
+            }
+        }?>];
+    }
+    
     var tahunini=<?php date('Y') ?>
 
     $(document).ready(function(){
@@ -359,6 +498,9 @@ $('#unitap').change(function () {
             vunitupi=$('#unitupi').val();
             vunitap=$('#unitap').val();
             vunitup=$('#unitup').val();
+            nunitupi=$("#unitupi option:selected").text();
+            nunitap=$("#unitap option:selected").text();
+            nunitup=$("#unitup option:selected").text();
 
             if (tahun == null || tahun == '') {
                 show_failed_notification('WARNING!','Tahun Tidak Boleh Kosong');
@@ -371,7 +513,7 @@ $('#unitap').change(function () {
                     type: "post",
                     url: "<?php echo site_url('Rupiah_309/getdashboard') ?>",
                     cache: false,               
-                    data:{"tahun":tahun, "tahun1":tahun1, "jenislap":jenislap ,"unitupi":vunitupi, "unitap":vunitap, "unitup":vunitup},
+                    data:{"tahun":tahun, "tahun1":tahun1, "jenislap":jenislap ,"unitupi":vunitupi, "unitap":vunitap, "unitup":vunitup,"nunitupi":nunitupi, "nunitap":nunitap, "nunitup":nunitup},
                     beforeSend: function () {
                         $('#bcari').attr('disabled', 'disabled');
                         $('#bcari').button('loading');
@@ -396,6 +538,10 @@ $('#unitap').change(function () {
                         var junitupi = obj.unitupi;
                         var junitap = obj.unitap;
                         var junitup = obj.unitup;
+                        var jnunitupi = obj.nunitupi;
+                        var jnunitap = obj.nunitap;
+                        var jnunitup = obj.nunitup;
+                        inisial = obj.initial;
                         var msg = obj.msg;
                         var status = obj.status;
                         var RUPIAH_TOTAL = [];
@@ -423,6 +569,10 @@ $('#unitap').change(function () {
                         rowsdsaldo2.splice(0, rowsdsaldo2.length);
                         rowsdsaldoL1.splice(0, rowsdsaldoL1.length);
                         rowsdsaldoL2.splice(0, rowsdsaldoL2.length);
+                        rowsdlunas1.splice(0, rowsdlunas1.length);
+                        rowsdlunas2.splice(0, rowsdlunas2.length);
+                        rowsdlunasL1.splice(0, rowsdlunasL1.length);
+                        rowsdlunasL2.splice(0, rowsdlunasL2.length);
 
                         if (status == 'Kosong') {
                             show_failed_notification(status, msg);
@@ -430,44 +580,50 @@ $('#unitap').change(function () {
                         }else{
                             $('#inchart').hide();
                             if (junitupi != "" && junitap != "" && junitup != "") {
-                                texttitleall = '309 Rupiah '+jenislap+' - Tahun '+jtahun+' ('+junitup+')'
-                                texttitlekwh = '309 Kwh '+jenislap+' - Tahun '+jtahun+' ('+junitup+')'
-                                texttitlekom = '309 Rupiah Komulatif '+jenislap+' - Tahun '+jtahun+' ('+junitup+')'
-                                texttitlekomkwh = '309 Kwh Komulatif '+jenislap+' - Tahun '+jtahun+' ('+junitup+')'
-                                texttitledelta = '309 Rupiah Delta '+jenislap+' - Tahun '+jtahun+'/'+jtahun1+' ('+junitup+')'
-                                texttitledeltakwh = '309 Kwh Delta '+jenislap+' - Tahun '+jtahun+'/'+jtahun1+' ('+junitup+')'
-                                texttitlesaldor = '404 Saldo Rupiah - Tahun '+jtahun+' ('+junitup+')'
-                                texttitlesaldol = '404 Saldo Lembar - Tahun '+jtahun+' ('+junitup+')'
-                                texttitlelunas = '404 Lunas Rupiah - Tahun '+jtahun+' ('+junitup+')'
-                                texttitlelunasl = '404 Lunas Lembar - Tahun '+jtahun+' ('+junitup+')'
-                                texttitledsaldo = '404 Saldo Delta Rupiah - Tahun '+tahun+'/'+tahun1+' ('+junitup+')'
-                                texttitledsaldol = '404 Saldo Delta Lembar - Tahun '+tahun+'/'+tahun1+' ('+junitup+')'
+                                texttitleall = '309 Rupiah '+jenislap+' - Tahun '+jtahun+' ('+jnunitup+')'
+                                texttitlekwh = '309 Kwh '+jenislap+' - Tahun '+jtahun+' ('+jnunitup+')'
+                                texttitlekom = '309 Rupiah Komulatif '+jenislap+' - Tahun '+jtahun+' ('+jnunitup+')'
+                                texttitlekomkwh = '309 Kwh Komulatif '+jenislap+' - Tahun '+jtahun+' ('+jnunitup+')'
+                                texttitledelta = '309 Rupiah Delta '+jenislap+' - Tahun '+jtahun+'/'+jtahun1+' ('+jnunitup+')'
+                                texttitledeltakwh = '309 Kwh Delta '+jenislap+' - Tahun '+jtahun+'/'+jtahun1+' ('+jnunitup+')'
+                                texttitlesaldor = '404 Saldo Rupiah - Tahun '+jtahun+' ('+jnunitup+')'
+                                texttitlesaldol = '404 Saldo Lembar - Tahun '+jtahun+' ('+jnunitup+')'
+                                texttitlelunas = '404 Lunas Rupiah - Tahun '+jtahun+' ('+jnunitup+')'
+                                texttitlelunasl = '404 Lunas Lembar - Tahun '+jtahun+' ('+jnunitup+')'
+                                texttitledsaldo = '404 Saldo Delta Rupiah - Tahun '+tahun+'/'+tahun1+' ('+jnunitup+')'
+                                texttitledsaldol = '404 Saldo Delta Lembar - Tahun '+tahun+'/'+tahun1+' ('+jnunitup+')'
+                                texttitledlunasd = '404 Lunas Delta Rupiah - Tahun '+tahun+'/'+tahun1+' ('+jnunitup+')'
+                                texttitledlunasdl = '404 Lunas Delta Lembar - Tahun '+tahun+'/'+tahun1+' ('+jnunitup+')'
                             } else if(junitupi != "" && junitap != ""){
-                                texttitleall = '309 Rupiah '+jenislap+' - Tahun '+jtahun+' ('+junitap+')'
-                                texttitlekwh = '309 Kwh '+jenislap+' - Tahun '+jtahun+' ('+junitap+')'
-                                texttitlekom = '309 Rupiah Komulatif '+jenislap+' - Tahun '+jtahun+' ('+junitap+')'
-                                texttitlekomkwh = '309 Kwh Komulatif '+jenislap+' - Tahun '+jtahun+' ('+junitap+')'
-                                texttitledelta = '309 Rupiah Delta '+jenislap+' - Tahun '+jtahun+'/'+jtahun1+' ('+junitap+')'
-                                texttitledeltakwh = '309 Kwh Delta '+jenislap+' - Tahun '+jtahun+'/'+jtahun1+' ('+junitap+')'
-                                texttitlesaldor = '404 Saldo Rupiah - Tahun '+jtahun+' ('+junitap+')'
-                                texttitlesaldol = '404 Saldo Lembar - Tahun '+jtahun+' ('+junitap+')'
-                                texttitlelunas = '404 Lunas Rupiah - Tahun '+jtahun+' ('+junitap+')'
-                                texttitlelunasl = '404 Lunas Lembar - Tahun '+jtahun+' ('+junitap+')'
-                                texttitledsaldo = '404 Saldo Delta Rupiah - Tahun '+tahun+'/'+tahun1+' ('+junitap+')'
-                                texttitledsaldol = '404 Saldo Delta Lembar - Tahun '+tahun+'/'+tahun1+' ('+junitap+')'
+                                texttitleall = '309 Rupiah '+jenislap+' - Tahun '+jtahun+' ('+jnunitap+')'
+                                texttitlekwh = '309 Kwh '+jenislap+' - Tahun '+jtahun+' ('+jnunitap+')'
+                                texttitlekom = '309 Rupiah Komulatif '+jenislap+' - Tahun '+jtahun+' ('+jnunitap+')'
+                                texttitlekomkwh = '309 Kwh Komulatif '+jenislap+' - Tahun '+jtahun+' ('+jnunitap+')'
+                                texttitledelta = '309 Rupiah Delta '+jenislap+' - Tahun '+jtahun+'/'+jtahun1+' ('+jnunitap+')'
+                                texttitledeltakwh = '309 Kwh Delta '+jenislap+' - Tahun '+jtahun+'/'+jtahun1+' ('+jnunitap+')'
+                                texttitlesaldor = '404 Saldo Rupiah - Tahun '+jtahun+' ('+jnunitap+')'
+                                texttitlesaldol = '404 Saldo Lembar - Tahun '+jtahun+' ('+jnunitap+')'
+                                texttitlelunas = '404 Lunas Rupiah - Tahun '+jtahun+' ('+jnunitap+')'
+                                texttitlelunasl = '404 Lunas Lembar - Tahun '+jtahun+' ('+jnunitap+')'
+                                texttitledsaldo = '404 Saldo Delta Rupiah - Tahun '+tahun+'/'+tahun1+' ('+jnunitap+')'
+                                texttitledsaldol = '404 Saldo Delta Lembar - Tahun '+tahun+'/'+tahun1+' ('+jnunitap+')'
+                                texttitledlunasd = '404 Lunas Delta Rupiah - Tahun '+tahun+'/'+tahun1+' ('+jnunitap+')'
+                                texttitledlunasdl = '404 Lunas Delta Lembar - Tahun '+tahun+'/'+tahun1+' ('+jnunitap+')'
                             } else {
-                                texttitleall = '309 Rupiah '+jenislap+' - Tahun '+jtahun+' ('+junitupi+')'
-                                texttitlekwh = '309 Kwh '+jenislap+' - Tahun '+jtahun+' ('+junitupi+')'
-                                texttitlekom = '309 Rupiah Komulatif '+jenislap+' - Tahun '+jtahun+' ('+junitupi+')'
-                                texttitlekomkwh = '309 Kwh Komulatif '+jenislap+' - Tahun '+jtahun+' ('+junitupi+')'
-                                texttitledelta = '309 Rupiah Delta '+jenislap+' - Tahun '+jtahun+'/'+jtahun1+' ('+junitupi+')'
-                                texttitledeltakwh = '309 Kwh Delta '+jenislap+' - Tahun '+jtahun+'/'+jtahun1+' ('+junitupi+')'
-                                texttitlesaldor = '404 Saldo Rupiah - Tahun '+jtahun+' ('+junitupi+')'
-                                texttitlesaldol = '404 Saldo Lembar - Tahun '+jtahun+' ('+junitupi+')'
-                                texttitlelunas = '404 Lunas Rupiah - Tahun '+jtahun+' ('+junitupi+')'
-                                texttitlelunasl = '404 Lunas Lembar - Tahun '+jtahun+' ('+junitupi+')'
-                                texttitledsaldo = '404 Saldo Delta Rupiah - Tahun '+tahun+'/'+tahun1+' ('+junitupi+')'
-                                texttitledsaldol = '404 Saldo Delta Lembar - Tahun '+tahun+'/'+tahun1+' ('+junitupi+')'
+                                texttitleall = '309 Rupiah '+jenislap+' - Tahun '+jtahun+' ('+jnunitupi+')'
+                                texttitlekwh = '309 Kwh '+jenislap+' - Tahun '+jtahun+' ('+jnunitupi+')'
+                                texttitlekom = '309 Rupiah Komulatif '+jenislap+' - Tahun '+jtahun+' ('+jnunitupi+')'
+                                texttitlekomkwh = '309 Kwh Komulatif '+jenislap+' - Tahun '+jtahun+' ('+jnunitupi+')'
+                                texttitledelta = '309 Rupiah Delta '+jenislap+' - Tahun '+jtahun+'/'+jtahun1+' ('+jnunitupi+')'
+                                texttitledeltakwh = '309 Kwh Delta '+jenislap+' - Tahun '+jtahun+'/'+jtahun1+' ('+jnunitupi+')'
+                                texttitlesaldor = '404 Saldo Rupiah - Tahun '+jtahun+' ('+jnunitupi+')'
+                                texttitlesaldol = '404 Saldo Lembar - Tahun '+jtahun+' ('+jnunitupi+')'
+                                texttitlelunas = '404 Lunas Rupiah - Tahun '+jtahun+' ('+jnunitupi+')'
+                                texttitlelunasl = '404 Lunas Lembar - Tahun '+jtahun+' ('+jnunitupi+')'
+                                texttitledsaldo = '404 Saldo Delta Rupiah - Tahun '+tahun+'/'+tahun1+' ('+jnunitupi+')'
+                                texttitledsaldol = '404 Saldo Delta Lembar - Tahun '+tahun+'/'+tahun1+' ('+jnunitupi+')'
+                                texttitledlunasd = '404 Lunas Delta Rupiah - Tahun '+tahun+'/'+tahun1+' ('+jnunitupi+')'
+                                texttitledlunasdl = '404 Lunas Delta Lembar - Tahun '+tahun+'/'+tahun1+' ('+jnunitupi+')'
                             }
 
                             datalabel = tahun
@@ -582,6 +738,31 @@ $('#unitap').change(function () {
                                 }
                             };
 
+                            for (var i = 0; i < obj.data404deltalunas.length; i++) {
+                                if (obj.data404deltalunas[i].KET == 'GRAFIK1') {
+                                    var RUPIAH_TOTAL = obj.data404deltalunas[i].RUPIAH_TOTAL;
+                                    var LBR_TOTAL = obj.data404deltalunas[i].LBR_TOTAL;
+                                    var THBLLAP = obj.data404deltalunas[i].THBL;
+
+                                    rowsdlunas1.push(
+                                        parseInt(RUPIAH_TOTAL)     
+                                        );
+                                    rowsdlunasL1.push(
+                                        parseInt(LBR_TOTAL)     
+                                        );
+                                } else if(obj.data404deltalunas[i].KET == 'GRAFIK2'){
+                                    var RUPIAH_TOTAL2 = obj.data404deltalunas[i].RUPIAH_TOTAL;
+                                    var LBR_TOTAL2 = obj.data404deltalunas[i].LBR_TOTAL;
+
+                                    rowsdlunas2.push(
+                                        parseInt(RUPIAH_TOTAL2)     
+                                        );
+                                    rowsdlunasL2.push(
+                                        parseInt(LBR_TOTAL2)     
+                                        );
+                                }
+                            };
+
                             renderchart();
                             renderchart2();
                             renderchart3();
@@ -594,15 +775,17 @@ $('#unitap').change(function () {
                             renderchart10();
                             renderchart11();
                             renderchart12();
+                            renderchart13();
+                            renderchart14();
                         }
                     }   
                 });
-                return false;
-            }
-        });
-    });
+return false;
+}
+});
+});
 
-var barChartData = {
+var barChartData = { 
     labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
     datasets: [{
         label: 'Rupiah',
@@ -690,45 +873,6 @@ var barChartDataSaldo2 = {
     }]
 };
 
-var dataY = [{
-    ticks: {
-        callback: function(label, index, labels) {
-            if (vunitupi == '00'|| vunitupi == '') {
-             return label/1000000000000+'T';
-         }else{
-            return label/1000000000+'M';
-        }
-    },  
-    min: 0
-}
-}]
-
-var dataY2 = [{
-    ticks: {
-        callback: function(label, index, labels) {
-            if (vunitupi == '00'|| vunitupi == '') {
-             return label/1000000000+'M';
-         }else{
-            return label/1000000+'Jt';
-        }
-    },  
-    min: 0
-}
-}]
-
-var dataY3 = [{
-    ticks: {
-        callback: function(label, index, labels) {
-            if (vunitupi == '00'|| vunitupi == '') {
-             return label/1000000+'Jt';
-         }else{
-            return label/1000+'Rb';
-        }
-    },  
-    min: 0
-}
-}]
-
 function renderchart(){
     var ctx = document.getElementById('canvas').getContext('2d');
     window.myBar = new Chart(ctx, {
@@ -737,7 +881,8 @@ function renderchart(){
         options: {
             responsive: true,
             legend: {
-                position: 'bottom',
+                position: '',
+                display: false
             },
             title: {
                 display: true,
@@ -746,10 +891,33 @@ function renderchart(){
                 text: texttitleall
             },
             scales: {
-                yAxes: dataY
+                yAxes: [{
+                    ticks: {
+                        callback: function(label, index, labels) {
+                            if (vunitupi == '00'|| vunitupi == '') {
+                               return label/1000000000000+'T';
+                           }else{
+                            return label/1000000000+'M';
+                        }
+                    },  
+                    min: 0
+                }
+            }]
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+                var value = data.datasets[0].data[tooltipItem.index];
+                value = value.toString();
+                value = value.split(/(?=(?:...)*$)/);
+                value = value.join('.');
+                value = 'Rp ' + value;
+                return value;
             }
-        }
-    });
+                  } // end callbacks:
+                }, //end tooltips
+            }
+        });
 }
 
 function renderchart2(){
@@ -761,6 +929,7 @@ function renderchart2(){
             responsive: true,
             legend: {
                 position: 'bottom',
+                display: false
             },
             title: {
                 display: true,
@@ -769,10 +938,33 @@ function renderchart2(){
                 text: texttitlekwh
             },
             scales: {
-                yAxes: dataY2
+                yAxes: [{
+                    ticks: {
+                        callback: function(label, index, labels) {
+                            if (vunitupi == '00'|| vunitupi == '') {
+                               return label/1000000000+'M';
+                           }else{
+                            return label/1000000+'Jt';
+                        }
+                    },  
+                    min: 0
+                }
+            }]
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+                var value = data.datasets[0].data[tooltipItem.index];
+                value = value.toString();
+                value = value.split(/(?=(?:...)*$)/);
+                value = value.join('.');
+                value = 'Rp ' + value;
+                return value;
             }
-        }
-    });
+                  } // end callbacks:
+                }, //end tooltips
+            }
+        });
 }
 
 function renderchart3(){
@@ -784,6 +976,7 @@ function renderchart3(){
             responsive: true,
             legend: {
                 position: 'bottom',
+                display: false
             },
             title: {
                 display: true,
@@ -792,10 +985,33 @@ function renderchart3(){
                 text: texttitlekom
             },
             scales: {
-                yAxes: dataY
+                yAxes: [{
+                    ticks: {
+                        callback: function(label, index, labels) {
+                            if (vunitap == '00'|| vunitap == '') {
+                               return label/1000000000000+'T';
+                           }else{
+                            return label/1000000000+'M';
+                        }
+                    },  
+                    min: 0
+                }
+            }]
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+                var value = data.datasets[0].data[tooltipItem.index];
+                value = value.toString();
+                value = value.split(/(?=(?:...)*$)/);
+                value = value.join('.');
+                value = 'Rp ' + value;
+                return value;
             }
-        }
-    });
+                  } // end callbacks:
+                }, //end tooltips
+            }
+        });
 }
 
 function renderchart4(){
@@ -807,6 +1023,7 @@ function renderchart4(){
             responsive: true,
             legend: {
                 position: 'bottom',
+                display: false
             },
             title: {
                 display: true,
@@ -815,10 +1032,33 @@ function renderchart4(){
                 text: texttitlekomkwh
             },
             scales: {
-                yAxes: dataY2
+                yAxes: [{
+                    ticks: {
+                        callback: function(label, index, labels) {
+                            if (vunitap == '00'|| vunitap == '') {
+                               return label/1000000000+'M';
+                           }else{
+                            return label/1000000+'Jt';
+                        }
+                    },  
+                    min: 0
+                }
+            }]
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+                var value = data.datasets[0].data[tooltipItem.index];
+                value = value.toString();
+                value = value.split(/(?=(?:...)*$)/);
+                value = value.join('.');
+                value = 'Rp ' + value;
+                return value;
             }
-        }
-    });
+                  } // end callbacks:
+                }, //end tooltips
+            }
+        });
 }
 
 function renderchart5(){
@@ -861,6 +1101,7 @@ function renderchart5(){
             responsive: true,
             legend: {
                 position: 'bottom',
+                display: false,
                 labels: {
                     usePointStyle: true
                 }   
@@ -872,10 +1113,33 @@ function renderchart5(){
                 text: texttitledelta
             },
             scales: {
-                yAxes: dataY
+                yAxes: [{
+                    ticks: {
+                        callback: function(label, index, labels) {
+                            if (vunitupi == '00'|| vunitupi == '') {
+                               return label/1000000000000+'T';
+                           }else{
+                            return label/1000000000+'M';
+                        }
+                    },  
+                    min: 0
+                }
+            }]
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+                var value = data.datasets[0].data[tooltipItem.index];
+                value = value.toString();
+                value = value.split(/(?=(?:...)*$)/);
+                value = value.join('.');
+                value = 'Rp ' + value;
+                return value;
             }
-        }
-    });
+                  } // end callbacks:
+                }, //end tooltips
+            }
+        });
 }
 
 function renderchart6(){
@@ -918,6 +1182,7 @@ function renderchart6(){
             responsive: true,
             legend: {
                 position: 'bottom', 
+                display: false,
                 labels: {
                     usePointStyle: true
                 }  
@@ -929,10 +1194,33 @@ function renderchart6(){
                 text: texttitledeltakwh
             },
             scales: {
-                yAxes: dataY2
+                yAxes: [{
+                    ticks: {
+                        callback: function(label, index, labels) {
+                            if (vunitupi == '00'|| vunitupi == '') {
+                               return label/1000000000+'M';
+                           }else{
+                            return label/1000000+'Jt';
+                        }
+                    },  
+                    min: 0
+                }
+            }]
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+                var value = data.datasets[0].data[tooltipItem.index];
+                value = value.toString();
+                value = value.split(/(?=(?:...)*$)/);
+                value = value.join('.');
+                value = 'Rp ' + value;
+                return value;
             }
-        }
-    });
+                  } // end callbacks:
+                }, //end tooltips
+            }
+        });
 }
 
 function renderchart7(){
@@ -944,6 +1232,7 @@ function renderchart7(){
             responsive: true,
             legend: {
                 position: 'bottom',
+                display: false
             },
             title: {
                 display: true,
@@ -956,17 +1245,29 @@ function renderchart7(){
                     ticks: {
                         callback: function(label, index, labels) {
                             if (vunitupi == '00'|| vunitupi == '') {
-                               return label/1000000000000+'T';
-                           }else{
+                             return label/1000000000000+'T';
+                         }else{
                             return label/1000000000+'M';
                         }
                     },  
                     min: 0
                 }
             }]
-        }
-    }
-});
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+                var value = data.datasets[0].data[tooltipItem.index];
+                value = value.toString();
+                value = value.split(/(?=(?:...)*$)/);
+                value = value.join('.');
+                value = 'Rp ' + value;
+                return value;
+            }
+                  } // end callbacks:
+                }, //end tooltips
+            }
+        });
 }
 
 function renderchart8(){
@@ -978,6 +1279,7 @@ function renderchart8(){
             responsive: true,
             legend: {
                 position: 'bottom',
+                display: false
             },
             title: {
                 display: true,
@@ -989,18 +1291,30 @@ function renderchart8(){
                 yAxes: [{
                     ticks: {
                         callback: function(label, index, labels) {
-                            if (vunitupi == '00' || vunitupi == '') {
-                             return label/1000000+'Jt';
-                         }else{
+                            if (vunitap == '00' || vunitap == '') {
+                               return label/1000000+'Jt';
+                           }else{
                             return label/1000+'Rb';
                         }
                     },  
                     min: 0
                 }
             }]
-        }
-    }
-});
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+                var value = data.datasets[0].data[tooltipItem.index];
+                value = value.toString();
+                value = value.split(/(?=(?:...)*$)/);
+                value = value.join('.');
+                value = value+'(Lembar)';
+                return value;
+            }
+                  } // end callbacks:
+                }, //end tooltips
+            }
+        });
 }
 
 function renderchart9(){
@@ -1012,6 +1326,7 @@ function renderchart9(){
             responsive: true,
             legend: {
                 position: 'bottom',
+                display: false
             },
             title: {
                 display: true,
@@ -1024,17 +1339,29 @@ function renderchart9(){
                     ticks: {
                         callback: function(label, index, labels) {
                             if (vunitupi == '00'|| vunitupi == '') {
-                               return label/1000000000000+'T';
-                           }else{
+                             return label/1000000000000+'T';
+                         }else{
                             return label/1000000000+'M';
                         }
                     },  
                     min: 0
                 }
             }]
-        }
-    }
-});
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+                var value = data.datasets[0].data[tooltipItem.index];
+                value = value.toString();
+                value = value.split(/(?=(?:...)*$)/);
+                value = value.join('.');
+                value = 'Rp ' + value;
+                return value;
+            }
+                  } // end callbacks:
+                }, //end tooltips
+            }
+        });
 }
 
 function renderchart10(){
@@ -1046,6 +1373,7 @@ function renderchart10(){
             responsive: true,
             legend: {
                 position: 'bottom',
+                display: false
             },
             title: {
                 display: true,
@@ -1058,17 +1386,29 @@ function renderchart10(){
                     ticks: {
                         callback: function(label, index, labels) {
                             if (vunitupi == '00' || vunitupi == '') {
-                             return label/1000000+'Jt';
-                         }else{
+                               return label/1000000+'Jt';
+                           }else{
                             return label/1000+'Rb';
                         }
                     },  
                     min: 0
                 }
             }]
-        }
-    }
-});
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+                var value = data.datasets[0].data[tooltipItem.index];
+                value = value.toString();
+                value = value.split(/(?=(?:...)*$)/);
+                value = value.join('.');
+                value = value+'(Lembar)';
+                return value;
+            }
+                  } // end callbacks:
+                }, //end tooltips
+            }
+        });
 }
 
 function renderchart11(){
@@ -1112,6 +1452,7 @@ function renderchart11(){
             responsive: true,
             legend: {
                 position: 'bottom',
+                display: false,
                 labels: {
                     usePointStyle: true
                 }   
@@ -1123,10 +1464,33 @@ function renderchart11(){
                 text: texttitledsaldo
             },
             scales: {
-                yAxes: dataY
+                yAxes: [{
+                    ticks: {
+                        callback: function(label, index, labels) {
+                            if (vunitupi == '00'|| vunitupi == '') {
+                               return label/1000000000000+'T';
+                           }else{
+                            return label/1000000000+'M';
+                        }
+                    },  
+                    min: 0
+                }
+            }]
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+                var value = data.datasets[0].data[tooltipItem.index];
+                value = value.toString();
+                value = value.split(/(?=(?:...)*$)/);
+                value = value.join('.');
+                value = 'Rp ' + value;
+                return value;
             }
-        }
-    });
+                  } // end callbacks:
+                }, //end tooltips
+            }
+        });
 }
 
 function renderchart12(){
@@ -1170,6 +1534,7 @@ function renderchart12(){
             responsive: true,
             legend: {
                 position: 'bottom',
+                display: false,
                 labels: {
                     usePointStyle: true
                 }   
@@ -1181,67 +1546,209 @@ function renderchart12(){
                 text: texttitledsaldol
             },
             scales: {
-                yAxes: dataY3
+                yAxes: [{
+                    ticks: {
+                        callback: function(label, index, labels) {
+                            if (vunitupi == '00'|| vunitupi == '') {
+                               return label/1000000+'Jt';
+                           }else{
+                            return label/1000+'Rb';
+                        }
+                    },  
+                    min: 0
+                }
+            }]
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+                var value = data.datasets[0].data[tooltipItem.index];
+                value = value.toString();
+                value = value.split(/(?=(?:...)*$)/);
+                value = value.join('.');
+                value = value+'(Lembar)';
+                return value;
             }
-        }
-    });
+                  } // end callbacks:
+                }, //end tooltips
+            }
+        });
 }
 
-    // window.onload = function() {
-    //     var container = document.querySelector('.container');
-    //     var container2 = document.querySelector('.container2');
-    //     var container3 = document.querySelector('.container3');
-    //     var container4 = document.querySelector('.container4');
-    //     var container5 = document.querySelector('.container5');
-    //     var container6 = document.querySelector('.container6');
+function renderchart13(){
+    var ctx = document.getElementById('canvas13').getContext('2d');
+    window.myBar = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+            datasets: [{
+                type: 'line',
+                label: datalabel,
+                borderColor: window.chartColors.blue,
+                borderWidth: 2,
+                fill: false,
+                data: rowsdlunas1
+            },{
+                type: 'line',
+                label: datalabel2,
+                borderColor: window.chartColors.red,
+                borderWidth: 2,
+                fill: false,
+                data: rowsdlunas2
+            },{
+                type: 'bar',
+                label: datalabel,
+                backgroundColor: window.chartColors.blue,
+                data: rowsdlunas1,
+                borderColor: 'white',
+                borderWidth: 2
+            }, {
+                type: 'bar',
+                label: datalabel2,
+                backgroundColor: window.chartColors.red,
+                data: rowsdlunas2,
+                borderColor: 'white',
+                borderWidth: 2
+            }]
 
-    //     [{
-    //         data: barChartData,
-    //         title: titleRp
-    //     }, {
-    //         data: barChartDataKwh,
-    //         title: titleKwh
-    //     }, {
-    //         data: barChartDataKomulatif,
-    //         title: titleKomulatif
-    //     }, {
-    //         data: barChartDataKomulatifKwh,
-    //         title: titleKomulatifKwh
-    //     }, {
-    //         data: barChartDataDelta,
-    //         title: titleDelta
-    //     }, {
-    //         data: barChartDataDeltaKwh,
-    //         title: titleDeltaKwh
-    //     }].forEach(function(details) {
-    //         var div = document.createElement('div');
-    //         div.classList.add('chart-container');
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+                display: false,
+                labels: {
+                    usePointStyle: true
+                }   
+            },
+            title: {
+                display: true,
+                fontSize: 20,
+                padding: 30,
+                text: texttitledlunasd
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        callback: function(label, index, labels) {
+                            if (vunitupi == '00'|| vunitupi == '') {
+                               return label/1000000000000+'T';
+                           }else{
+                            return label/1000000000+'M';
+                        }
+                    },  
+                    min: 0
+                }
+            }]
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+                var value = data.datasets[0].data[tooltipItem.index];
+                value = value.toString();
+                value = value.split(/(?=(?:...)*$)/);
+                value = value.join('.');
+                value = 'Rp ' + value;
+                return value;
+            }
+                  } // end callbacks:
+                }, //end tooltips
+            }
+        });
+}
 
-    //         var canvas = document.createElement('canvas');
-    //         div.appendChild(canvas);
-    //         if (details.data == barChartData) {
-    //             container.appendChild(div); 
-    //             var config = createConfig(details.data,details.title);
-    //         }else if(details.data == barChartDataKwh) {
-    //             container2.appendChild(div); 
-    //             var config = createConfig2(details.data,details.title);
-    //         }else if(details.data == barChartDataKomulatif) {
-    //             container3.appendChild(div)
-    //             var config = createConfig(details.data,details.title);
-    //         }else if(details.data == barChartDataKomulatifKwh) {
-    //             container4.appendChild(div)
-    //             var config = createConfig2(details.data,details.title);
-    //         }else if(details.data == barChartDataDelta) {
-    //             container5.appendChild(div)
-    //             var config = createConfig(details.data,details.title);
-    //         }else if(details.data == barChartDataDeltaKwh) {
-    //             container6.appendChild(div)
-    //             var config = createConfig2(details.data,details.title);
-    //         }
+function renderchart14(){
+    var ctx = document.getElementById('canvas14').getContext('2d');
+    window.myBar = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+            datasets: [{
+                type: 'line',
+                label: datalabel,
+                borderColor: window.chartColors.blue,
+                borderWidth: 2,
+                fill: false,
+                data: rowsdlunasL1
+            },{
+                type: 'line',
+                label: datalabel2,
+                borderColor: window.chartColors.red,
+                borderWidth: 2,
+                fill: false,
+                data: rowsdlunasL2
+            },{
+                type: 'bar',
+                label: datalabel,
+                backgroundColor: window.chartColors.blue,
+                data: rowsdlunasL1,
+                borderColor: 'white',
+                borderWidth: 2
+            }, {
+                type: 'bar',
+                label: datalabel2,
+                backgroundColor: window.chartColors.red,
+                data: rowsdlunasL2,
+                borderColor: 'white',
+                borderWidth: 2
+            }]
 
-    //         var ctx = canvas.getContext('2d');
-    //         new Chart(ctx, config);
-    //     });
-    // };
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+                display: false,
+                labels: {
+                    usePointStyle: true
+                }   
+            },
+            title: {
+                display: true,
+                fontSize: 20,
+                padding: 30,
+                text: texttitledlunasdl
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        callback: function(label, index, labels) {
+                            if (vunitupi == '00'|| vunitupi == '') {
+                               return label/1000000+'Jt';
+                           }else{
+                            return label/1000+'Rb';
+                        }
+                    },  
+                    min: 0
+                }
+            }]
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+                var value = data.datasets[0].data[tooltipItem.index];
+                value = value.toString();
+                value = value.split(/(?=(?:...)*$)/);
+                value = value.join('.');
+                value = value+'(Lembar)';
+                return value;
+            }
+            } // end callbacks:
+        }, //end tooltips
+    }
+});
+}
 
+function addCommas(nStr)
+{
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + '.' + '$2');
+    }
+    return x1 + x2;
+}
 </script>

@@ -2,10 +2,11 @@
 $PESAN = $this->session->userdata('PESAN');
 ?>
 <section class="content">
-<div class="row">
+    <div class="row">
         <div class="col-md-12">
             <div class="box box-primary">
-                <form id="form_upload" class="form-horizontal" method="POST" enctype="multipart/form-data" >
+                <div align="center"><a href="#" id="klik">KLIK UNTUK FILTER</a></div>
+                <form id="form_upload" class="form-horizontal" method="POST" enctype="multipart/form-data" hidden="">
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-1">
@@ -17,111 +18,110 @@ $PESAN = $this->session->userdata('PESAN');
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <select name="unitupi" id="unitupi" class="form-control">
-                                            <option value="00">NASIONAL</option>
-                                              <?php foreach ($total_upi as $row) { ?>
+                                            <option value="">NASIONAL</option>
+                                            <?php foreach ($total_upi as $row) { ?>
                                               <option value="<?php echo $row['UNIT_UPI']; ?>" ><?php echo strtoupper($row['UNITUPI']); ?></option>   
-                                              <?php } ?>
-                                        </select>
-                                    </div>
-                                </div>                                  
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <select name="unitap" id="unitap" class="form-control" disabled="disabled">
-                                            <option value="">--- Pilih AP ---</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <select name="unitup" id="unitup" class="form-control" disabled="disabled">
-                                            <option value="">--- Pilih UP ---</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+                                          <?php } ?>
+                                      </select>
+                                  </div>
+                              </div>                                  
                           </div>
-                          <div class="row">
-                            <div class="col-md-1">
-                                <div class="form-group">
-                                    <label class="col-sm-12 control-label"> </label>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <select name="unitap" id="unitap" class="form-control" disabled="disabled">
+                                        <option value="">--- Pilih AP ---</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <select name="tahun" id="tahun" class="form-control" required="true">
-                                            <option value="">--- Pilih Tahun ---</option>
-                                            <?php foreach ($rs_tahun as $index => $tahun) { ?>
-                                                        <option value="<?php echo $tahun; ?>" <?php if ($search['tahun'] == $tahun) {
-                                            echo " selected";
-                                        } ?>><?php echo $tahun; ?></option>   
-                                                    <?php } ?>
-                                                </select>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <select name="jenislap" id="jenislap" class="form-control" required="true">
-                                            <option value="">--- Pilih Jenis Laporan ---</option>
-                                            <option value="LPB">PRABAYAR</option>
-                                            <option value="NORMAL">PASCA</option>
-                                            <option value="TOTAL">GABUNGAN</option>   
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>  
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <button class="btn btn-primary" id="bcari"  name="button" value="cari" onclick="cari()"><i class="fa fa-search fa-fw"></i> Cari</button>
-                                        <!-- <button class="btn btn-default" name="button" value="reset"><i class="fa  fa-refresh fa-fw" ></i> Reset</button> -->
-                                    </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <select name="unitup" id="unitup" class="form-control" disabled="disabled">
+                                        <option value="">--- Pilih UP ---</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
+                    <div class="row">
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label class="col-sm-12 control-label"> </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <select name="tahun" id="tahun" class="form-control" required="true">
+                                        <option value="">--- Pilih Tahun ---</option>
+                                        <?php foreach ($rs_tahun as $index => $tahun) { ?>
+                                            <option value="<?php echo $tahun; ?>" <?php if (date('Y') == $tahun) {
+                                                echo " selected";
+                                            } ?>><?php echo $tahun; ?></option>   
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <select name="jenislap" id="jenislap" class="form-control" required="true">
+                                        <option value="">--- Pilih Jenis Laporan ---</option>
+                                        <option value="LPB">PRABAYAR</option>
+                                        <option value="NORMAL">PASCA</option>
+                                        <option value="TOTAL" selected>GABUNGAN</option>   
+                                    </select>
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <button class="btn btn-primary" id="bcari"  name="button" value="cari" onclick="bcari" data-toggle="collapse" data-target="#form_upload"><i class="fa fa-search fa-fw"></i> Cari</button>
+                                    <!-- <button class="btn btn-default" name="button" value="reset"><i class="fa  fa-refresh fa-fw" ></i> Reset</button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-body">
+                <div id="container" style="width: 100%; padding: 0px 30px 0px 30px">
+                    <canvas id="canvas"></canvas>
+                </div>  
             </div>
         </div>
-        <div class="col-md-12">
-            <div class="box box-primary">
-                <div class="box-body">
-                    <div id="inchart"><h2 style="text-align: center">309 Kwh ALL - Cari Data Terlebih Dahulu!</h2></div>
-                    <div id="container" style="width: 100%; padding: 0px 30px 30px 30px">
-                        <canvas id="canvas"></canvas>
-                    </div>  
+    </div>
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="loading_modal">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="margin-top: 300px; margin-left: 650px">
+            <img src="<?php echo base_url('assets/dist/img/ajax-loader.gif');?>" alt=""/>
+        </div>
+    </div>
+    <div id="notifikasi" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5><i id="font" class="fa"></i> <div style="display:inline" id="status"></div></h5>
+                </div>
+                <div class="modal-body">
+                    <p id="teks"></p>
+                </div>
+                <div class="modal-footer">
+                    <button id="button_close" type="button" class="btn" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
-        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="loading_modal">
-            <div class="modal-dialog modal-dialog-centered" role="document" style="margin-top: 300px; margin-left: 650px">
-                <img src="<?php echo base_url('assets/dist/img/ajax-loader.gif');?>" alt=""/>
-            </div>
-        </div>
-        <div id="notifikasi" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5><i id="font" class="fa"></i> <div style="display:inline" id="status"></div></h5>
-                    </div>
-                    <div class="modal-body">
-                        <p id="teks"></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="button_close" type="button" class="btn" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    </div>
 </div>
 </section>
+
 <script type="text/javascript">
     function show_failed_notification(status, pesan){
         $('#notifikasi').modal('show');
@@ -152,12 +152,15 @@ $PESAN = $this->session->userdata('PESAN');
         }
 
         if (level != 00) {
-          $('#unitap').prop('disabled', false);
+            $('#unitap').prop('disabled', false);
         } else {
-          $('#unitap').prop('disabled', true);
-          $('#unitup').prop('disabled', true);
-        }
-        ;
+            $("#unitup").find('option').remove();
+            $("#unitap").find('option').remove();
+            $("#unitap").append('<option value="">SEMUA</option>');
+            $("#unitup").append('<option value="">SEMUA</option>');
+            $('#unitap').prop('disabled', true);
+            $('#unitup').prop('disabled', true);
+        };
     })
 
 
@@ -181,43 +184,31 @@ $PESAN = $this->session->userdata('PESAN');
         }
 
         if (level_ap != 00) {
-          $('#unitup').prop('disabled', false);
+            $('#unitup').prop('disabled', false);
         } else {
-          $('#unitup').prop('disabled', true);
-        }
-        ;
+            $("#unitup").find('option').remove();
+            $("#unitup").append('<option value="">SEMUA</option>');  
+            $('#unitup').prop('disabled', true);
+        };
     })
 
 // chart start
 
 var jInit = '<?php echo $init?>';
 var texttitle = '';
-if(jInit == 'akhir'){
-    var rowsall = [];
-    var rowsthbl = [];
-}else{
-    var rowsall =   [
-                        <?php foreach ($dataall as $dt_rupiah) { 
-                            echo $dt_rupiah['JMLKWH'] . ',';
-                        }?>
-                    ];
-    var rowsthbl =  [
-                        <?php foreach ($dataall as $dt_rupiah) { 
-                            echo $dt_rupiah['THBLLAP'] . ',';
-                        }?>
-                    ];
-    texttitle = <?php if (!empty($unitupi) && !empty($unitap) && !empty($unitup)): ?>
-                    '309 Kwh <?php echo $jenislap ?> - Tahun <?php echo $tahun ?> (<?php echo $unitup ?>)'
-                <?php elseif (!empty($unitupi) && !empty($unitap)): ?>
-                    '309 Kwh <?php echo $jenislap ?> - Tahun <?php echo $tahun ?> (<?php echo $unitap ?>)'
-                <?php else: ?>
-                    '309 Kwh <?php echo $jenislap ?> - Tahun <?php echo $tahun ?> (<?php echo $unitupi ?>)'
-                <?php endif ?>
+if (jInit == 'awal') {
+    texttitle = '309 Kwh Gabungan - Tahun '+<?php echo date('Y')?>+' (NASIONAL)';
+    rowsall = [ <?php foreach ($dataall as $dt_309) { 
+        echo $dt_309['JMLKWH'] . ',';
+    }?>];
 }
 
 var vunitupi='';
 var vunitap='';
 var vunitup='';
+var nunitupi='';
+var nunitap='';
+var nunitup='';
 
 $(document).ready(function(){
     $("#bcari").click(function(){
@@ -226,6 +217,9 @@ $(document).ready(function(){
         vunitupi=$('#unitupi').val();
         vunitap=$('#unitap').val();
         vunitup=$('#unitup').val();
+        vnunitupi=$("#unitupi option:selected").text();
+        vnunitap=$("#unitap option:selected").text();
+        vnunitup=$("#unitup option:selected").text();
 
         if (tahun == null || tahun == '') {
             show_failed_notification('WARNING!','Tahun Tidak Boleh Kosong');
@@ -236,7 +230,7 @@ $(document).ready(function(){
             type: "post",
             url: "<?php echo site_url('Rupiah_309/get309all') ?>",
             cache: false,               
-            data:{"tahun":tahun, "jenislap":jenislap, "unitupi":vunitupi, "unitap":vunitap, "unitup":vunitup},
+            data:{"tahun":tahun, "jenislap":jenislap, "unitupi":vunitupi, "unitap":vunitap, "unitup":vunitup, "nunitupi":vnunitupi, "nunitap":vnunitap, "nunitup":vnunitup},
             beforeSend: function () {
                 $('#bcari').attr('disabled', 'disabled');
                 $('#bcari').button('loading');
@@ -249,6 +243,8 @@ $(document).ready(function(){
                 $('#loading_modal').modal('hide');
                 $('#bcari').removeAttr('disabled');
                 $('#bcari').button('reset');
+                $('#form_upload').hide();
+                $('#klik').show();
                 var obj = JSON.parse(data);
                 var jsonrp = obj.dataall;
                 var jtahun = obj.tahun;
@@ -258,9 +254,9 @@ $(document).ready(function(){
                 var junitup = obj.unitup;
                 var msg = obj.msg;
                 var status = obj.status;
-                jInit = obj.init;
+                texttitle = '';
+                jInit == 'akhir';
                 rowsall.splice(0, rowsall.length);
-                rowsthbl.splice(0, rowsthbl.length);
 
                 if (status == 'Kosong') {
                     show_failed_notification(status, msg);
@@ -285,13 +281,8 @@ $(document).ready(function(){
                         rowsall.push(
                             parseInt(JMLKWH)     
                             );
-
-                        rowsthbl.push(
-                            parseInt(THBLLAP)           
-                            );
                     };  
                     renderchart();
-                    console.log(texttitle);
                 }   
             }   
 
@@ -299,11 +290,15 @@ $(document).ready(function(){
             return false;
         }
     });
+    $("#klik").click(function(){
+        $('#form_upload').show();
+        $('#klik').hide();
+    });
 }); 
 
 
 var barChartData = {
-    labels:rowsthbl,
+    labels:['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
     datasets: [{
         label: 'Kwh',
         backgroundColor: window.chartColors.blue,
@@ -317,7 +312,7 @@ var barChartData = {
 var dataY = [{
     ticks: {
         callback: function(label, index, labels) {
-            if (vunitupi == '00') {
+            if (vunitap == null || vunitap == '') {
                  return label/1000000000+'M';
             }else{
                 return label/1000000+'Jt';
@@ -328,7 +323,7 @@ var dataY = [{
 }]
 
 window.onload = function() {
-    // renderchart();
+    renderchart();
 };
 
 function renderchart(){
@@ -349,9 +344,34 @@ function renderchart(){
             },
             scales: {
                 yAxes: dataY
-            }
-        }
+            },
+            tooltips: {
+              callbacks: {
+                label: function(tooltipItem, data) {
+                    var value = data.datasets[0].data[tooltipItem.index];
+                    value = value.toString();
+                    value = value.split(/(?=(?:...)*$)/);
+                    value = value.join('.');
+                    value = 'Rp '+value;
+                    return value;
+                }
+                  } // end callbacks:
+              },
+          }
     });
+}
+
+function addCommas(nStr)
+{
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + '.' + '$2');
+    }
+    return x1 + x2;
 }
 
 Chart.plugins.register({
@@ -365,13 +385,14 @@ Chart.plugins.register({
                             // Draw the text in black, with the specified font
                             ctx.fillStyle = 'rgb(0, 0, 0)';
 
-                            var fontSize = 10;
+                            var fontSize = 8;
                             var fontStyle = 'normal';
                             var fontFamily = 'Helvetica Neue';
                             ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
 
                             // Just naively convert to string for now
                             var dataString = dataset.data[index].toString();
+                            dataString = 'Rp '+dataString;
 
                             // Make sure alignment settings are correct
                             ctx.textAlign = 'center';
@@ -379,10 +400,11 @@ Chart.plugins.register({
 
                             var padding = 5;
                             var position = element.tooltipPosition();
-                            ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
+                            ctx.fillText(addCommas(dataString), position.x, position.y - (fontSize / 2) - padding);
                         });
             }
         });
     }
 });
+
 </script>
