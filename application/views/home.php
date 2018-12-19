@@ -99,13 +99,14 @@
         </style>    
 
         <script type="text/javascript">
-            // $(function(){
-            //     $('#menu a').click(function() {
-            //         $('#loading_modal').modal({
-            //             backdrop: 'static', keyboard: false
-            //         });     
-            //     });
-            // });
+            $(function(){
+                $('#menu a').click(function() {
+                    // load_modal(); 
+                    $('#loading_modal').modal({
+                        backdrop: 'static', keyboard: false
+                    }); 
+                });
+            });
         </script>
 
     </head>
@@ -129,7 +130,7 @@
                                         <img src="<?php echo base_url('assets/icon/favicon.ico');?>" class="img-circle" alt="User Image" />
                                         <p><?php echo $this->session->userdata('nama_user'); ?> - <?php echo $this->session->userdata('unit_up'); ?><small>Member since <?php echo $this->session->userdata('tglinsert'); ?></small></p>
                                     </li>
-                                    <li class="user-footer">
+                                    <li class="user-footer" id="menu">
                                         <div class="pull-left">
                                             <a href="<?php echo base_url('home/logout');?>" class="btn btn-default btn-flat btn-block">Sign out</a>
                                         </div>
@@ -159,9 +160,9 @@
                         </div>
                     </div>                 
          
-                    <ul class="sidebar-menu" id="menu">
+                    <ul class="sidebar-menu">
                         <li class="header">MAIN NAVIGATION</li>
-                        <li <?php if ($konten=='309_rupiah/vdashboard') {echo "class=active";} ?>>
+                        <li id="menu" <?php if ($konten=='309_rupiah/vdashboard') {echo "class=active";} ?>>
                             <a href="<?php echo base_url('Rupiah_309/main');?>"><i class="fa fa-bar-chart"></i><span> Dashboard</span></a>
                         </li>
                         <li class="treeview">
@@ -171,7 +172,7 @@
                               <i class="fa fa-angle-left pull-right"></i>
                             </span>
                           </a>
-                          <ul class="treeview-menu">
+                          <ul class="treeview-menu" id="menu">
                             <li><a href="<?php echo base_url('Rupiah_309/data309/perbulan');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
                             <li><a href="<?php echo base_url('Rupiah_309/data309/kumulatif');?>"><i class="fa fa-circle-o"></i> Perbulan Akumulasi/ Kumulatif</a></li>
                             <li><a href="<?php echo base_url('Rupiah_309/delta309/delta');?>"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
@@ -184,7 +185,7 @@
                               <i class="fa fa-angle-left pull-right"></i>
                             </span>
                           </a>
-                          <ul class="treeview-menu">
+                          <ul class="treeview-menu" id="menu">
                             <li><a href="<?php echo base_url('Rupiah_309/data309/allKwh');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
                             <li><a href="<?php echo base_url('Rupiah_309/data309/kumulatifKwh');?>"><i class="fa fa-circle-o"></i> Perbulan Akumulasi/ Kumulatif</a></li>
                             <li><a href="<?php echo base_url('Rupiah_309/delta309/deltaKwh');?>"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
@@ -197,7 +198,7 @@
                               <i class="fa fa-angle-left pull-right"></i>
                             </span>
                           </a>
-                          <ul class="treeview-menu">
+                          <ul class="treeview-menu" id="menu">
                             <li><a href="<?php echo base_url('data_404/saldo');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
                             <li><a href="<?php echo base_url('data_404/delta_saldo');?>"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
                           </ul>
@@ -209,7 +210,7 @@
                               <i class="fa fa-angle-left pull-right"></i>
                             </span>
                           </a>
-                          <ul class="treeview-menu">
+                          <ul class="treeview-menu" id="menu">
                             <li><a href="<?php echo base_url('data_404/pelunasan');?>"><i class="fa fa-circle-o"></i> Perbulan All</a></li>
                             <li><a href="<?php echo base_url('data_404/delta_pelunasan');?>"><i class="fa fa-circle-o"></i> Perbulan Delta</a></li>
                           </ul>

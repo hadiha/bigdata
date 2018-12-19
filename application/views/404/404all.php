@@ -99,9 +99,9 @@ $PESAN = $this->session->userdata('PESAN');
         </div>
     </div>
     <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="loading_modal">
-        <div class="modal-dialog modal-dialog-centered" role="document" style="margin-top: 300px; margin-left: 650px">
-            <img src="<?php echo base_url('assets/dist/img/ajax-loader.gif');?>" alt=""/>
-        </div>
+        <div class="modal-dialog modal-dialog-centered" role="document" align="center" style="position: relative;top: 50%;-webkit-transform: translateY(-50%);-ms-transform: translateY(-50%);transform: translateY(-50%);">
+                            <img src="<?php echo base_url('assets/dist/img/ajax-loader.gif');?>" alt=""/>
+                        </div>
     </div>
     <div id="notifikasi" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm">
