@@ -879,6 +879,7 @@ function renderchart(){
         type: 'bar',
         data: barChartData,
         options: {
+            // maintainAspectRatio: false,
             responsive: true,
             legend: {
                 position: '',
@@ -926,6 +927,7 @@ function renderchart2(){
         type: 'bar',
         data: barChartDataKwh,
         options: {
+            // maintainAspectRatio: false,
             responsive: true,
             legend: {
                 position: 'bottom',
@@ -958,7 +960,7 @@ function renderchart2(){
                 value = value.toString();
                 value = value.split(/(?=(?:...)*$)/);
                 value = value.join('.');
-                value = 'Rp ' + value;
+                value = value+'(Lembar)';
                 return value;
             }
                   } // end callbacks:
@@ -973,6 +975,7 @@ function renderchart3(){
         type: 'bar',
         data: barChartDataKomulatif,
         options: {
+            // maintainAspectRatio: false,
             responsive: true,
             legend: {
                 position: 'bottom',
@@ -1020,6 +1023,7 @@ function renderchart4(){
         type: 'bar',
         data: barChartDataKomulatifKwh,
         options: {
+            // maintainAspectRatio: false,
             responsive: true,
             legend: {
                 position: 'bottom',
@@ -1052,7 +1056,7 @@ function renderchart4(){
                 value = value.toString();
                 value = value.split(/(?=(?:...)*$)/);
                 value = value.join('.');
-                value = 'Rp ' + value;
+                value = value+'(Lembar)';
                 return value;
             }
                   } // end callbacks:
@@ -1098,6 +1102,7 @@ function renderchart5(){
             }]
         },
         options: {
+            // maintainAspectRatio: false,
             responsive: true,
             legend: {
                 position: 'bottom',
@@ -1179,6 +1184,7 @@ function renderchart6(){
             }]
         },
         options: {
+            // maintainAspectRatio: false,
             responsive: true,
             legend: {
                 position: 'bottom', 
@@ -1214,7 +1220,7 @@ function renderchart6(){
                 value = value.toString();
                 value = value.split(/(?=(?:...)*$)/);
                 value = value.join('.');
-                value = 'Rp ' + value;
+                value = value+'(Lembar)';
                 return value;
             }
                   } // end callbacks:
@@ -1229,6 +1235,7 @@ function renderchart7(){
         type: 'bar',
         data: barChartDataSaldo,
         options: {
+            // maintainAspectRatio: false,
             responsive: true,
             legend: {
                 position: 'bottom',
@@ -1276,6 +1283,7 @@ function renderchart8(){
         type: 'bar',
         data: barChartDataLembar,
         options: {
+            // maintainAspectRatio: false,
             responsive: true,
             legend: {
                 position: 'bottom',
@@ -1323,6 +1331,7 @@ function renderchart9(){
         type: 'bar',
         data: barChartDataSaldo2,
         options: {
+            // maintainAspectRatio: false,
             responsive: true,
             legend: {
                 position: 'bottom',
@@ -1370,6 +1379,7 @@ function renderchart10(){
         type: 'bar',
         data: barChartDataLembar2,
         options: {
+            // maintainAspectRatio: false,
             responsive: true,
             legend: {
                 position: 'bottom',
@@ -1449,6 +1459,7 @@ function renderchart11(){
 
         },
         options: {
+            // maintainAspectRatio: false,
             responsive: true,
             legend: {
                 position: 'bottom',
@@ -1531,6 +1542,7 @@ function renderchart12(){
 
         },
         options: {
+            // maintainAspectRatio: false,
             responsive: true,
             legend: {
                 position: 'bottom',
@@ -1613,6 +1625,7 @@ function renderchart13(){
 
         },
         options: {
+            // maintainAspectRatio: false,
             responsive: true,
             legend: {
                 position: 'bottom',
@@ -1695,6 +1708,7 @@ function renderchart14(){
 
         },
         options: {
+            // maintainAspectRatio: false,
             responsive: true,
             legend: {
                 position: 'bottom',

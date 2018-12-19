@@ -93,7 +93,7 @@ $PESAN = $this->session->userdata('PESAN');
     <div class="col-md-12">
         <div class="box box-primary">
             <div class="box-body">
-                <div id="container" style="width: 100%; padding: 0px 30px 0px 30px">
+                <div id="container" style="width: 100%; padding: 0px 30px 0px 30px;min-height: 75vh">
                     <canvas id="canvas"></canvas>
                 </div>  
             </div>
@@ -332,6 +332,7 @@ function renderchart(){
         type: 'bar',
         data: barChartData,
         options: {
+            // maintainAspectRatio: false,
             responsive: true,
             legend: {
                 position: 'bottom',
@@ -352,7 +353,7 @@ function renderchart(){
                     value = value.toString();
                     value = value.split(/(?=(?:...)*$)/);
                     value = value.join('.');
-                    value = 'Rp '+value;
+                    value = value+'(Lembar)';
                     return value;
                 }
                   } // end callbacks:
@@ -392,7 +393,7 @@ Chart.plugins.register({
 
                             // Just naively convert to string for now
                             var dataString = dataset.data[index].toString();
-                            dataString = 'Rp '+dataString;
+                            dataString = dataString+'(Lbr)';
 
                             // Make sure alignment settings are correct
                             ctx.textAlign = 'center';

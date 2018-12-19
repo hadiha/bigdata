@@ -96,7 +96,7 @@ $PESAN = $this->session->userdata('PESAN');
             <div class="box box-primary">
                 <div class="box-body">
                     <!-- <div id="inchart"><h2 style="text-align: center">404 Saldo Delta - Cari Data Terlebih Dahulu!</h2></div> -->
-                    <div id="container" style="width: 100%; padding: 0px 30px 30px 30px">
+                    <div id="container" style="width: 100%; padding: 0px 30px 30px 30px;height: 75vh">
                         <canvas id="canvas"></canvas>
                     </div>  
                 </div>
@@ -105,7 +105,7 @@ $PESAN = $this->session->userdata('PESAN');
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-body">
-                    <div id="container" style="width: 100%; padding: 0px 30px 30px 30px">
+                    <div id="container" style="width: 100%; padding: 0px 30px 30px 30px;height: 75vh">
                         <canvas id="canvas2"></canvas>
                     </div>  
                 </div>
@@ -392,7 +392,7 @@ $PESAN = $this->session->userdata('PESAN');
         window.myBar = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Januari', 'Febuari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
                 datasets: [{
                     type: 'line',
                     label: datalabel,
@@ -425,6 +425,7 @@ $PESAN = $this->session->userdata('PESAN');
 
             },
             options: {
+                maintainAspectRatio: false,
                 responsive: true,
                 legend: {
                     position: 'bottom',
@@ -462,7 +463,7 @@ $PESAN = $this->session->userdata('PESAN');
         window.myBar = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Januari', 'Febuari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
                 datasets: [{
                     type: 'line',
                     label: datalabel,
@@ -495,6 +496,7 @@ $PESAN = $this->session->userdata('PESAN');
 
             },
             options: {
+                maintainAspectRatio: false,
                 responsive: true,
                 legend: {
                     position: 'bottom',

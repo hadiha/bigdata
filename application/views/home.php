@@ -95,7 +95,18 @@
                 flex-wrap: wrap;
                 justify-content: center;
             }
+
         </style>    
+
+        <script type="text/javascript">
+            // $(function(){
+            //     $('#menu a').click(function() {
+            //         $('#loading_modal').modal({
+            //             backdrop: 'static', keyboard: false
+            //         });     
+            //     });
+            // });
+        </script>
 
     </head>
     <body class="skin-blue fixed">
@@ -140,9 +151,15 @@
                             <p><?php echo $this->session->userdata('nama_user'); ?></p>
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
-                    </div>                    
+                    </div>   
+
+                    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="loading_modal">
+                        <div class="modal-dialog modal-dialog-centered" role="document" align="center" style="position: relative;top: 50%;-webkit-transform: translateY(-50%);-ms-transform: translateY(-50%);transform: translateY(-50%);">
+                            <img src="<?php echo base_url('assets/dist/img/ajax-loader.gif');?>" alt=""/>
+                        </div>
+                    </div>                 
          
-                    <ul class="sidebar-menu">
+                    <ul class="sidebar-menu" id="menu">
                         <li class="header">MAIN NAVIGATION</li>
                         <li <?php if ($konten=='309_rupiah/vdashboard') {echo "class=active";} ?>>
                             <a href="<?php echo base_url('Rupiah_309/main');?>"><i class="fa fa-bar-chart"></i><span> Dashboard</span></a>

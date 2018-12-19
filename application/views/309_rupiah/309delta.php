@@ -110,7 +110,7 @@ $PESAN = $this->session->userdata('PESAN');
     <div class="box box-primary">
         <div class="box-body">
             <!-- <div id="inchart"><h2 style="text-align: center">309 Rupiah Delta - Cari Data Terlebih Dahulu!</h2></div> -->
-            <div id="container" style="width: 100%; padding: 0px 30px 30px 30px">
+            <div id="container" style="width: 100%; padding: 0px 30px 30px 30px;min-height: 75vh">
                 <canvas id="canvas"></canvas>
             </div>  
         </div>
@@ -388,6 +388,7 @@ function renderchart(){
 
         },
         options: {
+            // maintainAspectRatio: false,
             responsive: true,
             legend: {
                 position: 'bottom', 

@@ -33,10 +33,15 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
-                            <button onclick="login()" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                            <button id="blogin" onclick="login()" class="btn btn-primary btn-block btn-flat">Sign In</button>
                         </div>
                     </div> 
                 </form> 
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="loading_modal">
+            <div class="modal-dialog modal-dialog-centered" role="document" align="center" style="position: relative;top: 50%;-webkit-transform: translateY(-50%);-ms-transform: translateY(-50%);transform: translateY(-50%);">
+                <img src="<?php echo base_url('assets/dist/img/ajax-loader.gif');?>" alt=""/>
             </div>
         </div>
         <div id="notifikasi" class="modal fade bs-example-modal-sm modal-danger" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
@@ -59,6 +64,7 @@
         <script src="<?php echo base_url('assets/plugins/iCheck/icheck.min.js'); ?>" type="text/javascript"></script>
         <script src="<?php echo base_url('assets/plugins/jqueryform/jquery.form.js');?>"></script>
         <script>
+        	
         function login(){
             var proseslogin=$('#proseslogin').val();
             var username=$('#username').val();
@@ -68,6 +74,14 @@
                 type: "POST",
                 url: "<?php echo base_url('auth/ceklogin'); ?>",
                 data: {"proseslogin":proseslogin, "username":username, "password":password},
+                beforeSend: function () {
+                        $('#blogin').attr('disabled', 'disabled');
+                        $('#blogin').button('loading');
+                        // loading
+                        $('#loading_modal').modal({
+                            backdrop: 'static', keyboard: false
+                        });
+                    },
                  success: function(msg) {
                     var msg=$.parseJSON(msg);
                     if (msg.status=='Sukses') {
@@ -77,8 +91,11 @@
                     else if (msg.status=='Gagal') {
                         $('#notifikasi').modal('show');                   
                         $('#teks').html(msg.pesan);
+                        $('#loading_modal').modal('hide');
                     }
-                    
+                    // $('#loading_modal').modal('hide');
+                 	$('#blogin').removeAttr('disabled');
+                    $('#blogin').button('reset');
                 },
             });
         }
